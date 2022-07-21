@@ -18,55 +18,52 @@ Example output
 
 #include<string>
 
-class MilitaryClock
+class FMilitaryClock
 {
 private:
-	short hours ;
-	short minutes ;
+	short Hours;
+	short Minutes;
 public:
 	std::string Texto;
-	MilitaryClock()
+	FMilitaryClock()
 	{
-		 hours=0;
-		 minutes=0;
+		 Hours=0;
+		 Minutes=0;
 	}
-	MilitaryClock(short hour, short minute)
+	FMilitaryClock(short const InitialHours, short const InitialMinutes)
 	{
-		 hours = hour;
-		 minutes = minute;
+		 Hours = InitialHours;
+		 Minutes = InitialMinutes;
 	}
-	void SetTime(short sethours, short setminutes)
+	void SetTime(short const  SetHours,short const SetMinutes)
 	{
-		sethours = 12;
-		 setminutes = 15;
-		hours = sethours;
-		minutes=setminutes;
+		Hours = SetHours;
+		Minutes=SetMinutes;
 	}
 	void DisplayTime()
 	{
-		if (hours < 10 && minutes<10)
+		if ((Hours)<10)
 		{
-			std::cout << "0" << hours << "," << minutes << "0"<<std:: endl;
-		}
-		else if (hours<10 && minutes>=10) 
-		{
-			std::cout << "0" << hours << "," << minutes << std::endl;
-		}
-		else if (hours>=10 && minutes<10) 
-		{
-			std::cout  << hours << "," << minutes <<"0" << std::endl;
+			std::cout << "0" << Hours;
 		}else
 		{
-			std::cout << hours << "," << minutes << std::endl;
-		}	
+			std::cout << Hours;
+		}
+		 if ( Minutes<10) 
+		{
+			std::cout << Minutes << "0"<<std::endl;
+		}else
+		 {
+			 std::cout << Minutes << std::endl;
+		 }
 	}
 };
 
 int main()
 {
-	MilitaryClock clock;
+	FMilitaryClock clock;
 	clock.DisplayTime();
-	clock=MilitaryClock(7, 12);
+	clock=FMilitaryClock(7, 12);
 	clock.DisplayTime();
 	clock.SetTime(12, 15);
 	clock.DisplayTime();

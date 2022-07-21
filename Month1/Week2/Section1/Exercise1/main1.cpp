@@ -8,35 +8,39 @@ Now create a loop of at least five iterations. For each iteration, instantiate y
 
 #include<string>
 
-class FirstClass
+class FFirstClass
 {
 public:
-	std::string Texto;
-	FirstClass()
+	std::string ConstructorOutput;
+	FFirstClass()
 	{
-
+		ConstructorOutput = "I am printing the constructor";
 	}
-	FirstClass(std::string texto)
+	~FFirstClass()
 	{
-		Texto = "I’m in the constructor!";
-	}
-
-	~FirstClass()
-	{
-		std::cout << "I’m in the destructor!" << std::endl;
-	}
-	void Print()
-	{
-		std::cout << Texto << std::endl;
+		std::cout << "I am in the destructor!" << std::endl;
 	}
 };
-
-
-
+void FFirstTest()
+{
+	FFirstClass Test1;
+	FFirstClass Test2;
+	FFirstClass Test3;
+	FFirstClass Test4;
+	FFirstClass Test5;
+}
+void FSecondTest()
+{
+	for (int TestLoop = 0; TestLoop < 5; TestLoop++)
+	{
+		FFirstClass Test;
+	}
+}
 int main()
 {
-	FirstClass Construct("adsjksjkald");
-	for (int i = 0; i < 5; i++) {
-		Construct.Print();
-	}
+	std::cout << "First test constructor and destructor Output" << std::endl;
+	FFirstTest();
+
+	std::cout << "Second Test constructor and destructor Output" << std::endl;
+	FSecondTest();
 }

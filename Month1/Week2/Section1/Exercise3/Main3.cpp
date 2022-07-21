@@ -27,53 +27,53 @@ Your shape’s perimeter: 188.5
 #include<string>
 #include <cmath>
 
-class Square
+class FSquare
 {
 private:
-	float Side;
-	float AreaSquare;
-	float PerimeterSquare;
+	float SideLenght;
 public:
-	Square()
+	FSquare()
 	{
 	}
-	Square(float Radius, float Diameter)
+	FSquare(float SideLenght)
 	{
-		Side = 0;
+		SideLenght = 0.0f;
 	}
-	void DataSquare()
+	void InputDataSquare()
 	{
-		float side;
+		float EntrySide;
 		std::cout << "what is the side of Your Square:" << std::endl;
-		std::cin >> side;
+		std::cin >> EntrySide;
 
-		while (!std::cin.good() || side < 0)
+		while (!std::cin.good() || EntrySide < 0.0f)
 		{
 			std::cout << "Invalid input, please enter The side of Your square again" << std::endl;
 			std::cin.clear();
 			std::cin.ignore(1000, '\n');
-			std::cin >>side;
+			std::cin >>EntrySide;
 		}
-		Side = side;
+		SideLenght = EntrySide;
 	}
 	float GetAreaSquare( )
 	{
-		AreaSquare = pow(Side, 2);
+		float const AreaSquare = pow(SideLenght, 2);
+		std::cout << "Your square area: " << AreaSquare << std::endl;
 		return AreaSquare;
 	}
 	float GetPerimeterSquare()
 	{
-		PerimeterSquare = Side*4;
+		float const PerimeterSquare = SideLenght *4;
+		std::cout << "Your square perimeter: " << PerimeterSquare << std::endl;
 		return PerimeterSquare;
 	}
 	void PrinterSquare() 
 	{
-		std::cout<<"Your square area: " << AreaSquare << std::endl;
-		std::cout<<"Your square perimeter: " << PerimeterSquare << std::endl;
+		
+		
 	}
 
 };
-class Circle
+class FCircle
 {
 private:
 	float AreaCircle ;
@@ -81,15 +81,15 @@ private:
 	float Radius;
 	float Diameter;
 public:
-	Circle()
+	FCircle()
 	{
 	}
-	Circle(float Radius, float Diameter)
+	FCircle(float Radius, float Diameter)
 	{
 		Radius = 0;
 		Diameter = 0;
 	}
-	void DataCircle()
+	void InPutDataCircle()
 	{
 		int radius;
 		int diameter;
@@ -114,7 +114,6 @@ public:
 			std::cin >> diameter;
 		}
 		Diameter=diameter;
-	
 	}
 	float GetAreaCicle( )
 	{
@@ -150,16 +149,16 @@ int main()
 	std::cout << "Your choice: " << Choice << std::endl;
 	if (Choice == 1) 
 	{
-		Circle circle;
-		circle.DataCircle();
+		FCircle circle;
+		circle.InPutDataCircle();
 		circle.GetAreaCicle();
 		circle.GetPerimeterCircle();
 		circle.PrinterCircle();
 	}
 	if (Choice == 2)
 	{
-		Square square;
-		square.DataSquare();
+		FSquare square;
+		square.InputDataSquare();
 		square.GetAreaSquare();
 		square.GetPerimeterSquare();
 		square.PrinterSquare();

@@ -23,31 +23,28 @@ o
 */
 #include<iostream>
 #include<string>
-class Printer
+class FPrinter
 {
 private:
 	std::string OutputString;
 public:
-	Printer()
+	FPrinter()
 	{
 	}
-	Printer(std::string OutputString)
-	{
-		OutputString = "";
-	}
+	
 	void InputString() 
 	{
-		std::string Outputstring;
+		std::string EntryString;
 		std::cout << "Welcome! Please enter a string:" << std::endl;
-		std::getline( std::cin,Outputstring);
+		std::getline( std::cin,EntryString);
 		while(!std::cin.good())
 		{
 			std::cout << "Invalid input, please enter " << std::endl;
 			std::cin.clear();
 			std::cin.ignore(1000, '\n');
-			std::cin >> Outputstring;
+			std::cin >> EntryString;
 		}
-		OutputString = Outputstring;
+		OutputString = EntryString;
 	}
 	void Print()
 	{
@@ -61,11 +58,16 @@ public:
 		}
 		std::cout << std::endl;
 	}
-	void PrintSpaced() 
+	void PrintSpaced( int NumberOfSpaces) 
 	{
+		
 		for (int SpacePosition = 0; SpacePosition < OutputString.length(); SpacePosition++)
 		{
-			std::cout << OutputString[SpacePosition] << "\t";
+			std::cout << OutputString[SpacePosition];
+			for (int Spaces = 0; Spaces <= NumberOfSpaces; Spaces++)
+			{
+				std::cout << " ";
+			}
 		}
 		std::cout << std::endl;
 	}
@@ -79,10 +81,10 @@ public:
 };
 int main() 
 {
-	Printer string;
+	FPrinter string;
 	string.InputString();
 	string.Print();
 	string.PrintReversed();
-	string.PrintSpaced();
+	string.PrintSpaced(3);
 	string.PrintVertically();
 }
