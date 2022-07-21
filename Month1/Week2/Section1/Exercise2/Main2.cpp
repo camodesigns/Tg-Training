@@ -38,7 +38,7 @@ public:
 	void SetTime(short const  SetHours,short const SetMinutes)
 	{
 		Hours = SetHours;
-		Minutes=SetMinutes;
+		Minutes= SetMinutes;
 	}
 	void DisplayTime()
 	{
@@ -63,8 +63,10 @@ int main()
 {
 	FMilitaryClock clock;
 	clock.DisplayTime();
+	//assign the initial time of the element of type FMilitaryClock
 	clock=FMilitaryClock(7, 12);
 	clock.DisplayTime();
+	//Actualiza el tiempo del elemento tipo FMilitaryClock
 	clock.SetTime(12, 15);
 	clock.DisplayTime();
 }
