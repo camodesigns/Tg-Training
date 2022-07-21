@@ -42,16 +42,16 @@ public:
 	}
 	void DisplayTime()
 	{
-		if ((Hours)<10)
+		if ((Hours) < 10)
 		{
 			std::cout << "0" << Hours;
 		}else
 		{
 			std::cout << Hours;
 		}
-		 if ( Minutes<10) 
+		 if ( Minutes < 10) 
 		{
-			std::cout << Minutes << "0"<<std::endl;
+			std::cout << Minutes << "0" <<std::endl;
 		}else
 		 {
 			 std::cout << Minutes << std::endl;

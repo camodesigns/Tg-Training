@@ -34,18 +34,17 @@ private:
 public:
 	FSquare()
 	{
-	}
-	FSquare(float SideLenght)
-	{
 		SideLenght = 0.0f;
 	}
+	
+	
 	void InputDataSquare()
 	{
 		float EntrySide;
 		std::cout << "what is the side of Your Square:" << std::endl;
 		std::cin >> EntrySide;
 
-		while (!std::cin.good() || EntrySide < 0.0f)
+		while(!std::cin.good() || EntrySide < 0.0f)
 		{
 			std::cout << "Invalid input, please enter The side of Your square again" << std::endl;
 			std::cin.clear();
@@ -54,7 +53,7 @@ public:
 		}
 		SideLenght = EntrySide;
 	}
-	float GetAreaSquare( )
+	float GetAreaSquare()
 	{
 		float const AreaSquare = pow(SideLenght, 2);
 		std::cout << "Your square area: " << AreaSquare << std::endl;
@@ -66,69 +65,56 @@ public:
 		std::cout << "Your square perimeter: " << PerimeterSquare << std::endl;
 		return PerimeterSquare;
 	}
-	void PrinterSquare() 
-	{
-		
-		
-	}
-
 };
 class FCircle
 {
 private:
-	float AreaCircle ;
-	float PerimeterCircle;
-	float Radius;
-	float Diameter;
+	float RadiusCircle;
+	float DiameterCircle;
 public:
 	FCircle()
 	{
+		RadiusCircle = 0.0f;
+		DiameterCircle = 0.0f;
 	}
-	FCircle(float Radius, float Diameter)
-	{
-		Radius = 0;
-		Diameter = 0;
-	}
+	
 	void InPutDataCircle()
 	{
-		int radius;
-		int diameter;
+		float EntryRadius;
+		float EntryDiameter;
 		std::cout << "what is the area of Your Circle:" << std::endl;
-		std::cin >>radius;
-		while (!std::cin.good() || radius<0)
+		std::cin >>EntryRadius;
+		while (!std::cin.good() || EntryRadius < 0)
 		{
 			std::cout << "Invalid input, please enter the radius of Your circle again:" << std::endl;
 			std::cin.clear();
 			std::cin.ignore(1000, '\n');
-			std::cin >> radius;
+			std::cin >> EntryRadius;
 		}		
-		Radius = radius;
+		RadiusCircle = EntryRadius;
 
-		std::cout << "what is the diameter of the Circle:" << std::endl;
-		std::cin >> diameter;
-		while (!std::cin.good() || diameter < 0)
+		std::cout << "what is the diameter of Your Circle:" << std::endl;
+		std::cin >> EntryDiameter;
+		while (!std::cin.good() || EntryDiameter < 0)
 		{
 			std::cout << "Invalid input, please enter the diameter of Your circle again" << std::endl;
 			std::cin.clear();
 			std::cin.ignore(1000, '\n');
-			std::cin >> diameter;
+			std::cin >> EntryDiameter;
 		}
-		Diameter=diameter;
+		DiameterCircle=EntryDiameter;
 	}
 	float GetAreaCicle( )
 	{
-		AreaCircle =M_PI*(pow(Radius,2));
+		float AreaCircle = M_PI * (pow(RadiusCircle,2));
+		std::cout << "Your circle area: " << AreaCircle << std::endl;
 		return AreaCircle;	
 	}
 	float GetPerimeterCircle( )
 	{
-		PerimeterCircle = M_PI * Diameter;
+		 float PerimeterCircle = M_PI * DiameterCircle;
+		 std::cout << "Your circle perimeter: " << PerimeterCircle << std::endl;
 		return PerimeterCircle;
-	}
-	void PrinterCircle()
-	{
-		std::cout << "Your circle area: " << AreaCircle << std::endl;
-		std::cout << "Your circle perimeter: " << PerimeterCircle << std::endl;
 	}
 };
 
@@ -139,7 +125,7 @@ int main()
 	std::cout << "1 - Circle" << std::endl;
 	std::cout << "2 - Square" << std::endl;
 	std::cin >> Choice;
-	while (!std::cin.good() ||(Choice<1||Choice>2)) 
+	while (!std::cin.good() || (Choice < 1 || Choice > 2)) 
 	{
 		std::cout << "Invalid input,enter Your choice again:" << std::endl;
 		std::cin.clear();
@@ -153,7 +139,6 @@ int main()
 		circle.InPutDataCircle();
 		circle.GetAreaCicle();
 		circle.GetPerimeterCircle();
-		circle.PrinterCircle();
 	}
 	if (Choice == 2)
 	{
@@ -161,6 +146,5 @@ int main()
 		square.InputDataSquare();
 		square.GetAreaSquare();
 		square.GetPerimeterSquare();
-		square.PrinterSquare();
 	}
 }
