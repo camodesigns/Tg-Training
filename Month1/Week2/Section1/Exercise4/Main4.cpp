@@ -31,12 +31,16 @@ public:
 	FPrinter()
 	{
 	}
+	FPrinter(std::string EntryString)
+	{
+		EntryString = "";
+	}
 	
 	void InputString() 
 	{
 		std::string EntryString;
 		std::cout << "Welcome! Please enter a string:" << std::endl;
-		std::getline( std::cin,EntryString);
+		std::getline( std:: cin, EntryString);
 		while(!std::cin.good())
 		{
 			std::cout << "Invalid input, please enter " << std::endl;
@@ -81,10 +85,10 @@ public:
 };
 int main() 
 {
-	FPrinter string;
-	string.InputString();
-	string.Print();
-	string.PrintReversed();
-	string.PrintSpaced(3);
-	string.PrintVertically();
+	FPrinter Prints;
+	Prints.InputString();
+	Prints.Print();
+	Prints.PrintReversed();
+	Prints.PrintSpaced(3);
+	Prints.PrintVertically();
 }

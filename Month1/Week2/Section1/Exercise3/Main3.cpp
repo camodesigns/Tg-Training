@@ -31,10 +31,17 @@ class FSquare
 {
 private:
 	float SideLenght;
+	
+
 public:
-	FSquare()
+	FSquare() 
+	{
+	}
+	FSquare(float SideLenght, float PerimeterSquare, float AreaSquare)
 	{
 		SideLenght = 0.0f;
+		PerimeterSquare = 0.0f;
+		AreaSquare = 0.0f;
 	}
 	
 	
@@ -49,21 +56,19 @@ public:
 			std::cout << "Invalid input, please enter The side of Your square again" << std::endl;
 			std::cin.clear();
 			std::cin.ignore(1000, '\n');
-			std::cin >>EntrySide;
+			std::cin >> EntrySide;
 		}
 		SideLenght = EntrySide;
 	}
-	float GetAreaSquare()
+	const float GetAreaSquare()
 	{
-		float const AreaSquare = pow(SideLenght, 2);
-		std::cout << "Your square area: " << AreaSquare << std::endl;
+		const float  AreaSquare = pow(SideLenght, 2);
+		
 		return AreaSquare;
 	}
-	float GetPerimeterSquare()
+	const float GetPerimeterSquare()
 	{
-		float const PerimeterSquare = SideLenght *4;
-		std::cout << "Your square perimeter: " << PerimeterSquare << std::endl;
-		return PerimeterSquare;
+		return SideLenght * 4;
 	}
 };
 class FCircle
@@ -74,17 +79,20 @@ private:
 public:
 	FCircle()
 	{
+	}
+	FCircle(float RadiusCircle,float DiameterCircle)
+	{
 		RadiusCircle = 0.0f;
 		DiameterCircle = 0.0f;
 	}
 	
-	void InPutDataCircle()
+	void InputDataCircle()
 	{
 		float EntryRadius;
 		float EntryDiameter;
 		std::cout << "what is the area of Your Circle:" << std::endl;
-		std::cin >>EntryRadius;
-		while (!std::cin.good() || EntryRadius < 0)
+		std::cin >> EntryRadius;
+		while (!std::cin.good() || EntryRadius < 0.0f)
 		{
 			std::cout << "Invalid input, please enter the radius of Your circle again:" << std::endl;
 			std::cin.clear();
@@ -95,26 +103,22 @@ public:
 
 		std::cout << "what is the diameter of Your Circle:" << std::endl;
 		std::cin >> EntryDiameter;
-		while (!std::cin.good() || EntryDiameter < 0)
+		while (!std::cin.good() || EntryDiameter < 0.0f)
 		{
 			std::cout << "Invalid input, please enter the diameter of Your circle again" << std::endl;
 			std::cin.clear();
 			std::cin.ignore(1000, '\n');
 			std::cin >> EntryDiameter;
 		}
-		DiameterCircle=EntryDiameter;
+		DiameterCircle = EntryDiameter;
 	}
-	float GetAreaCicle( )
+	const float GetAreaCicle( )
 	{
-		float AreaCircle = M_PI * (pow(RadiusCircle,2));
-		std::cout << "Your circle area: " << AreaCircle << std::endl;
-		return AreaCircle;	
+		return M_PI * (pow(RadiusCircle, 2));
 	}
-	float GetPerimeterCircle( )
-	{
-		 float PerimeterCircle = M_PI * DiameterCircle;
-		 std::cout << "Your circle perimeter: " << PerimeterCircle << std::endl;
-		return PerimeterCircle;
+	const float GetPerimeterCircle( )
+	{	
+		return M_PI * DiameterCircle;
 	}
 };
 
@@ -135,16 +139,21 @@ int main()
 	std::cout << "Your choice: " << Choice << std::endl;
 	if (Choice == 1) 
 	{
-		FCircle circle;
-		circle.InPutDataCircle();
-		circle.GetAreaCicle();
-		circle.GetPerimeterCircle();
+		FCircle Circle;
+		Circle.InputDataCircle();
+		Circle.GetAreaCicle();
+		Circle.GetPerimeterCircle();
+		std::cout << "Your circle area: " << Circle.GetAreaCicle() << std::endl;
+		std::cout << "Your square perimeter: " << Circle.GetPerimeterCircle() << std::endl;
 	}
+	
 	if (Choice == 2)
 	{
-		FSquare square;
-		square.InputDataSquare();
-		square.GetAreaSquare();
-		square.GetPerimeterSquare();
+		FSquare Square;
+		Square.InputDataSquare();
+		Square.GetAreaSquare();
+		Square.GetPerimeterSquare();
+		std::cout << "Your square area: " << Square.GetAreaSquare() << std::endl;
+		std::cout << "Your square perimeter: " << Square.GetPerimeterSquare() << std::endl;
 	}
 }

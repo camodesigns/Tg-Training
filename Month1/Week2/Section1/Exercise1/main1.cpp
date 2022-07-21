@@ -14,14 +14,14 @@ public:
 	std::string ConstructorOutput;
 	FFirstClass()
 	{
-		ConstructorOutput = "I am printing the constructor";
+		std::cout << "I am in the constructor" << std::endl;;
 	}
 	~FFirstClass()
 	{
 		std::cout << "I am in the destructor!" << std::endl;
 	}
 };
-void FFirstTest()
+void FirstTest()
 {
 	FFirstClass Test1;
 	FFirstClass Test2;
@@ -29,7 +29,7 @@ void FFirstTest()
 	FFirstClass Test4;
 	FFirstClass Test5;
 }
-void FSecondTest()
+void SecondTest()
 {
 	for (int TestLoop = 0; TestLoop < 5; TestLoop++)
 	{
@@ -39,8 +39,8 @@ void FSecondTest()
 int main()
 {
 	std::cout << "First test constructor and destructor Output" << std::endl;
-	FFirstTest();
+	FirstTest();
 
 	std::cout << "Second Test constructor and destructor Output" << std::endl;
-	FSecondTest();
+	SecondTest();
 }

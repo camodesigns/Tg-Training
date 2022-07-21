@@ -27,32 +27,34 @@ public:
 	std::string Texto;
 	FMilitaryClock()
 	{
-		 Hours=0;
-		 Minutes=0;
+		 Hours = 0;
+		 Minutes = 0;
 	}
-	FMilitaryClock(short const InitialHours, short const InitialMinutes)
+	FMilitaryClock(const short  InitialHours, const short  InitialMinutes)
 	{
 		 Hours = InitialHours;
 		 Minutes = InitialMinutes;
 	}
-	void SetTime(short const  SetHours,short const SetMinutes)
+	void SetTime(const short   SetHours, const short  SetMinutes)
 	{
 		Hours = SetHours;
-		Minutes= SetMinutes;
+		Minutes = SetMinutes;
 	}
 	void DisplayTime()
 	{
-		if ((Hours) < 10)
+		if (Hours < 10)
 		{
 			std::cout << "0" << Hours;
-		}else
+		}
+		else
 		{
 			std::cout << Hours;
 		}
-		 if ( Minutes < 10) 
+		 if (Minutes < 10) 
 		{
 			std::cout << Minutes << "0" <<std::endl;
-		}else
+		}
+		 else
 		 {
 			 std::cout << Minutes << std::endl;
 		 }
