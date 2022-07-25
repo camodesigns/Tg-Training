@@ -31,7 +31,7 @@ private:
 public:
 	FPrinter()
 	{
-		std:: string OutputString = "";
+		OutputString = "";
 	}
 	FPrinter(std::string EntryString)
 	{

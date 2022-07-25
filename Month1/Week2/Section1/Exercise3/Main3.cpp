@@ -31,16 +31,12 @@ class FSquare
 {
 private:
 	float SideLenght;
-	float perimeter;
-	float Area;
 public:
 	FSquare() 
 	{
-		float SideLenght = 0.0f;
-		float Perimeter = 0.0f;
-		float Area = 0.0f;
+		SideLenght = 0.0f;
 	}
-	FSquare(float EntrySideLenght )
+	FSquare(const float EntrySideLenght)
 	{
 		SideLenght = EntrySideLenght;
 	}
@@ -61,13 +57,13 @@ public:
 		}
 		SideLenght = EntrySide;
 	}
-	float GetAreaSquare()const
+	float GetAreaSquare() const
 	{
 		const float  Area = pow(SideLenght, 2);
 		
 		return Area;
 	}
-	float GetPerimeterSquare()const
+	float GetPerimeterSquare() const
 	{
 		return SideLenght * 4;
 	}
@@ -76,17 +72,14 @@ class FCircle
 {
 private:
 	float Radius;
-	float Diameter;
 public:
 	FCircle()
 	{
 		Radius = 0.0f;
-		Diameter = 0.0f;
 	}
-	FCircle(float NewRadius,float NewDiameter)
+	FCircle(float NewRadius)
 	{
 		Radius = NewRadius;
-		Diameter = NewDiameter;
 	}
 	
 	void InputDataCircle()
@@ -103,17 +96,6 @@ public:
 			std::cin >> EntryRadius;
 		}		
 		Radius = EntryRadius;
-
-		std::cout << "what is the diameter of Your Circle:" << std::endl;
-		std::cin >> EntryDiameter;
-		while (!std::cin.good() || EntryDiameter < 0.0f)
-		{
-			std::cout << "Invalid input, please enter the diameter of Your circle again" << std::endl;
-			std::cin.clear();
-			std::cin.ignore(1000, '\n');
-			std::cin >> EntryDiameter;
-		}
-		Diameter = EntryDiameter;
 	}
 	 float GetAreaCicle( )const
 	{
@@ -121,7 +103,7 @@ public:
 	}
 	 float GetPerimeterCircle( )const
 	{	
-		return M_PI * Diameter;
+		return M_PI * (Radius*2);
 	}
 };
 
