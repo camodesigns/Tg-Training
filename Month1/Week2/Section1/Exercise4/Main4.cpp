@@ -27,24 +27,28 @@ class FPrinter
 {
 private:
 	std::string OutputString;
+	
 public:
 	FPrinter()
 	{
+		std:: string OutputString = "";
 	}
 	FPrinter(std::string EntryString)
 	{
-		EntryString = "";
+		OutputString = EntryString;
 	}
 	
 	void InputString() 
 	{
 		std::string EntryString;
 		std::cout << "Welcome! Please enter a string:" << std::endl;
+		std::getline(std::cin, EntryString);
 		while(!std::cin.good())
 		{
 			std::cout << "Invalid input, please enter " << std::endl;
 			std::cin.clear();
 			std::cin.ignore(1000, '\n');
+			std::getline(std::cin, EntryString);
 		}
 		OutputString = EntryString;
 	}

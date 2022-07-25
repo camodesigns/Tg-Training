@@ -31,17 +31,18 @@ class FSquare
 {
 private:
 	float SideLenght;
-	
-
+	float perimeter;
+	float Area;
 public:
 	FSquare() 
 	{
+		float SideLenght = 0.0f;
+		float Perimeter = 0.0f;
+		float Area = 0.0f;
 	}
-	FSquare(float SideLenght, float PerimeterSquare, float AreaSquare)
+	FSquare(float EntrySideLenght )
 	{
-		SideLenght = 0.0f;
-		PerimeterSquare = 0.0f;
-		AreaSquare = 0.0f;
+		SideLenght = EntrySideLenght;
 	}
 	
 	
@@ -60,13 +61,13 @@ public:
 		}
 		SideLenght = EntrySide;
 	}
-	const float GetAreaSquare()
+	float GetAreaSquare()const
 	{
-		const float  AreaSquare = pow(SideLenght, 2);
+		const float  Area = pow(SideLenght, 2);
 		
-		return AreaSquare;
+		return Area;
 	}
-	const float GetPerimeterSquare()
+	float GetPerimeterSquare()const
 	{
 		return SideLenght * 4;
 	}
@@ -74,23 +75,25 @@ public:
 class FCircle
 {
 private:
-	float RadiusCircle;
-	float DiameterCircle;
+	float Radius;
+	float Diameter;
 public:
 	FCircle()
 	{
+		Radius = 0.0f;
+		Diameter = 0.0f;
 	}
-	FCircle(float RadiusCircle,float DiameterCircle)
+	FCircle(float NewRadius,float NewDiameter)
 	{
-		RadiusCircle = 0.0f;
-		DiameterCircle = 0.0f;
+		Radius = NewRadius;
+		Diameter = NewDiameter;
 	}
 	
 	void InputDataCircle()
 	{
 		float EntryRadius;
 		float EntryDiameter;
-		std::cout << "what is the area of Your Circle:" << std::endl;
+		std::cout << "what is the radius of Your Circle:" << std::endl;
 		std::cin >> EntryRadius;
 		while (!std::cin.good() || EntryRadius < 0.0f)
 		{
@@ -99,7 +102,7 @@ public:
 			std::cin.ignore(1000, '\n');
 			std::cin >> EntryRadius;
 		}		
-		RadiusCircle = EntryRadius;
+		Radius = EntryRadius;
 
 		std::cout << "what is the diameter of Your Circle:" << std::endl;
 		std::cin >> EntryDiameter;
@@ -110,15 +113,15 @@ public:
 			std::cin.ignore(1000, '\n');
 			std::cin >> EntryDiameter;
 		}
-		DiameterCircle = EntryDiameter;
+		Diameter = EntryDiameter;
 	}
-	const float GetAreaCicle( )
+	 float GetAreaCicle( )const
 	{
-		return M_PI * (pow(RadiusCircle, 2));
+		return M_PI * (pow(Radius, 2));
 	}
-	const float GetPerimeterCircle( )
+	 float GetPerimeterCircle( )const
 	{	
-		return M_PI * DiameterCircle;
+		return M_PI * Diameter;
 	}
 };
 
