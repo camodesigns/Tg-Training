@@ -144,8 +144,6 @@ int main()
 	{
 		FCircle Circle;
 		Circle.InputDataCircle();
-		Circle.GetAreaCicle();
-		Circle.GetPerimeterCircle();
 		std::cout << "Your circle area: " << Circle.GetAreaCicle() << std::endl;
 		std::cout << "Your square perimeter: " << Circle.GetPerimeterCircle() << std::endl;
 	}
@@ -154,8 +152,6 @@ int main()
 	{
 		FSquare Square;
 		Square.InputDataSquare();
-		Square.GetAreaSquare();
-		Square.GetPerimeterSquare();
 		std::cout << "Your square area: " << Square.GetAreaSquare() << std::endl;
 		std::cout << "Your square perimeter: " << Square.GetPerimeterSquare() << std::endl;
 	}
