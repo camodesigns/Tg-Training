@@ -11,7 +11,6 @@ public:
 	FPlayListContainer();
 	FPlayListContainer(FPlayList NewPlayList);
 	void AddPlaylist(FPlayList AddedPlaylist);
-	int GetPlayListCount();
-	FPlayList GetPlayList(int Index);
-	FPlayList GetPlayList(int index) const;
+	int GetPlayListCount()const;
+	FPlayList GetPlayList(int Index)const;
 };

@@ -1,29 +1,25 @@
 #include"PlayListContainer.h"
 
-FPlayListContainer:: FPlayListContainer()
+FPlayListContainer::FPlayListContainer()
 {
 	PlayListCount = 0;
 }
 
-FPlayListContainer:: FPlayListContainer(FPlayList NewPlayList)
+FPlayListContainer::FPlayListContainer(FPlayList NewPlayList)
 {
 	PlayLists[PlayListCount] = NewPlayList;
 	PlayListCount++;
 }
-int FPlayListContainer:: GetPlayListCount()
+int FPlayListContainer::GetPlayListCount()const
 {
 	return PlayListCount;
 }
-FPlayList FPlayListContainer:: GetPlayList(int Index)
+FPlayList FPlayListContainer::GetPlayList(int Index)const
 {
 	return PlayLists[Index];
 }
-void FPlayListContainer:: AddPlaylist(FPlayList NewPlaylist)
+void FPlayListContainer::AddPlaylist(FPlayList NewPlaylist)
 {
 	PlayLists[PlayListCount] = NewPlaylist;
 	PlayListCount++;
-}
-FPlayList FPlayListContainer:: GetPlayList(int index) const
-{
-	return PlayLists[index];
 }
