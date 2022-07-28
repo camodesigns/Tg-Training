@@ -1,70 +1,62 @@
 #include "Song.h"
 FSong::FSong()
 {
-    MinutesDuration = 0;
-    SecondsDuration = 0;
+    Duration = 0;
     ArtistName = "";
     SongName = "";
 }
-FSong::FSong(int EntryMinutesDuration, int EntrySecondsDuration, std::string EntryArtistName, std::string EntrySongName)
+
+FSong::FSong(const int EntryDuration, const std::string EntryArtistName, const std::string EntrySongName)
 {
-    MinutesDuration = EntryMinutesDuration;
-    SecondsDuration = EntrySecondsDuration;
+    Duration = EntryDuration;
     ArtistName = EntryArtistName;
     SongName = EntrySongName;
 
 }
 
-
-
 std::string FSong::GetFormatedDuration()const
 {
     std::string FormatedDuration = "";
-    FormatedDuration = "Minutes: " + std::to_string(MinutesDuration) + "\t" "Seconds" + std::to_string(SecondsDuration);
+    int Minutes, Seconds;
+    Minutes = Duration / 60;
+    Seconds = Duration % 60;
+    FormatedDuration = "Minutes: " + std::to_string(Minutes) + "\t" "Seconds: " + std::to_string(Seconds);
     return FormatedDuration;
 }
-bool FSong::bIsvalid()
+
+bool FSong::IsValid()const
 {
-    if (MinutesDuration <= 0 && SecondsDuration < 0)
-    {
-        return false;
-    }
-    else
-    {
-        return true;
-    }
+    return Duration > 0 ;
 }
 
 std::string FSong::GetArtistName()const
 {
     return ArtistName;
 }
+
 std::string FSong::GetSongName()const
 {
     return SongName;
 }
-int FSong::GetMinutesDuration()const
+
+int FSong::GetDuration()const
 {
-    return MinutesDuration;
+    return Duration;
 }
-int FSong::GetSecondsDuration()const
-{
-    return SecondsDuration;
-}
+
 void FSong::SetArtistName(std::string NewArtistName)
 {
     ArtistName = NewArtistName;
 }
+
 void FSong::SetSongName(std::string NewSongName)
 {
     SongName = NewSongName;
 }
-void FSong::SetMinutesDuration(int NewMinutesDuration)
+
+void FSong::SetDuration(int NewMDuration)
 {
-    MinutesDuration = NewMinutesDuration;
+    Duration = NewMDuration;
 }
-void FSong::SetSecondsDuration(int NewSecondsDuration)
-{
-    SecondsDuration = NewSecondsDuration;
-}
+
 

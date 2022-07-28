@@ -1,20 +1,21 @@
 #pragma once
 #include "Song.h"
 
-class FPlayList {
+class FPlaylist 
+{
 
 private:
-	std::string PlayListTitle;
+	std::string PlaylistTitle;
 	const static int MaxSongCount = 30;
 	int SongCount = 0;
 	FSong Songs[MaxSongCount];
 	
 public:
-	FPlayList();
-	FPlayList(std::string NewPlayListTitle);
-	std::string GetListTitle();
-	void SetListTitle(std::string NewPlayListTitle);
+	FPlaylist();
+	FPlaylist(const std::string NewPlayListTitle);
+	std::string GetTitle();
+	void SetTitle(std::string NewPlayListTitle);
 	bool bAddSong(FSong FSong);
 	FSong GetSong(int SongIndex);
-	void  PlayListDisplay();
+	void  DisplayPlaylist();
 };

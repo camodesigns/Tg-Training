@@ -1,17 +1,17 @@
 #pragma once
-#include"PlayListContainer.h"
+#include"PlaylistContainer.h"
 class FSpotify
 {
 private:
-	FPlayListContainer PlayListContainer;
-	enum class MenuCommand { MainMenu, CreatePlayList, BrowsePlayLists, Exit };
+	FPlaylistContainer PlaylistContainer;
+	enum class MenuCommand { MainMenu, CreatePlaylist, BrowsePlaylists, Exit };
 	MenuCommand ActiveCommand;
 public:
-	void DebugApp();
 	FSpotify();
+	void DebugApp();
 	void RunApp();
 private:
 	void OpenMainMenu();
-	void OpenCreatePlayListMenu();
-	void OpenBrowsePlayListMenu();
+	void OpenCreatePlaylistMenu();
+	void OpenBrowsePlaylistMenu();
 };

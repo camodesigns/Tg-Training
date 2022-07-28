@@ -1,16 +1,15 @@
 #pragma once
-#include "PlayList.h"
+#include "Playlist.h"
 
 
-class FPlayListContainer {
+class FPlaylistContainer {
 private:
-	const static int MaxPlayListCount = 5;
-	FPlayList PlayLists[MaxPlayListCount];
-	int PlayListCount;
+	const static int MaxPlaylistCount = 5;
+	FPlaylist Playlists[MaxPlaylistCount];
+	int PlaylistCount;
 public:
-	FPlayListContainer();
-	FPlayListContainer(FPlayList NewPlayList);
-	void AddPlaylist(FPlayList AddedPlaylist);
-	int GetPlayListCount()const;
-	FPlayList GetPlayList(int Index)const;
+	FPlaylistContainer();
+	void AddPlaylist(FPlaylist AddedPlaylist);
+	int GetPlaylistCount()const;
+	FPlaylist GetPlaylist(int Index)const;
 };

@@ -18,10 +18,10 @@
     <ClCompile Include="Song.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="PlayList.cpp">
+    <ClCompile Include="Playlist.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="PlayListContainer.cpp">
+    <ClCompile Include="PlaylistContainer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Spotify.cpp">
@@ -35,10 +35,10 @@
     <ClInclude Include="Song.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="PlayList.h">
+    <ClInclude Include="Playlist.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="PlayListContainer.h">
+    <ClInclude Include="PlaylistContainer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Spotify .h">

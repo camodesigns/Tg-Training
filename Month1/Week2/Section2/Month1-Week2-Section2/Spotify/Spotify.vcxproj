@@ -128,14 +128,14 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp" />
-    <ClCompile Include="PlayList.cpp" />
-    <ClCompile Include="PlayListContainer.cpp" />
+    <ClCompile Include="Playlist.cpp" />
+    <ClCompile Include="PlaylistContainer.cpp" />
     <ClCompile Include="Song.cpp" />
     <ClCompile Include="Spotify.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="PlayList.h" />
-    <ClInclude Include="PlayListContainer.h" />
+    <ClInclude Include="Playlist.h" />
+    <ClInclude Include="PlaylistContainer.h" />
     <ClInclude Include="Song.h" />
     <ClInclude Include="Spotify .h" />
   </ItemGroup>

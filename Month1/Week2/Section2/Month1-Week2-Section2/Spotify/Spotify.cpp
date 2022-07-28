@@ -2,41 +2,42 @@
 
 void FSpotify::DebugApp()
 {
-    FSong SongOne(2, 15, "OverLord", "The Signa1");
-    FSong SongTwo(3, 15, "OverLord2", "The Signa2");
-    FSong SongThree(4, 15, "OverLord3", "The Signa3");
+    FSong SongOne(150, "OverLord", "The Signa1");
+    FSong SongTwo(240, "OverLord2", "The Signa2");
+    FSong SongThree(300, "OverLord3", "The Signa3");
 
-    FPlayList Playlist1("Overlord PlayList");
+    FPlaylist Playlist1("Overlord PlayList");
     Playlist1.bAddSong(SongOne);
     Playlist1.bAddSong(SongTwo);
     Playlist1.bAddSong(SongThree);
 
-    FSong Song1(3, 40, "Gorillas", "Re-Hash");
-    FSong Song2(2, 42, "Gorillas", "5/4");
-    FSong Song3(3, 14, "Gorillas", "Tomorrow Comes Today");
-    FSong Song4(3, 59, "Gorillas", "New Genious (Brother)");
+    FSong Song1(220, "Gorillas", "Re-Hash");
+    FSong Song2(162, "Gorillas", "5/4");
+    FSong Song3(194, "Gorillas", "Tomorrow Comes Today");
+    FSong Song4(239, "Gorillas", "New Genious (Brother)");
 
-    FPlayList Playlist2("Gorillas");
+    FPlaylist Playlist2("Gorillas");
     Playlist2.bAddSong(Song1);
     Playlist2.bAddSong(Song2);
     Playlist2.bAddSong(Song3);
     Playlist2.bAddSong(Song4);
 
     //Third Playlist
-    FSong SongFour(3, 12, "Nirvana", "About a Girl");;
-    FSong SongFive(2, 40, "Nirvana", "Re-Hash");
+    FSong SongFour(192, "Nirvana", "About a Girl");;
+    FSong SongFive(160, "Nirvana", "Re-Hash");
 
-    FPlayList Playlist3("Album Nirvana");
+    FPlaylist Playlist3("Album Nirvana");
     Playlist3.bAddSong(SongFour);
     Playlist3.bAddSong(SongFive);
 
 
     //PlaylistContainer
     
-    PlayListContainer.AddPlaylist(Playlist1);
-    PlayListContainer.AddPlaylist(Playlist2);
-    PlayListContainer.AddPlaylist(Playlist3);
+    PlaylistContainer.AddPlaylist(Playlist1);
+    PlaylistContainer.AddPlaylist(Playlist2);
+    PlaylistContainer.AddPlaylist(Playlist3);
 }
+
 FSpotify::FSpotify()
 {
     ActiveCommand = MenuCommand::MainMenu;
@@ -50,11 +51,11 @@ void FSpotify::RunApp()
         case FSpotify::MenuCommand::MainMenu:
             OpenMainMenu();
             break;
-        case FSpotify::MenuCommand::CreatePlayList:
-            OpenCreatePlayListMenu();
+        case FSpotify::MenuCommand::CreatePlaylist:
+            OpenCreatePlaylistMenu();
             break;
-        case FSpotify::MenuCommand::BrowsePlayLists:
-            OpenBrowsePlayListMenu();
+        case FSpotify::MenuCommand::BrowsePlaylists:
+            OpenBrowsePlaylistMenu();
             break;
         case FSpotify::MenuCommand::Exit:
             break;
@@ -66,10 +67,9 @@ void FSpotify::RunApp()
 
 }
 
-
 void FSpotify::OpenMainMenu()
 {
-    do {
+   
         system("CLS");
 
         std::cout << "Welcome to Spotify!What would you like to do?" << std::endl;
@@ -87,16 +87,15 @@ void FSpotify::OpenMainMenu()
         }
         ActiveCommand = (MenuCommand)OptionChoice;
         system("CLS");
-    } while (!std::cin.good());
+   
 }
 
-
-void FSpotify::OpenCreatePlayListMenu()
+void FSpotify::OpenCreatePlaylistMenu()
 {
     std::cin.clear();
     std::cin.ignore(1000, '\n');
     system("CLS");
-    int AddSongs;
+   
 
     std::cout << "Creating a new Playlist Fantastic, Please enter a name for Your Playlist: " << std::endl;
     std::string PlayListName;
@@ -106,17 +105,19 @@ void FSpotify::OpenCreatePlayListMenu()
         std::cout << "Invalid input, please enter Your playlist name again: " << std::endl;
         std::getline(std::cin, PlayListName);
     }
-    FPlayList ANewPlayList(PlayListName);
+   
+    int Choice = 1;
+    FPlaylist NewPlaylist(PlayListName);
+   
     do
     {
         system("CLS");
         std::cout << "Well, now add a song to " << PlayListName << " Playlist" << std::endl;
         std::cout << "Now,Follow the instructions" << std::endl;
 
-        int EntryMinutesDuration;
-        std::string EntryArtistName;
+       
+     
         std::string EntrySongName;
-        int EntrySecondsDuration;
         std::cout << "Please enter the song name: " << std::endl;
         std::getline(std::cin, EntrySongName);
         while (!std::cin.good() || EntrySongName == "" || std::cin.peek() == '\n')
@@ -126,6 +127,8 @@ void FSpotify::OpenCreatePlayListMenu()
             std::cin.ignore(1000, '\n');
             std::getline(std::cin, EntrySongName);
         }
+
+        std::string EntryArtistName;
         std::cout << "Please enter the artist name: " << std::endl;
         std::getline(std::cin, EntryArtistName);
         while (EntryArtistName == "" || !std::cin.good() || std::cin.peek() == '\n')
@@ -135,60 +138,48 @@ void FSpotify::OpenCreatePlayListMenu()
             std::cin.ignore(1000, '\n');
             std::getline(std::cin, EntryArtistName);
         }
-        std::cout << "Please enter the song duration in minutes and seconds" << std::endl;
-        std::cout << "Minutes: " << std::endl;
-        std::cin >> EntryMinutesDuration;
-        while (EntryMinutesDuration < 0 || !std::cin.good() )
+        std::cin.ignore(1000, '\n');
+        int EntryDuration;
+        std::cout << "Please enter the song duration in integer seconds " << std::endl;
+        std::cin >> EntryDuration;
+        while (EntryDuration <= 0 || !std::cin.good() )
         {
-            std::cout << "Invalid input, remember the duration must be greater of cero  " << std::endl;
+            std::cout << "Invalid input, remember the duration must be greater of cero, entry the duartion again: " << std::endl;
             std::cin.clear();
             std::cin.ignore(1000, '\n');
-            std::cin >> EntryMinutesDuration;
+            std::cin >> EntryDuration;
         }
-        std::cout << "Seconds: " << std::endl;
-        std::cin >> EntrySecondsDuration;
-        while (!std::cin.good() || EntrySecondsDuration > 60 || EntrySecondsDuration < 0 )
-        {
-            std::cout << "Invalid input, remember the seconds duration must be lower of 60 and equal o greater of cero " << std::endl;
-            std::cout << "Please enter Your second sduration again:" << std::endl;
-            std::cin.clear();
-            std::cin.ignore(1000, '\n');
-            std::cin >> EntrySecondsDuration;
-        }
-        while (EntryMinutesDuration == 0 && EntrySecondsDuration == 0)
-        {
-            std::cout << "Remember te duration of the song can not be cero. Enter Your Song Duration again (minutes and seconds ): " << std::endl;
-            std::cout << "Minutes: " << std::endl;
-            std::cin >> EntryMinutesDuration;
-            std::cout << "Seconds:" << std::endl;
-            std::cin >> EntrySecondsDuration;
-        }
-        FSong NewSong(EntryMinutesDuration, EntrySecondsDuration, EntryArtistName, EntrySongName);
-        ANewPlayList.bAddSong(NewSong);
+       
+
+        FSong NewSong(EntryDuration, EntryArtistName, EntrySongName);
+        NewPlaylist.bAddSong(NewSong);
+
         std::cout << "Song add sucefull, What do you whant to do now?" << std::endl;
         std::cout << "1. Enter another song" << std::endl;
         std::cout << "2.Go to main menu" << std::endl;
-        std::cin >> AddSongs;
+        std::cin >> Choice;
       
         std::cin.clear();
         std::cin.ignore(1000, '\n');
         system("CLS");
-    } while (AddSongs == 1);
-    PlayListContainer.AddPlaylist(ANewPlayList);
+    } while (Choice == 1);
+
+    PlaylistContainer.AddPlaylist(NewPlaylist);
+
     ActiveCommand = MenuCommand::MainMenu;
 }
 
 
-void FSpotify::OpenBrowsePlayListMenu()
+void FSpotify::OpenBrowsePlaylistMenu()
 {   
 
     std::cout << "Here are Your Playlists!" << std::endl;
     int Choice = 1;
     do{
         system("CLS");
-     for (int ListWalker = 0;ListWalker < 5; ListWalker++)
+     for (int PlaylistIndex = 0;PlaylistIndex < 5; PlaylistIndex++)
         {
-            std::cout << ListWalker << "" << PlayListContainer.GetPlayList(ListWalker).GetListTitle() << std::endl;
+            std::cout << PlaylistIndex << "" << PlaylistContainer.GetPlaylist(PlaylistIndex).GetTitle() << std::endl;
         }
     
      std::cout << "Which playlist do you want to see: " << std::endl;
@@ -203,13 +194,13 @@ void FSpotify::OpenBrowsePlayListMenu()
      std::cin >> Index;
    
      
-     if (PlayListContainer.GetPlayListCount() < Index)
+     if (PlaylistContainer.GetPlaylistCount() < Index)
      {
          std::cout << "Invalid Choice, please choce a valid option" << std::endl;
      }
      else 
      {
-         PlayListContainer.GetPlayList(Index).PlayListDisplay();
+         PlaylistContainer.GetPlaylist(Index).DisplayPlaylist();
      }
      std::cout << "Well,make a choice" << std::endl;
      std::cout << "1. look another playlist" << std::endl;

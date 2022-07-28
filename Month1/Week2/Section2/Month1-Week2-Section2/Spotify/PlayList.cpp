@@ -1,31 +1,34 @@
-#include"PlayList.h"
+#include"Playlist.h"
 
-FPlayList::FPlayList()
+FPlaylist::FPlaylist()
 {
-	PlayListTitle = "";
+	PlaylistTitle = "";
 	SongCount = 0;
 }
-FPlayList::FPlayList(std::string NewTitle)
+
+FPlaylist::FPlaylist(const std::string NewTitle)
 {
-	PlayListTitle = NewTitle;
+	PlaylistTitle = NewTitle;
 }
 
-std::string FPlayList::GetListTitle()
+std::string FPlaylist::GetTitle()
 {
-	return PlayListTitle;
+	return PlaylistTitle;
 }
 
-void FPlayList::SetListTitle(std::string NewPlayListTitle)
+void FPlaylist::SetTitle(std::string NewPlayListTitle)
 {
-	PlayListTitle = NewPlayListTitle;
+	PlaylistTitle = NewPlayListTitle;
 }
-FSong FPlayList::GetSong(int SongIndex)
+
+FSong FPlaylist::GetSong(int SongIndex)
 {
 	return Songs[SongIndex];
 }
-bool FPlayList::bAddSong(FSong Song)
+
+bool FPlaylist::bAddSong(FSong Song)
 {
-	if (Song.bIsvalid())
+	if (Song.IsValid())
 	{
 		Songs[SongCount] = Song;
 		SongCount++;
@@ -34,16 +37,15 @@ bool FPlayList::bAddSong(FSong Song)
 	return false;
 }
 
-
-void  FPlayList::PlayListDisplay()
+void  FPlaylist::DisplayPlaylist()
 {
 	std::cout << "PlayList" << std::endl;
 	std::cout << "Song Title\t\t\t\tArtist Name\t\t\t\tDuration" << std::endl;
 	std::cout << "------------------------------------------------------------------------------------------" << std::endl;
-	for (int CurrentSong = 0; CurrentSong < SongCount; CurrentSong++)
+	for (int CurrentSongIndex = 0; CurrentSongIndex < SongCount; CurrentSongIndex++)
 	{
-		FSong ListedSong = Songs[CurrentSong];
-		std::cout << ListedSong.GetSongName() << "\t\t\t\t" << ListedSong.GetArtistName() << "\t\t\t\t" << ListedSong.GetFormatedDuration() << std::endl;
+		FSong CurrentSong = Songs[CurrentSongIndex];
+		std::cout << CurrentSong.GetSongName() << "\t\t\t\t" << CurrentSong.GetArtistName() << "\t\t\t\t" << CurrentSong.GetFormatedDuration() << std::endl;
 		
 	}
 	std::cout << std::endl;
