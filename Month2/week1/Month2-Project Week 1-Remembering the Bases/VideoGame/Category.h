@@ -13,8 +13,9 @@ private:
 public:
 
 	FCategory();
+	FCategory(std::string NewCategoryTitle);
 	std::string GetCategoryTitle() const;
-	std::string SetCategoryTitle(const std::string NewCategoryTitle);
+	void SetCategoryTitle(const std::string NewCategoryTitle);
 	bool AddGame(FVideoGame VideoGame);
 	FVideoGame GetGames(int GameIndex);
 	void DisplayGamesCount()const;

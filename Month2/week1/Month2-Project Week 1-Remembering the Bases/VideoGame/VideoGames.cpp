@@ -36,23 +36,23 @@ int FVideoGame::GetYearCreation()const
 {
 	return YearCreation;
 }
-std::string FVideoGame::SetGameName(const std::string NewGameName)
+void FVideoGame::SetGameName(const std::string NewGameName)
 {
 	GameName = NewGameName;
 }
-std::string FVideoGame::SetStudioName(const std::string NewStudioName)
+void FVideoGame::SetStudioName(const std::string NewStudioName)
 {
-	GameName = NewStudioName;
+	StudioName = NewStudioName;
 }
-int FVideoGame::SetDayCreation(int NewDayCreation)
+void FVideoGame::SetDayCreation(int NewDayCreation)
 {
 	DayCreation = NewDayCreation;
 }
-int FVideoGame::SetMonthCreation(int NewMonthCreation)
+void FVideoGame::SetMonthCreation(int NewMonthCreation)
 {
 	MonthCreation = NewMonthCreation;
 }
-int FVideoGame::SetYearCreation(int NewYearCreation)
+void FVideoGame::SetYearCreation(int NewYearCreation)
 {
 	YearCreation = NewYearCreation;
 }

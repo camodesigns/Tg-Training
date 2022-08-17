@@ -37,7 +37,7 @@ FCategory FCategoryContainer::GetCategory(int Index)const
 {
 	return Categories[Index];
 }
-void FCategoryContainer::AddGameToCategory(int Index,FVideoGame Game) 
+void FCategoryContainer::AddGameToCategory(int Index, FVideoGame Game) 
 {
 	Categories[Index].AddGame(Game);
 }

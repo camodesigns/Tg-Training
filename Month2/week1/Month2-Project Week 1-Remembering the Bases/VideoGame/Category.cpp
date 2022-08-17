@@ -4,20 +4,24 @@ FCategory::FCategory()
 	CategoryTitle = "";
 	GamesCount = 0;
 }
+FCategory::FCategory(std::string newCategoryTitle) 
+{
+	CategoryTitle = newCategoryTitle;
+}
 std::string FCategory::GetCategoryTitle()const
 {
 	return CategoryTitle;
 }
-std::string FCategory::SetCategoryTitle(std::string NewCategoryTitle)
+void FCategory::SetCategoryTitle(std::string NewCategoryTitle)
 {
 	CategoryTitle = NewCategoryTitle;
 }
 bool FCategory::AddGame(FVideoGame VideoGame)
 {
-	if (FVideoGame::GameIsValid)
+	if (VideoGame.GameIsValid())
 	{
 		Games[GamesCount] = VideoGame;
-		GamesCount++;
+		GamesCount += 1;
 		return true;
 	}
 	else return false;

@@ -6,10 +6,13 @@ private:
 	FCategoryContainer CategoryContainer;
 	enum class MenuCommand {MainMenu, AddGames, Categories ,VisualiceGames, Exit};
 	MenuCommand ActiveCommand;
+	/*enum class Action { CreateCategory = 1, DeleteCategory };
+	Action ActionChoice;*/
 public:	
 	FSteam();
 	void DebugApp();
 	void RunApp();
+	//void Actions();
 	FCategory Uncategorized;
 	void DisplayCategories();
 private:
@@ -17,4 +20,6 @@ private:
 	void OpenAddgamesMenu();
 	void OpenCategoriesMenu();
 	void OpenVisualiceGamesMenu();
+	void CreateCategory();
+	void DeleteCategory();
 };

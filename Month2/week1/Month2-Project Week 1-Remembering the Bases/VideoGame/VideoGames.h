@@ -18,16 +18,13 @@ class FVideoGame
 		int GetDayCreation()const;
 		int GetMonthCreation()const;
 		int GetYearCreation()const;
-		std::string SetGameName(std::string NewGameName);
-		std::string SetStudioName(std::string NewStudioName);
-		int SetDayCreation(const int NewDayCreation);
-		int SetMonthCreation(const int NewMonthCration);
-		int SetYearCreation(const int NewYearCreation);
+		void SetGameName(std::string NewGameName);
+		void SetStudioName(std::string NewStudioName);
+		void SetDayCreation(const int NewDayCreation);
+		void SetMonthCreation(const int NewMonthCration);
+		void SetYearCreation(const int NewYearCreation);
 		std::string GetFormatedDate()const;
 		bool GameIsValid()const;
 		
 };
 
-int main()
-{
-}
