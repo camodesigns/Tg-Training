@@ -8,11 +8,15 @@ class FCategoryContainer
 		int CategoriesCount;
 		bool IsValidIndex(int Index);
 	public:
-		void AddGameToCategory(int index,FVideoGame);
 		FCategoryContainer();
-		void AddCategory(FCategory NewCategory);
-		void EliminateCategory(int EliminationIndex);
+
 		int GetCategoryCount()const;
 		FCategory GetCategory(int Index)const;
+
+		void AddGameToCategory(int index,FVideoGame);
+		void AddCategory(FCategory NewCategory);
+		
+		void EliminateCategory(int EliminationIndex);
+		
 	
 };

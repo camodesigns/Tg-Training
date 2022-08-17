@@ -14,12 +14,10 @@ public:
 	void RunApp();
 	//void Actions();
 	FCategory Uncategorized;
-	void DisplayCategories();
 private:
 	void OpenMainMenu();
 	void OpenAddgamesMenu();
 	void OpenCategoriesMenu();
 	void OpenVisualiceGamesMenu();
-	void CreateCategory();
-	void DeleteCategory();
+	
 };

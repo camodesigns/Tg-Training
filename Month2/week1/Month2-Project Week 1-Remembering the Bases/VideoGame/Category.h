@@ -14,10 +14,14 @@ public:
 
 	FCategory();
 	FCategory(std::string NewCategoryTitle);
-	std::string GetCategoryTitle() const;
-	void SetCategoryTitle(const std::string NewCategoryTitle);
-	bool AddGame(FVideoGame VideoGame);
+	
 	FVideoGame GetGames(int GameIndex);
+	std::string GetCategoryTitle() const;
+
+	void SetCategoryTitle(const std::string NewCategoryTitle);
+
 	void DisplayGamesCount()const;
 	void DisplayGames();
+
+	bool AddGame(FVideoGame VideoGame);
 };
