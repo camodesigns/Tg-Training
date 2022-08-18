@@ -4,16 +4,16 @@ class FSteam
 {
 private:
 	FCategoryContainer CategoryContainer;
-	enum class MenuCommand {MainMenu, AddGames, Categories ,VisualiceGames, Exit};
-	MenuCommand ActiveCommand;
+	FCategory Uncategorized;
+	enum class EMenuCommand {MainMenu, AddGames, Categories ,DisplayGames, Exit};
+	EMenuCommand ActiveCommand;
 	/*enum class Action { CreateCategory = 1, DeleteCategory };
 	Action ActionChoice;*/
 public:	
 	FSteam();
-	void DebugApp();
 	void RunApp();
 	//void Actions();
-	FCategory Uncategorized;
+	
 private:
 	void OpenMainMenu();
 	void OpenAddgamesMenu();

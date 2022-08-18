@@ -2,9 +2,9 @@
 #include "VideoGames.h"
 
 class FCategory
-{ 
+{
 private:
-	std::string CategoryTitle;
+	std::string Title = "";
 	const static int MaxGamesCount = 10;
 	int GamesCount = 0;
 	FVideoGame Games[MaxGamesCount];
@@ -13,15 +13,15 @@ private:
 public:
 
 	FCategory();
-	FCategory(std::string NewCategoryTitle);
-	
-	FVideoGame GetGames(int GameIndex);
+	FCategory(std::string NewTitle);
+
+	FVideoGame GetGame(const int GameIndex) const;
 	std::string GetCategoryTitle() const;
 
-	void SetCategoryTitle(const std::string NewCategoryTitle);
+	void SetCategoryTitle(const std::string NewTitle);
 
-	void DisplayGamesCount()const;
-	void DisplayGames();
+	void DisplayGamesCount() const;
+	void DisplayGames() const;
 
-	bool AddGame(FVideoGame VideoGame);
+	bool AddGame(const FVideoGame VideoGame);
 };

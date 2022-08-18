@@ -2,39 +2,34 @@
 
 FVideoGame::FVideoGame()
 {
-	GameName = "";
-	StudioName = "";
-	DayCreation = 0;
-	MonthCreation = 0;
-	YearCreation = 0;
 }
-FVideoGame::FVideoGame(const std::string NewGameName, const std::string NewStudioName, const int NewDayCreation, const int NewMonthCreation, const int NewYearCreation) 
+FVideoGame::FVideoGame(const std::string NewGameName, const std::string NewStudioName, const int NewDayCreation, const int NewMonthCreation, const int NewYearCreation)
 {
 	GameName = NewGameName;
 	StudioName = NewStudioName;
-	DayCreation = NewDayCreation;
-	MonthCreation = NewMonthCreation;
-	YearCreation = NewYearCreation;
+	ReleaseDay = NewDayCreation;
+	ReleaseMonth = NewMonthCreation;
+	ReleaseYear = NewYearCreation;
 }
-std::string FVideoGame::GetGameName()const
+std::string FVideoGame::GetGameName() const
 {
 	return GameName;
 }
-std::string FVideoGame::GetStudioName()const
+std::string FVideoGame::GetStudioName() const
 {
 	return StudioName;
 }
-int FVideoGame::GetDayCreation()const
+int FVideoGame::GetReleaseDay() const
 {
-	return DayCreation;
+	return ReleaseDay;
 }
-int FVideoGame::GetMonthCreation()const
+int FVideoGame::GetReleaseMonth() const
 {
-	return MonthCreation;
+	return ReleaseMonth;
 }
-int FVideoGame::GetYearCreation()const
+int FVideoGame::GetReleaseYear() const
 {
-	return YearCreation;
+	return ReleaseYear;
 }
 void FVideoGame::SetGameName(const std::string NewGameName)
 {
@@ -46,28 +41,43 @@ void FVideoGame::SetStudioName(const std::string NewStudioName)
 }
 void FVideoGame::SetDayCreation(int NewDayCreation)
 {
-	DayCreation = NewDayCreation;
+	ReleaseDay = NewDayCreation;
 }
 void FVideoGame::SetMonthCreation(int NewMonthCreation)
 {
-	MonthCreation = NewMonthCreation;
+	ReleaseMonth = NewMonthCreation;
 }
 void FVideoGame::SetYearCreation(int NewYearCreation)
 {
-	YearCreation = NewYearCreation;
+	ReleaseYear = NewYearCreation;
 }
-std::string FVideoGame::GetFormatedDate()const
+std::string FVideoGame::GetFormattedReleaseDate() const
 {
-	std::string FormatedDate = "";
-	FormatedDate = "Day " + std::to_string(DayCreation) + "/Month " + std::to_string(MonthCreation) + "/Year " + std::to_string(YearCreation);
+	std::string FormatedDate = "Day " + std::to_string(ReleaseDay) + "/Month " + std::to_string(ReleaseMonth) + "/Year " + std::to_string(ReleaseYear);
 	return FormatedDate;
 }
-bool FVideoGame::GameIsValid()const
+bool FVideoGame::IsValid() const
 {
-	if (DayCreation <= 0 || DayCreation > 30)return false;
-	else if (MonthCreation <= 0 || MonthCreation > 12)return false;
-	else if (YearCreation > 2022 || YearCreation < 1993) return false;
-	else return true;
+	if (ReleaseDay <= 0 || ReleaseDay > 31)
+	{
+		return false;
+	}
+	if ((ReleaseMonth == 11 && ReleaseDay == 31) || (ReleaseMonth == 4 && ReleaseDay == 31) || (ReleaseMonth == 9 && ReleaseDay == 31) || (ReleaseMonth == 6 && ReleaseDay == 31))
+	{
+		return false;
+	}
+	 if (ReleaseMonth <= 0 || ReleaseMonth > 12)
+	{
+		return false;
+	}
+	 if (ReleaseYear > 2022 || ReleaseYear < 1993)
+	{
+		return false;
+	}
+	else
+	{
+		return true;
+	}
 }
 
 

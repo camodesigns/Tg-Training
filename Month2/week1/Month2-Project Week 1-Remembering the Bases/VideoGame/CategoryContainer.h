@@ -5,18 +5,18 @@ class FCategoryContainer
 	private:
 		const static int MaxCategoriesCount = 5;
 		FCategory Categories[MaxCategoriesCount];
-		int CategoriesCount;
-		bool IsValidIndex(int Index);
+		int CategoriesCount = 0;
+		bool IsValidIndex(const int Index) const;
 	public:
 		FCategoryContainer();
 
-		int GetCategoryCount()const;
-		FCategory GetCategory(int Index)const;
+		int GetCategoryCount() const;
+		FCategory GetCategory(int Index) const;
 
-		void AddGameToCategory(int index,FVideoGame);
+		void AddGameToCategory(const int Index, FVideoGame VideoGame);
 		void AddCategory(FCategory NewCategory);
 		
-		void EliminateCategory(int EliminationIndex);
+		void EliminateCategory(const int EliminationIndex);
 		
 	
 };

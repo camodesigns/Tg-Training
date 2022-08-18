@@ -1,28 +1,35 @@
 #include "CategoryContainer.h"
 FCategoryContainer::FCategoryContainer()
 {
-	CategoriesCount = 0;
 }
-int FCategoryContainer::GetCategoryCount()const 
+
+int FCategoryContainer::GetCategoryCount() const
 {
 	return CategoriesCount;
 }
+
 void FCategoryContainer::AddCategory(FCategory NewCategory)
 {
 	Categories[CategoriesCount] = NewCategory;
 	CategoriesCount += 1;
 }
-bool FCategoryContainer::IsValidIndex(int Index)
+
+bool FCategoryContainer::IsValidIndex(const int Index) const
 {
-	if (!std::cin.good() || Index > 4 || Index < 0)return false;
-	else return true;
-	
-}
-void FCategoryContainer::EliminateCategory(int EliminationIndex)
-{
-	if (FCategoryContainer::IsValidIndex(EliminationIndex)) 
+	if (!std::cin.good() || Index > 4 || Index < 0) {
+		return false;
+	}
+	else
 	{
-		for (int IndexPosition = 0;IndexPosition < MaxCategoriesCount;IndexPosition++) 
+		return true;
+	}
+}
+
+void FCategoryContainer::EliminateCategory(const int EliminationIndex)
+{
+	if (IsValidIndex(EliminationIndex))
+	{
+		for (int IndexPosition = 0; IndexPosition < MaxCategoriesCount; IndexPosition++)
 		{
 			if (IndexPosition == EliminationIndex)
 			{
@@ -33,11 +40,13 @@ void FCategoryContainer::EliminateCategory(int EliminationIndex)
 		}
 	}
 }
-FCategory FCategoryContainer::GetCategory(int Index)const 
+
+FCategory FCategoryContainer::GetCategory(int Index) const
 {
 	return Categories[Index];
 }
-void FCategoryContainer::AddGameToCategory(int Index, FVideoGame Game) 
+
+void FCategoryContainer::AddGameToCategory(const int Index, FVideoGame VideoGame)
 {
-	Categories[Index].AddGame(Game);
+	Categories[Index].AddGame(VideoGame);
 }

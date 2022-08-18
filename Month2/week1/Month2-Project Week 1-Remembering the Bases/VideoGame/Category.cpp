@@ -1,42 +1,40 @@
 #include "Category.h"
 FCategory::FCategory()
 {
-	CategoryTitle = "";
-	GamesCount = 0;
 }
-FCategory::FCategory(std::string newCategoryTitle) 
+FCategory::FCategory(std::string newCategoryTitle)
 {
-	CategoryTitle = newCategoryTitle;
+	Title = newCategoryTitle;
 }
-std::string FCategory::GetCategoryTitle()const
+std::string FCategory::GetCategoryTitle() const
 {
-	return CategoryTitle;
+	return Title;
 }
-void FCategory::SetCategoryTitle(std::string NewCategoryTitle)
+void FCategory::SetCategoryTitle(std::string NewTitle)
 {
-	CategoryTitle = NewCategoryTitle;
+	Title = NewTitle;
 }
-bool FCategory::AddGame(FVideoGame VideoGame)
+bool FCategory::AddGame(const FVideoGame VideoGame)
 {
-	if (VideoGame.GameIsValid())
+	if (VideoGame.IsValid())
 	{
 		Games[GamesCount] = VideoGame;
 		GamesCount += 1;
 		return true;
 	}
 	else return false;
-	
+
 }
-void FCategory::DisplayGamesCount()const
+void FCategory::DisplayGamesCount() const
 {
 	std::cout << GamesCount << std::endl;
 }
-FVideoGame FCategory::GetGames(int GameIndex)
+FVideoGame FCategory::GetGame(const int GameIndex) const
 {
 	return Games[GameIndex];
 }
 
-void   FCategory::DisplayGames()
+void   FCategory::DisplayGames() const
 {
 	std::cout << "Games" << std::endl;
 	std::cout << "Game Title\t\t\t\tStudio Title\t\t\t\tCreation date" << std::endl;
@@ -44,7 +42,7 @@ void   FCategory::DisplayGames()
 	for (int CurrentGameIndex = 0; CurrentGameIndex < MaxGamesCount; CurrentGameIndex++)
 	{
 		FVideoGame CurrentGame = Games[CurrentGameIndex];
-		std::cout << CurrentGame.GetGameName() << "\t\t\t\t" << CurrentGame.GetStudioName() << "\t\t\t\t" << CurrentGame.GetFormatedDate() << std::endl;
+		std::cout << CurrentGame.GetGameName() << "\t\t\t\t" << CurrentGame.GetStudioName() << "\t\t\t\t" << CurrentGame.GetFormattedReleaseDate() << std::endl;
 
 	}
 	std::cout << std::endl;

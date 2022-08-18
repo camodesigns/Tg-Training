@@ -5,21 +5,21 @@
 class FVideoGame
 {
 	private:
-		std::string GameName;
-		std::string	StudioName;
-		int DayCreation;
-		int MonthCreation;
-		int YearCreation;
+		std::string GameName = "";
+		std::string	StudioName = "";
+		int ReleaseDay = 0;
+		int ReleaseMonth = 0;
+		int ReleaseYear = 0;
 	public:
 		FVideoGame();
 		FVideoGame(const std::string NewGameName, const std::string NewStudioName, const int NewDay, const int NewMonth, const int NewYear);
 
-		std::string GetGameName()const;
-		std::string GetStudioName()const;
-		int GetDayCreation()const;
-		int GetMonthCreation()const;
-		int GetYearCreation()const;
-		std::string GetFormatedDate()const;
+		std::string GetGameName() const;
+		std::string GetStudioName() const;
+		int GetReleaseDay()const;
+		int GetReleaseMonth()const;
+		int GetReleaseYear()const;
+		std::string GetFormattedReleaseDate() const;
 
 		void SetGameName(std::string NewGameName);
 		void SetStudioName(std::string NewStudioName);
@@ -27,7 +27,7 @@ class FVideoGame
 		void SetMonthCreation(const int NewMonthCration);
 		void SetYearCreation(const int NewYearCreation);
 	
-		bool GameIsValid()const;
+		bool IsValid()const;
 		
 };
 
