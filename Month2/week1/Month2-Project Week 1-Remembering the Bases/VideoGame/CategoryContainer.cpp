@@ -2,13 +2,21 @@
 FCategoryContainer::FCategoryContainer()
 {
 }
+FCategoryContainer::FCategoryContainer(FCategoryContainer& OldCategoryContainer)
+{
+	CategoriesCount = 0;
+	CategoriesCount = OldCategoryContainer.CategoriesCount;
+}
+FCategoryContainer::~FCategoryContainer() 
+{
 
+}
 int FCategoryContainer::GetCategoryCount() const
 {
 	return CategoriesCount;
 }
 
-void FCategoryContainer::AddCategory(FCategory NewCategory)
+void FCategoryContainer::AddCategory(FCategory& NewCategory)
 {
 	Categories[CategoriesCount] = NewCategory;
 	CategoriesCount += 1;
@@ -25,28 +33,26 @@ bool FCategoryContainer::IsValidIndex(const int Index) const
 	}
 }
 
-void FCategoryContainer::EliminateCategory(const int EliminationIndex)
+bool FCategoryContainer::DeleteCategory(const int EliminationIndex)
 {
-	if (IsValidIndex(EliminationIndex))
+	if (EliminationIndex < CategoriesCount)
 	{
-		for (int IndexPosition = 0; IndexPosition < MaxCategoriesCount; IndexPosition++)
+		for (int CurrentIndex = 0; CurrentIndex < CategoriesCount - 1; CurrentIndex++)
 		{
-			if (IndexPosition == EliminationIndex)
-			{
-				Categories[IndexPosition] = Categories[IndexPosition + 1];
-				Categories[IndexPosition + 1] = Categories[IndexPosition + 2];
-				CategoriesCount -= 1;
-			}
+			Categories[CurrentIndex] = Categories[CurrentIndex + 1];
 		}
-	}
+		CategoriesCount--;
+		return true;
+	}	
+	return false;
 }
 
-FCategory FCategoryContainer::GetCategory(int Index) const
+FCategory FCategoryContainer::GetCategory(const int Index) const
 {
 	return Categories[Index];
 }
 
-void FCategoryContainer::AddGameToCategory(const int Index, FVideoGame VideoGame)
+void FCategoryContainer::AddGameToCategory(const int Index, FVideoGame& VideoGame)
 {
 	Categories[Index].AddGame(VideoGame);
 }

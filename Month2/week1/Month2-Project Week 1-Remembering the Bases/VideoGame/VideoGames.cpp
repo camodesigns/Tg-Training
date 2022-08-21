@@ -3,7 +3,17 @@
 FVideoGame::FVideoGame()
 {
 }
-FVideoGame::FVideoGame(const std::string NewGameName, const std::string NewStudioName, const int NewDayCreation, const int NewMonthCreation, const int NewYearCreation)
+FVideoGame::FVideoGame(const FVideoGame& PreviousVideoGame)
+{
+	GameName = PreviousVideoGame.GameName;
+	StudioName = PreviousVideoGame.StudioName;
+	ReleaseDay = PreviousVideoGame.ReleaseDay;
+	ReleaseMonth = PreviousVideoGame.ReleaseMonth;
+	ReleaseYear = PreviousVideoGame.ReleaseYear;
+
+
+}
+FVideoGame::FVideoGame(const std::string& NewGameName, const std::string& NewStudioName, const int NewDayCreation, const int NewMonthCreation, const int NewYearCreation)
 {
 	GameName = NewGameName;
 	StudioName = NewStudioName;
@@ -11,11 +21,15 @@ FVideoGame::FVideoGame(const std::string NewGameName, const std::string NewStudi
 	ReleaseMonth = NewMonthCreation;
 	ReleaseYear = NewYearCreation;
 }
-std::string FVideoGame::GetGameName() const
+FVideoGame::~FVideoGame()
+{
+
+}
+const std::string& FVideoGame::GetGameName() const
 {
 	return GameName;
 }
-std::string FVideoGame::GetStudioName() const
+const std::string& FVideoGame::GetStudioName() const
 {
 	return StudioName;
 }

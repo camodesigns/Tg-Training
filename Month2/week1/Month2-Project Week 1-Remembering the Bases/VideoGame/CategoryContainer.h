@@ -9,14 +9,16 @@ class FCategoryContainer
 		bool IsValidIndex(const int Index) const;
 	public:
 		FCategoryContainer();
+		FCategoryContainer(FCategoryContainer& OldCategoryContainer);
+		~FCategoryContainer();
 
 		int GetCategoryCount() const;
-		FCategory GetCategory(int Index) const;
+		FCategory GetCategory(const int Index) const;
 
-		void AddGameToCategory(const int Index, FVideoGame VideoGame);
-		void AddCategory(FCategory NewCategory);
+		void AddGameToCategory(const int Index, FVideoGame& VideoGame);
+		void AddCategory(FCategory& NewCategory);
 		
-		void EliminateCategory(const int EliminationIndex);
+		bool DeleteCategory(const int EliminationIndex);
 		
 	
 };

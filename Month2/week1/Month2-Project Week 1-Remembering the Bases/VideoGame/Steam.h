@@ -11,6 +11,7 @@ private:
 	Action ActionChoice;*/
 public:	
 	FSteam();
+	FSteam(FSteam& oldSteam);
 	void RunApp();
 	//void Actions();
 	

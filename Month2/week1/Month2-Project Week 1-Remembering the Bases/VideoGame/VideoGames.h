@@ -12,10 +12,11 @@ class FVideoGame
 		int ReleaseYear = 0;
 	public:
 		FVideoGame();
-		FVideoGame(const std::string NewGameName, const std::string NewStudioName, const int NewDay, const int NewMonth, const int NewYear);
-
-		std::string GetGameName() const;
-		std::string GetStudioName() const;
+		FVideoGame(const FVideoGame& PreviousVideoGame);
+		FVideoGame(const std::string& NewGameName, const std::string& NewStudioName, const int NewDay, const int NewMonth, const int NewYear);
+		~FVideoGame();
+		const std::string& GetGameName() const;
+		const std::string& GetStudioName() const;
 		int GetReleaseDay()const;
 		int GetReleaseMonth()const;
 		int GetReleaseYear()const;

@@ -2,11 +2,21 @@
 FCategory::FCategory()
 {
 }
-FCategory::FCategory(std::string newCategoryTitle)
+FCategory::FCategory(const FCategory& OldCategory)
 {
-	Title = newCategoryTitle;
+	GamesCount = 0;
+	Title = OldCategory.Title;
+	GamesCount = OldCategory.GamesCount;
 }
-std::string FCategory::GetCategoryTitle() const
+FCategory::FCategory(const std::string& newTitle)
+{
+	Title = newTitle;
+	GamesCount = 0;
+}
+FCategory::~FCategory() {
+
+}
+const std::string& FCategory::GetCategoryTitle() const
 {
 	return Title;
 }
@@ -14,7 +24,7 @@ void FCategory::SetCategoryTitle(std::string NewTitle)
 {
 	Title = NewTitle;
 }
-bool FCategory::AddGame(const FVideoGame VideoGame)
+bool FCategory::AddGame(const FVideoGame& VideoGame)
 {
 	if (VideoGame.IsValid())
 	{

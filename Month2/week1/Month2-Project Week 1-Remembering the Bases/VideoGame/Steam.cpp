@@ -340,7 +340,7 @@ void FSteam::OpenCategoriesMenu()
 					std::cout << "Invalid input, please enter  your new selection:" << std::endl;
 					std::cin >> SelectedToDelete;
 				}
-				CategoryContainer.EliminateCategory(SelectedToDelete);
+				CategoryContainer.DeleteCategory(SelectedToDelete);
 				std::cout << "Category Eliminated" << std::endl;
 				std::cout << "Presss enter to go back to the previous menu" << std::endl;
 				std::cout << "Presss 2 to back to the main menu" << std::endl;
