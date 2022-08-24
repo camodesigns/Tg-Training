@@ -3,13 +3,13 @@
 FVideoGame::FVideoGame()
 {
 }
-FVideoGame::FVideoGame(const FVideoGame& PreviousVideoGame)
+FVideoGame::FVideoGame(const FVideoGame& OtherVideoGame)
 {
-	GameName = PreviousVideoGame.GameName;
-	StudioName = PreviousVideoGame.StudioName;
-	ReleaseDay = PreviousVideoGame.ReleaseDay;
-	ReleaseMonth = PreviousVideoGame.ReleaseMonth;
-	ReleaseYear = PreviousVideoGame.ReleaseYear;
+	GameName = OtherVideoGame.GameName;
+	StudioName = OtherVideoGame.StudioName;
+	ReleaseDay = OtherVideoGame.ReleaseDay;
+	ReleaseMonth = OtherVideoGame.ReleaseMonth;
+	ReleaseYear = OtherVideoGame.ReleaseYear;
 
 
 }
@@ -57,11 +57,11 @@ void FVideoGame::SetDayCreation(int NewDayCreation)
 {
 	ReleaseDay = NewDayCreation;
 }
-void FVideoGame::SetMonthCreation(int NewMonthCreation)
+void FVideoGame::SetMonthCreation(const int NewMonthCreation)
 {
 	ReleaseMonth = NewMonthCreation;
 }
-void FVideoGame::SetYearCreation(int NewYearCreation)
+void FVideoGame::SetYearCreation(const int NewYearCreation)
 {
 	ReleaseYear = NewYearCreation;
 }
@@ -76,6 +76,18 @@ bool FVideoGame::IsValid() const
 	{
 		return false;
 	}
+	if (ReleaseDay == 31) 
+	{
+		switch (ReleaseMonth)
+		{
+		case 11:
+		case 4:
+		case 9:
+		case 6:
+		case 2:
+			return false;
+		}
+	}
 	if ((ReleaseMonth == 11 && ReleaseDay == 31) || (ReleaseMonth == 4 && ReleaseDay == 31) || (ReleaseMonth == 9 && ReleaseDay == 31) || (ReleaseMonth == 6 && ReleaseDay == 31))
 	{
 		return false;
@@ -88,10 +100,7 @@ bool FVideoGame::IsValid() const
 	{
 		return false;
 	}
-	else
-	{
-		return true;
-	}
+	 return true;
 }
 
 

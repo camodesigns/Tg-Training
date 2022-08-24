@@ -13,13 +13,13 @@ private:
 public:
 
 	FCategory();
-	FCategory(const FCategory& OldCategory);
+	FCategory(const FCategory& OtherCategory);
 	FCategory(const std::string& NewTitle);
 	~FCategory();
 	FVideoGame GetGame(const int GameIndex) const;
 	const std::string& GetCategoryTitle() const;
 
-	void SetCategoryTitle(const std::string NewTitle);
+	void SetTitle(const std::string NewTitle);
 
 	void DisplayGamesCount() const;
 	void DisplayGames() const;

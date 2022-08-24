@@ -5,6 +5,7 @@ FSteam::FSteam()
 	ActiveCommand = EMenuCommand::MainMenu;
 }
 
+
 void FSteam::RunApp() 
 {
 	while (ActiveCommand != EMenuCommand::Exit) 
@@ -30,21 +31,7 @@ void FSteam::RunApp()
 		}
 	}
 }
-/*void FSteam::Actions()
-{
-	switch (ActionChoice)
-	{
-	case FSteam::Action::CreateCategory:
-		CreateCategory();
-		break;
-	case FSteam::Action::DeleteCategory:
-		DeleteCategory();
-		break;
-	default:
-		break;
-	}
 
-}*/
 void FSteam::OpenMainMenu()
 {
 	system("CLS");
@@ -54,19 +41,27 @@ void FSteam::OpenMainMenu()
 	std::cout << "2.Browse Category" << std::endl;
 	std::cout << "3.Visualice Games" << std::endl;
 	std::cout << "4.Exit" << std::endl;
-	int OptionChoice;
-	std::cin >> OptionChoice;
-
-	if (!std::cin.good() || OptionChoice < 1 || OptionChoice > 4) 
+	
+	while (std::cin.peek() == '\n')
 	{
-		std::cout << "Invalid Input, enter your new choice" << std::endl;
 		std::cin.clear();
 		std::cin.ignore(1000, '\n');
-		std::cin >> OptionChoice;
+		std::cout << "Enter Keyboard is not a Valid Choice, please select a option" << std::endl;
+	}
+
+	int OptionChoice = GetValidIntInput();
+	
+	while (OptionChoice > 4 || OptionChoice < 1)
+	{
+		std::cin.clear();
+		std::cin.ignore(1000, '\n');
+		std::cout << "Sorry you should select only a option between 1-4, try again:" << std::endl;
+		OptionChoice = GetValidIntInput();
 	}
 	ActiveCommand = (EMenuCommand)OptionChoice;
 	system("CLS");
 }
+
 
 void FSteam::OpenAddgamesMenu()
 {
@@ -79,32 +74,18 @@ void FSteam::OpenAddgamesMenu()
 	{
 		system("CLS");
 		std::cout << "Please enter the name of the Game" << std::endl;
-		std::string EntryGameName;
-		std::getline(std::cin, EntryGameName);
-		while (!std::cin.good())
-		{
-			std::cin.clear();
-			std::cin.ignore(1000, '\n');
-			std::cout << "Invalid input, please enter your Game name again:" << std::endl;
-			std::getline(std::cin, EntryGameName);
-		}
-
+		std::string EntryGameName = GetValidStringInput();
+		
 		std::cout << "Please enter the name of the Studio " << std::endl;
-		std::string EntryStudioName;
-		std::getline(std::cin, EntryStudioName);
-		while (!std::cin.good() || EntryGameName=="")
-		{
-			std::cin.clear();
-			std::cin.ignore(1000, '\n');
-			std::cout << "Invalid input, please enter your Game name again:" << std::endl;
-			std::getline(std::cin, EntryStudioName);
-		}
+		std::string EntryStudioName = GetValidStringInput();
+		
+		
 
 		std::cout << "Please enter the day/Month/Year respectively " << std::endl;
 		std::cout << "Day: " << std::endl;
 		int EntryDay;
 		std::cin >> EntryDay;
-		if(EntryDay > 30 || EntryDay <= 0 || !std::cin.good())
+		if(EntryDay > 31 || EntryDay <= 0 || !std::cin.good())
 		{
 			std::cin.clear();
 			std::cin.ignore(1000, '\n');
@@ -122,7 +103,6 @@ void FSteam::OpenAddgamesMenu()
 			std::cout << "Invalid entry, please enter the Month again: " << std::endl;
 			std::cin >> EntryMonth;
 		}
-
 		std::cout << "Year: " << std::endl;
 		int EntryYear;
 		std::cin >> EntryYear;
@@ -138,27 +118,20 @@ void FSteam::OpenAddgamesMenu()
 		std::cout << "Would you like create a Category?:" << std::endl;
 		std::cout << "1.Yes" << std::endl;
 		std::cout << "2.Not" << std::endl;
-		int ChoiceSelection;
-		std::cin >> ChoiceSelection;
-		while (ChoiceSelection <= 0 || ChoiceSelection >= 3 || !std::cin.good()) 
+		int ChoiceSelection = GetValidIntInput();
+		
+		while (ChoiceSelection <= 0 || ChoiceSelection >= 3 ) 
 		{
 			std::cin.clear();
 			std::cin.ignore(1000, '\n');
 			std::cout << "Invalid input, please enter your choice again" << std::endl;
-			std::cin >> ChoiceSelection;
+			ChoiceSelection = GetValidIntInput();
 		}
 		if (ChoiceSelection == 1)
 		{
 			std::cout << "Please enter your Category Title:" << std::endl;
-			std::string NewCategoryTitle;
-			std::getline(std::cin, NewCategoryTitle);
-			while ( !std::cin.good() || std::cin.peek() == '\n') 
-			{
-				std::cin.clear();
-				std::cin.ignore(1000,'\n');
-				std::cout << "Invalid input, please enter your Category title or name again:" << std::endl;
-				std::getline(std::cin, NewCategoryTitle);
-			}
+			std::string NewCategoryTitle = GetValidStringInput();
+			
 			std::cin.ignore(1000, '\n');
 			FCategory NewCategory(NewCategoryTitle);
 			NewCategory.AddGame(NewGame);
@@ -174,28 +147,27 @@ void FSteam::OpenAddgamesMenu()
 			std::cout << "you want Add the Game to a category?" << std::endl;
 			std::cout << "1.Yes" << std::endl;
 			std::cout << "2.Not" << std::endl;
-			int ChoiseOption;
-			std::cin >> ChoiseOption;
-			while (!std::cin.good() || ChoiseOption > 2 || ChoiseOption < 1) 
+			int ChoiseOption = GetValidIntInput();
+			
+			while ( ChoiseOption > 2 || ChoiseOption < 1) 
 			{
 				std::cout << "Invalid input, Enter your a new choice:" << std::endl;
 				std::cin >> ChoiseOption;
 			}
 			if(ChoiseOption == 1){
 			std::cout << "you can see all the Categories in here, Please select one to add the game" << std::endl;
-			for (int CategoryIndex = 0; CategoryIndex < 5; CategoryIndex++) 
+			for (int CategoryIndex = 0; CategoryIndex < CategoryContainer.GetMaxCategoriesCount(); CategoryIndex++)
 			{
 				std::cout << CategoryIndex << " " << CategoryContainer.GetCategory(CategoryIndex).GetCategoryTitle() << std::endl;
 			}
 			
-			int CategoryChoice;
-			std::cin >> CategoryChoice;
-			while (!std::cin.good() || CategoryChoice < 0 || CategoryChoice >= 5) 
+			int CategoryChoice = GetValidIntInput();
+			while (CategoryChoice < 0 || CategoryChoice >= CategoryContainer.GetMaxCategoriesCount()) 
 			{
 				std::cin.clear();
 				std::cin.ignore(1000, '\n');
-				std::cout << "Invalid input, Please repeat your choice" << std::endl;
-				std::cin >> CategoryChoice;
+				std::cout << "Invalid input, you should select between 0-5, please try again:" << std::endl;
+				CategoryChoice = GetValidIntInput();
 			}
 			if(CategoryContainer.GetCategory(CategoryChoice).GetCategoryTitle() == "" || CategoryContainer.GetCategory(CategoryChoice).GetCategoryTitle() == " ")
 			{
@@ -208,29 +180,33 @@ void FSteam::OpenAddgamesMenu()
 			std::cout << "GameAdded" << std::endl;
 			std::cout << "1. Add other Game" << std::endl;
 			std::cout << "2. Back to the Main menu" << std::endl;
-			std::cin >> Choice;
+			Choice = GetValidIntInput();
 			}
-			else if (ChoiseOption == 2) 
+			if (ChoiseOption == 2) 
 			{
 				Uncategorized.AddGame(NewGame);
 				std::cout << "GameAdded" << std::endl;
 				std::cout << "Please select a option:" << std::endl;
 				std::cout << "1. Add other Game" << std::endl;
 				std::cout << "2. Back to the Main menu" << std::endl;
-				std::cin >> Choice;
+				Choice = GetValidIntInput();
 			}
 		}
 	} while (Choice == 1);
 	if (std::cin.peek() == '\n') 
 	{
 		ActiveCommand == EMenuCommand::AddGames;
+		return;
 	}
 	
 	if (Choice == 2) 
 	{
-		ActiveCommand = EMenuCommand::MainMenu;		
+		ActiveCommand = EMenuCommand::MainMenu;	
+		return;
 	}
 }
+
+
 
 void FSteam::OpenCategoriesMenu() 
 {
@@ -241,7 +217,7 @@ void FSteam::OpenCategoriesMenu()
 	{
 		system("CLS");
 		std::cout << "Here are your Categories" << std::endl;
-		for (int CategoryIndex = 0; CategoryIndex < 5; CategoryIndex++)
+		for (int CategoryIndex = 0; CategoryIndex < CategoryContainer.GetMaxCategoriesCount(); CategoryIndex++)
 		{
 			std::cout << CategoryIndex << " " << CategoryContainer.GetCategory(CategoryIndex).GetCategoryTitle() << std::endl;
 		}
@@ -249,13 +225,12 @@ void FSteam::OpenCategoriesMenu()
 		std::cout << "1. Create Category" << std::endl;
 		std::cout << "2. Eliminate Category" << std::endl;
 		std::cout << "3.Back to the Main menu" << std::endl;
-		int ChoiceAction;
-		std::cin >> ChoiceAction;
-		while (!std::cin.good() || Choice <= 0 || Choice > 3) 
+		int ChoiceAction = GetValidIntInput();
+		while (ChoiceAction <= 0 || Choice > 3) 
 		{
 			std::cin.clear();
 			std::cin.ignore(1000,'\n');
-			std::cout << "Invalid input, please enter a new Choice:" << std::endl;
+			std::cout << "Invalid input, you shoud choice beteen 1-3, please try again" << std::endl;
 			std::cin >> ChoiceAction;
 		}
 		if (ChoiceAction == 1)
@@ -264,15 +239,8 @@ void FSteam::OpenCategoriesMenu()
 			std::cin.ignore(1000, '\n');
 			system("CLS");
 			std::cout << "Please enter the name of your new category:" << std::endl;
-			std::string Title;
-			std::getline(std::cin, Title);
-			while (!std::cin.good())
-			{
-				std::cin.clear();
-				std::cin.ignore(1000, '\n');
-				std::cout << "Invalid input or title for a category, Please enter a new name for the category:" << std::endl;
-				std::getline(std::cin, Title);
-			}
+			std::string Title = GetValidStringInput();
+			
 			if (CategoryContainer.GetCategoryCount() >= 5)
 			{
 				std::cout << "Sorry, you cannot add more categories" << std::endl;
@@ -292,6 +260,7 @@ void FSteam::OpenCategoriesMenu()
 				if (Choice == 2)
 				{
 					ActiveCommand = EMenuCommand::MainMenu;
+					return;
 				}
 			}
 			FCategory NewCategory(Title);
@@ -309,7 +278,7 @@ void FSteam::OpenCategoriesMenu()
 				std::cin >> Choice;
 			}
 		}
-		else if (ChoiceAction == 2)
+		 if (ChoiceAction == 2)
 		{
 			int Choice;
 			if (CategoryContainer.GetCategoryCount() == 0)
@@ -317,8 +286,8 @@ void FSteam::OpenCategoriesMenu()
 				std::cout << "you dont have categories to edit " << std::endl;
 				std::cout << "Presss 2 for back to de Main menu" << std::endl;
 				std::cout << "Presss enter to go back to the previous menu" << std::endl;
-				std::cin >> Choice;
-				if (std::cin.peek() == '\n' || Choice == '\n')
+				Choice = GetValidIntInput();
+				if (std::cin.peek() == '\n' )
 				{
 					ActiveCommand = EMenuCommand::Categories;
 					return;
@@ -326,54 +295,87 @@ void FSteam::OpenCategoriesMenu()
 			}
 			else
 			{
-				for (int CategoriesIndex = 0; CategoriesIndex < 5; CategoriesIndex += 1)
+				for (int CategoriesIndex = 0; CategoriesIndex < CategoryContainer.GetMaxCategoriesCount(); CategoriesIndex += 1)
 				{
 					std::cout << CategoriesIndex << " " << CategoryContainer.GetCategory(CategoriesIndex).GetCategoryTitle() << std::endl;
 				}
 				std::cout << "Please select the category that you want to eliminate:" << std::endl;
-				int SelectedToDelete;
-				std::cin >> SelectedToDelete;
-				while (!std::cin.good())
-				{
-					std::cin.clear();
-					std::cin.ignore(1000, '\n');
-					std::cout << "Invalid input, please enter  your new selection:" << std::endl;
-					std::cin >> SelectedToDelete;
-				}
+			
+			
+				const int SelectedToDelete = GetValidIntInput();
 				CategoryContainer.DeleteCategory(SelectedToDelete);
+
 				std::cout << "Category Eliminated" << std::endl;
 				std::cout << "Presss enter to go back to the previous menu" << std::endl;
 				std::cout << "Presss 2 to back to the main menu" << std::endl;
-				std::cin >> Choice;
-				if (!std::cin.good())
-				{
-					std::cin.clear();
-					std::cin.ignore(1000, '\n');
-					std::cout << "Invalid input,please enter your New Choice :" << std::endl;
-					std::cin >> Choice;
-				}
-				if (std::cin.peek() == '\n' || Choice == '\n')
+				Choice = GetValidIntInput();
+
+				if (std::cin.peek() == '\n')
 				{
 					ActiveCommand = EMenuCommand::Categories;
+					return;
 				}
 
 			}
 		}
-		else if (ChoiceAction == 3) {
+		 if (ChoiceAction == 3) 
+		{
 			Choice = 2;
 		}
 
 
 	} while (Choice == 1);
-	if (Choice == 2)ActiveCommand = EMenuCommand::MainMenu;
-	
+	if (Choice == 2)
+	{
+		ActiveCommand = EMenuCommand::MainMenu;
+		return;
+	}
 }
+
+
+int FSteam::GetValidIntInput()const 
+{
+	int Input;
+	std::cin >> Input;
+	
+				while (!std::cin.good())
+				{
+					std::cin.clear();
+					std::cin.ignore(1000, '\n');
+					std::cout << "Invalid input, please enter  your new selection:" << std::endl;
+					std::cin >> Input;
+				}
+				return Input;
+}
+
+
+std::string FSteam::GetValidStringInput()const
+{
+	std::string Input;
+	while (std::cin.peek() =='\n')
+	{
+		std::cin.clear();
+		std::cin.ignore(1000, '\n');
+		std::cout << "Invalid text input, please enter your text again:" << std::endl;	
+	}
+	std::getline(std::cin, Input);
+
+	while (!std::cin.good())
+	{
+		std::cin.clear();
+		std::cin.ignore(1000, '\n');
+		std::cout << "Invalid text input, please enter your text again:" << std::endl;
+		std::getline(std::cin, Input);
+	}
+	return Input;
+}
+
 
 
 
 void FSteam::OpenVisualiceGamesMenu()
 {
-		for (int CategoryIndex = 0; CategoryIndex < 5; CategoryIndex+=1)
+		for (int CategoryIndex = 0; CategoryIndex < CategoryContainer.GetMaxCategoriesCount(); CategoryIndex += 1)
 		{
 			if (CategoryContainer.GetCategoryCount() != 0)
 			{
@@ -390,19 +392,11 @@ void FSteam::OpenVisualiceGamesMenu()
 		}
 		
 		std::cout << "Press any number or press enter to go back to the previous Menu" << std::endl;
-		int Choice;
+		int Choice = GetValidIntInput();
 		if (std::cin.peek() == '\n')
 		{
 			ActiveCommand = EMenuCommand::MainMenu;
 			return;
-		}
-		std::cin >> Choice;
-		if(!std::cin.good())
-		{
-			std::cin.clear();
-			std::cin.ignore(1000, '\n');
-			std::cout << "Invalid input, enter a new entry" << std::endl;
-			std::cin >> Choice;
 		}
 			
 }
