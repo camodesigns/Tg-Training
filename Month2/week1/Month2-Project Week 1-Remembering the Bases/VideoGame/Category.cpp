@@ -43,9 +43,18 @@ void FCategory::DisplayGamesCount() const
 {
 	std::cout << GamesCount << std::endl;
 }
-FVideoGame FCategory::GetGame(const int GameIndex) const
+bool  FCategory::GetGameAt(const int Index, FVideoGame& OutGame) const
 {
-	return Games[GameIndex];
+	if (Index > 0) 
+	{
+		OutGame = Games[Index];
+		return true;
+	}
+	else 
+	{
+		return false;
+	}
+	
 }
 
 void   FCategory::DisplayGames() const

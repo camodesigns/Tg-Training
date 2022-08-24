@@ -16,7 +16,7 @@ public:
 	FCategory(const FCategory& OtherCategory);
 	FCategory(const std::string& NewTitle);
 	~FCategory();
-	FVideoGame GetGame(const int GameIndex) const;
+	bool GetGameAt(const int Index, FVideoGame& OutGame) const;
 	const std::string& GetCategoryTitle() const;
 
 	void SetTitle(const std::string NewTitle);

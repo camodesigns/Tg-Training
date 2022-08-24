@@ -5,6 +5,7 @@ FVideoGame::FVideoGame()
 }
 FVideoGame::FVideoGame(const FVideoGame& OtherVideoGame)
 {
+	memcpy(this,&OtherVideoGame,sizeof(FVideoGame));
 	GameName = OtherVideoGame.GameName;
 	StudioName = OtherVideoGame.StudioName;
 	ReleaseDay = OtherVideoGame.ReleaseDay;
@@ -72,10 +73,6 @@ std::string FVideoGame::GetFormattedReleaseDate() const
 }
 bool FVideoGame::IsValid() const
 {
-	if (ReleaseDay <= 0 || ReleaseDay > 31)
-	{
-		return false;
-	}
 	if (ReleaseDay == 31) 
 	{
 		switch (ReleaseMonth)
@@ -89,14 +86,6 @@ bool FVideoGame::IsValid() const
 		}
 	}
 	if ((ReleaseMonth == 11 && ReleaseDay == 31) || (ReleaseMonth == 4 && ReleaseDay == 31) || (ReleaseMonth == 9 && ReleaseDay == 31) || (ReleaseMonth == 6 && ReleaseDay == 31))
-	{
-		return false;
-	}
-	 if (ReleaseMonth <= 0 || ReleaseMonth > 12)
-	{
-		return false;
-	}
-	 if (ReleaseYear > 2022 || ReleaseYear < 1993)
 	{
 		return false;
 	}
