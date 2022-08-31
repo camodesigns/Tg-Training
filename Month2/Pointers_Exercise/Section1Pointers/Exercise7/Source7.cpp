@@ -12,11 +12,12 @@ void PrintValue(int Value)
 int main() 
 {
 	int Variable = 10;
+	
 	PrintValue(Variable);
+	
 	int* Ptr = NULL;
 	//Ptr = &Variable;
-
 	*Ptr = IncrementNumber(*Ptr);
-
+	
 	PrintValue(Variable);
 }
