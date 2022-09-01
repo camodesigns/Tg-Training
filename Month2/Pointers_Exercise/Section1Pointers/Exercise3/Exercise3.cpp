@@ -38,8 +38,8 @@ int main()
 
 	std::cout << "Using pointer variable p, I’ve determined that:" << std::endl;
 	P = &VariableB;
-	std::cout << "The value of a is " << *P << std::endl;
-	std::cout << "The memory address of variable a is" << P << std::endl;
+	std::cout << "The value of b is " << *P << std::endl;
+	std::cout << "The memory address of variable b is" << P << std::endl;
 	std::cout << "The value of variable p is" << P << std::endl;
 	std::cout << "The memory address of variable p is" << &P << std::endl;
 

@@ -1,8 +1,10 @@
 #include <iostream>
-
-int IncrementNumber(int NewIncreasedValue)
+void IncrementNumber(int* NumberPtr)
 {
-	return NewIncreasedValue +=1;
+	if (NumberPtr)
+	{
+		(*NumberPtr) += 1;
+	}
 }
 void PrintValue(int Value) 
 {
@@ -15,9 +17,9 @@ int main()
 	
 	PrintValue(Variable);
 	
-	int* Ptr = nullptr;
-	//Ptr = &Variable;
-	*Ptr = IncrementNumber(*Ptr);
+	int* NumberPtr = nullptr;
+	//NumberPtr = &Variable;
+	IncrementNumber(NumberPtr);
 	
 	PrintValue(Variable);
 }

@@ -7,7 +7,7 @@ Finally, ask for one more value. This time, assign the value to a different vari
 value and the memory address to the console. Do the results make sense to you?*/
 #include<iostream>
 
-int InputIntValidation() 
+int ValidateIntInput() 
 {
 	int Input;
 	while (std::cin.peek() == '\n')
@@ -29,23 +29,23 @@ int InputIntValidation()
 int main() 
 {
 	std::cout << "Please enter a number:" << std::endl;
-	int Number=InputIntValidation();
+	int Number= ValidateIntInput();
 	const int* Numberptr = &Number;
 	std::cout << "The value of your variable is: " << Number << std::endl;
 	std::cout << "The memory adress where you variable is store is: " << Numberptr << std::endl;
 	std::cin.ignore(1000, '\n');
 
 	std::cout << "Enter another number:" << std::endl;
-	int Number2 = InputIntValidation();
-	Numberptr = &Number2;
-	std::cout << "The value of your variable is: " << Number2 << std::endl;
+	int Number = ValidateIntInput();
+	
+	std::cout << "The value of your variable is: " << Number << std::endl;
 	std::cout << "The memory adress where you variable is store is:" << Numberptr << std::endl;
 	std::cin.ignore(1000, '\n');
 
 	std::cout << "Please enter one more number:" << std::endl;
-	int Number3 = InputIntValidation();
-	Numberptr = &Number3;
-	std::cout << "The value of your variable is: " << Number3 << std::endl;
+	int NewNumber = ValidateIntInput();
+	Numberptr = &NewNumber;
+	std::cout << "The value of your variable is: " << NewNumber << std::endl;
 	std::cout << "The memory adress where you variable is store is:" << Numberptr << std::endl;
 
 }
