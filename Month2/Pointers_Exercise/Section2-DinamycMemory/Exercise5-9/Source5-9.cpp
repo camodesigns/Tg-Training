@@ -34,7 +34,7 @@ public:
 	void SetName(const char* NewName)
 	{
 		int CharNameLength = 0;
-		if (Name )
+		if (Name)
 		{
 			delete Name;
 			Name = nullptr;
@@ -55,7 +55,7 @@ public:
 		std::cout << "Age: " << Age << std::endl;
 	}
 };
-int ValidIntInput()
+int ValidateIntInput()
 {
 	int Input;
 	std::cin >> Input;
@@ -68,6 +68,29 @@ int ValidIntInput()
 	}
 	return Input;
 }
+//revisar
+bool ValidateCharInput(char* Name)
+{
+	std::cin.ignore(100, '\n');
+	while (std::cin.peek() == '\n')
+	{
+		std::cin.ignore(100, '\n');
+		std::cout << "Invalid input, try again" << std::endl;
+	}
+	
+	std::cin >> Name;
+	
+	while (!std::cin.good() || Name == "" )
+	{
+		std::cin.clear();
+		std::cin.ignore(100, '\n');
+		std::cout << "Invalid Input,try again:" << std::endl;
+		std::cin >> Name;
+	}
+	return true;
+		
+}
+
 
 
 
@@ -78,12 +101,12 @@ int main()
 	Student->SetName("Santiago");
 	delete Student;
 
-	std::cout << "The student was deleted from memory, but the name remains. The class FStudent tries to call the destructor for delete all the data but the Nname is primitive and cannot be deleted automatically" << std::endl;
+	std::cout << "The student was deleted from memory, but the name remains. The class FStudent tries to call the destructor for delete all the data but the name is primitive and cannot be deleted automatically" << std::endl;
 
 
 	std::cout << "How many students do you want? " << std::endl;
 
-	int StudentsNumber = ValidIntInput();
+	int StudentsNumber = ValidateIntInput();
 
 	FStudent* Students = new FStudent[StudentsNumber];
 
@@ -93,18 +116,11 @@ int main()
 	{
 		std::cout << "Enter the name of the student number" << CurrentIndex + 1 << ": ";
 		char Name[32] ;
-		std::cin >> Name;
+		ValidateCharInput(Name);
 		
-		if (!std::cin.good() || Name == " " || Name == "")
-		{
-			std::cin.clear();
-			std::cin.ignore(100, '\n');
-			std::cout << "Invalid Input,try again:" << std::endl;
-			std::cin >> Name;
-		}
 
 		std::cout << "Enter the age of the student number" << CurrentIndex + 1 << ": ";
-		int Age = ValidIntInput();
+		int Age = ValidateIntInput();
 	
 		Students[CurrentIndex].SetAge(Age);
 		Students[CurrentIndex].SetName(Name);

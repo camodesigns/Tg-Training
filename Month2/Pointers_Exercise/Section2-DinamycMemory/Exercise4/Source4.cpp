@@ -2,12 +2,9 @@
 
 int main() 
 {
-	int* Ptr;
 	int* HeapPointer = new int;
-	Ptr = HeapPointer;
 	delete HeapPointer;
-
-	if (Ptr)
+	if (HeapPointer)
 	{
 		std::cout << "The pointer is valid" << std::endl;
 	}
