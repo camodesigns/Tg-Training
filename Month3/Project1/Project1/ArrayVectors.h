@@ -20,7 +20,7 @@ class FCircle : public FShape
 private:
 	float Radius = 0.0f;
 public:
-	FCircle(float NewRadiusPtr);
+	FCircle(float& NewRadius);
 	virtual float GetArea() const override;
 	virtual float GetPerimeter() const override;
 
@@ -31,7 +31,7 @@ class FSquare : public FShape
 private:
 	float SideLenght = 0.0f ;
 public:
-	FSquare(float NewSideLenghtPtr);
+	FSquare(float& NewSideLenghtPtr);
 	virtual float GetPerimeter() const override;
 	virtual float GetArea() const override;
 };

@@ -4,9 +4,9 @@ FShape::FShape()
 
 }
 
-FCircle::FCircle() 
+FCircle::FCircle(float& NewRadius)
 {
-
+	Radius = NewRadius;
 
 }
 
@@ -88,8 +88,8 @@ void BuiltInArray()
 	int Shape;
 	float Radius;
 	float SideLeght;
-	float* Pointer;
-	for (int CurrentIndex = 0; CurrentIndex < ShapesNumber - 1; CurrentIndex++) 
+	
+	for (int CurrentIndex = 0; CurrentIndex < ShapesNumber ; CurrentIndex++) 
 	{
 		Position = CurrentIndex + 1;
 		std::cout << "What shape are you looking for your position number " << Position << std::endl;
@@ -109,14 +109,22 @@ void BuiltInArray()
 		{
 			std::cout << "you select circle, now please enter a radius for the circle" << std::endl;
 			Radius = ValidateFloatInput();
-			Pointer = &Radius;
-			ArrShapes[CurrentIndex] = new FCircle(*Pointer);
+			ArrShapes[CurrentIndex] = new FCircle(Radius);
 		}
 		if (Shape == 2) 
 		{
-		
+			std::cout << "you select square, now please enter side lenght" << std::endl;
+			SideLeght = ValidateFloatInput();
+			ArrShapes[CurrentIndex] = new FCircle(SideLeght);
 		}
 	
+	}
+	system("CLS");
+	for (int CurrentIndex = 0; CurrentIndex < ShapesNumber ; CurrentIndex++) 
+	{
+		std::cout << "The Area of your shape is: " << ArrShapes[CurrentIndex]->GetArea() << std::endl;
+		std::cout << "The Perimeter of your shape is: " << ArrShapes[CurrentIndex]->GetPerimeter() << std::endl;
+		std::cout << std::endl;
 	}
 }
 
@@ -148,6 +156,6 @@ int main()
 	default:
 		break;
 	}
-	std::cout << M_PI << std::endl;
+	
 
 }
