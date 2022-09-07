@@ -18,7 +18,7 @@ int main()
 	PrintValue(Variable);
 	
 	int* NumberPtr = nullptr;
-	//NumberPtr = &Variable;
+	
 	IncrementNumber(NumberPtr);
 	
 	PrintValue(Variable);
