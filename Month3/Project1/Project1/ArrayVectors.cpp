@@ -3,40 +3,121 @@ FShape::FShape()
 {
 
 }
- float FShape::  GetArea() const 
+
+FCircle::FCircle() 
 {
-	 float Area = 0.0f;
-	 return Area;
-}
- float FShape:: GetPerimeter() const
-{
-	 float Perimeter = 0.0f;
-	 return Perimeter;
+
+
 }
 
  int ValidateIntInput() 
  {
 	 int Input;
+	 std::cin.ignore(100, '\n');
+	 while (std::cin.peek() == '\n')
+	 {
+		 std::cin.ignore(100, '\n');
+		 std::cout << "Invalid input, try again" << std::endl;
+	 }
+
 	 std::cin >> Input;
 	 while (!std::cin.good() || Input <= 0 ) 
 	 {
-	 
+		 std::cin.clear();
+		 std::cin.ignore(100, '\n');
+		 std::cout << "Invalid input,try again" << std::endl;
+		 std::cin >> Input;
 	 }
-	
+	 return Input;
  }
 
-float FCircle::GetArea()const 
+ float ValidateFloatInput() 
+ {
+	 float Input;
+	 std::cin.ignore(100, '\n');
+
+	 while (std::cin.peek() == '\n')
+	 {
+		 std::cin.ignore(100, '\n');
+		 std::cout << "Invalid input, try again" << std::endl;
+	 }
+	 std::cin >> Input;
+	 while (!std::cin.good() || Input <= 0)
+	 {
+		 std::cin.clear();
+		 std::cin.ignore(100, '\n');
+		 std::cout << "Invalid input,try again" << std::endl;
+		 std::cin >> Input;
+	 }
+	 return Input;
+ }
+
+
+
+
+ float FCircle::GetPerimeter() const
+ {
+	 return M_PI * pow(Radius, 2);
+ }
+
+float FCircle::GetArea() const 
 {
 	const float Area = (2*M_PI) * Radius;
 	return  Area;
 }
 
+
+
+
+float FSquare::GetArea() const
+{
+	return pow(SideLenght, 2);
+}
+float FSquare::GetPerimeter() const
+{
+	return SideLenght * 4;
+}
+
+
 void BuiltInArray() 
 {
 	std::cout << "How many shapes you want to create" << std::endl;
-	int ShapesNumber;
-	
+	int ShapesNumber = ValidateIntInput();
+	FShape** ArrShapes = new FShape*[ShapesNumber];
+	int Position;
+	int Shape;
+	float Radius;
+	float SideLeght;
+	float* Pointer;
+	for (int CurrentIndex = 0; CurrentIndex < ShapesNumber - 1; CurrentIndex++) 
+	{
+		Position = CurrentIndex + 1;
+		std::cout << "What shape are you looking for your position number " << Position << std::endl;
+		std::cout << "1. Circle" << std::endl;
+		std::cout << "2. Square" << std::endl;
+		Shape = ValidateIntInput();
 
+		while (Shape > 2) 
+		{
+			std::cin.clear();
+			std::cin.ignore(100, '\n');
+			std::cout << "Sorry, You only can Select Cicle or Square, try again" << std::endl;
+			Shape = ValidateIntInput();
+		}
+
+		if (Shape == 1) 
+		{
+			std::cout << "you select circle, now please enter a radius for the circle" << std::endl;
+			Radius = ValidateFloatInput();
+			Pointer = &Radius;
+			ArrShapes[CurrentIndex] = new FCircle(*Pointer);
+		}
+		if (Shape == 2) 
+		{
+		
+		}
+	
+	}
 }
 
 int main()
