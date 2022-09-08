@@ -1,5 +1,4 @@
 #pragma once
-#include <string>
 template <typename T, int N>
 class TStaticArray
 {
@@ -44,6 +43,30 @@ public:
 		return Array;
 	}
 
+	bool IsEmpty()
+	{
+		return SizeArray == 0 ;
+	}
+
+	void Fill(T Filler)
+	{
+		for (int FillIndex = 0; FillIndex < SizeArray; FillIndex++)
+		{
+			Array[FillIndex] = Filler;
+
+		}
+	}
+
+	void Swap(TStaticArray& OtherStaticArray)
+	{
+		TStaticArray<T, N> OtherTempArray;
+		for (int CurrentIndex = 0; CurrentIndex < SizeArray; CurrentIndex++)
+		{
+			OtherTempArray[CurrentIndex] = OtherStaticArray[CurrentIndex];
+			OtherStaticArray[CurrentIndex] = Array[CurrentIndex];
+			Array = OtherStaticArray[CurrentIndex];
+		}
+	}
 
 
 };
