@@ -67,6 +67,6 @@ public:
 			Array = OtherStaticArray[CurrentIndex];
 		}
 	}
-
+	
 
 };

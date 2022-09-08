@@ -133,6 +133,7 @@ void BuiltInArray()
 		std::cout << "The Perimeter of your shape is: " << ArrShapes[CurrentIndex]->GetPerimeter() << std::endl;
 		std::cout << std::endl;
 	}
+	
 	delete ArrShapes;
 }
 
