@@ -23,5 +23,8 @@
     <ClInclude Include="ArrayVectors.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="TStaticArray.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

@@ -1,4 +1,5 @@
 #include "ArrayVectors.h"
+#include "TStaticArray.h"
 FShape::FShape() 
 {
 
@@ -9,6 +10,8 @@ FCircle::FCircle(float& NewRadius)
 	Radius = NewRadius;
 
 }
+
+
 
  int ValidateIntInput() 
  {
@@ -30,7 +33,6 @@ FCircle::FCircle(float& NewRadius)
 	 }
 	 return Input;
  }
-
  float ValidateFloatInput() 
  {
 	 float Input;
@@ -77,6 +79,8 @@ float FSquare::GetPerimeter() const
 {
 	return SideLenght * 4;
 }
+
+
 
 
 void BuiltInArray() 
@@ -127,6 +131,7 @@ void BuiltInArray()
 		std::cout << std::endl;
 	}
 }
+
 
 int main()
 {
