@@ -1,4 +1,9 @@
 #pragma once
+#include "Square.h"
+#include <stdlib.h>     
+#include <time.h> 
+
+
 template <typename T>
 class TDinamicArray
 {
@@ -7,37 +12,31 @@ private:
 	int Size = 0;
 	T* Array = new T[Capacity];
 public:
-	TDinamicArray();
-	~TDinamicArray();
-
-
-	int ValidateIntInput()
+	TDinamicArray() 
 	{
-		int Input;
-		std::cin.ignore(100, '\n');
-		while (std::cin.peek() == '\n')
-		{
-			std::cin.ignore(100, '\n');
-			std::cout << "Invalid input, try again" << std::endl;
-		}
-
-		std::cin >> Input;
-		while (!std::cin.good() || Input <= 0)
-		{
-			std::cin.clear();
-			std::cin.ignore(100, '\n');
-			std::cout << "Invalid input,try again" << std::endl;
-			std::cin >> Input;
-		}
-		return Input;
+	
+	}
+	TDinamicArray(const int EntryCapacity)
+	{
+		Array = new T[EntryCapacity];
+	
+	}
+	~TDinamicArray() 
+	{
+		delete[] Array;
 	}
 
+	TDinamicArray(const TDinamicArray<T>& Array1)
+	{
+		Append(Array1);
+	}
+	
 
 	T& operator[](int Index)
 	{
 		return Array[Index];
 	}
-	const T& operator[](int Index)
+	const T& operator[](int Index)const
 	{
 		return Array[Index];
 	}
@@ -48,39 +47,19 @@ public:
 	{
 		return Array[0];
 	}
-	const T& Front()
+	const T& Front()const 
 	{
 		return Array[0];
 	}
 
 
 	T& Back()
-	{
-		int Checker;
-		int Counter = 0;
-		for (int CurrentIndex = 0; CurrentIndex < ArraySize; CurrentIndex)
-		{
-			Checker = Array[CurrentIndex];
-			if (Checker != 0)
-			{
-				Counter++:
-			}
-		}
-		return Array[Counter];
+	{	
+		return Array[Size];
 	}
 	const T& Back() const
 	{
-		int Checker;
-		int Counter = 0;
-		for (int CurrentIndex = 0; CurrentIndex < ArraySize; CurrentIndex)
-		{
-			Checker = Array[CurrentIndex];
-			if (Checker != 0)
-			{
-				Counter++:
-			}
-		}
-		return Array[Counter];
+		return Array[Size];
 	}
 
 
@@ -95,22 +74,12 @@ public:
 
 	bool Empty()
 	{
-		return ArraySize == 0;
+		return Capacity == 0;
 	}
 
-	void GetSize()
+	int GetSize()
 	{
-		int Checker;
-		int Counter = 0;
-		for (int CurrentIndex = 0; CurrentIndex < ArraySize; CurrentIndex)
-		{
-			Checker = Array[CurrentIndex];
-			if (Checker != 0)
-			{
-				Counter++:
-			}
-		}
-		return Counter;
+		return Size;
 	}
 
 	int GetCapacity()
@@ -128,12 +97,13 @@ public:
 			{
 				NewArray[CurrentIndex] = Array[CurrentIndex];
 			}
+			delete Array;
+
+			Capacity = RequieredCapacity;
+			Array = NewArray;
 		}
 
-		delete Array;
-
-		Capacity = RequieredCapacity;
-		Array = NewArray;
+		
 	}
 
 
@@ -148,8 +118,8 @@ public:
 		}
 		delete Array;
 
-		Capacity = Size
-			Array = NewArray;
+		Capacity = Size;
+		Array = NewArray;
 	}
 
 	void Clear()
@@ -191,10 +161,10 @@ public:
 		Size -= 1;
 	}
 
-	void Insert(const int Index, const& Shape)
+	void Insert(int Index, const T& Shape)
 	{
 		std::cout << "In which position do you want to add your Shape?" << std::endl;
-		Index = ValidateIntInput();
+		std::cin >> Index;
 		if (Capacity == Index)
 		{
 			int NewCapacity = Capacity * 2;
@@ -227,9 +197,9 @@ public:
 
 			Capacity = NewCapacity;
 			Array = NewArray;
-			for (int Currenindex == Size; CurrentIndex >= Index; Currenindex--)
+			for (int CurrentIndex = Size; CurrentIndex >= Index; CurrentIndex--)
 			{
-				Array[Currenindex + 1] = Array[Currenindex];
+				Array[CurrentIndex + 1] = Array[CurrentIndex];
 			}
 			Size++;
 			Array[Index] = Shape;
@@ -237,10 +207,10 @@ public:
 
 	}
 
-	void Erase(const int Index)
+	void Erase(int Index)
 	{
 		std::cout << "In which position do you want to delete the Shape?" << std::endl;
-		Index = ValidateIntInput();
+		std::cin >> Index;
 		if (Index < Size && Size > 1)
 		{
 			for (int CurrentIndex = Index; CurrentIndex < Size - 1; CurrentIndex++)
@@ -260,13 +230,13 @@ public:
 	}
 
 
-	void Resize(const int NewCapacity)
+	void Resize(int NewCapacity)
 	{
 		std::cout << "What size do you want your arrangement to be now?" << std::endl;
-		NewCapacity = ValidateIntInput();
+		std::cin >> NewCapacity;
 		T* NewArray = new T[NewCapacity];
 
-		for (int CurrentIndex = 0; CurrentIndex <= NewCapacity)
+		for (int CurrentIndex = 0; CurrentIndex <= NewCapacity;CurrentIndex++)
 		{
 			NewArray[CurrentIndex] = Array[CurrentIndex];
 		}
@@ -276,13 +246,46 @@ public:
 		Array = NewArray;
 	}
 
-	void Append(const TDinamicArray<T>Array1) 
+	void Append(const TDinamicArray<T>& Array1) 
 	{
 		Reserve(Array1.Size);
-		for (int I = 0; I < Array1.Size; i++) 
+		for (int I = 0; I < Array1.Size; I++) 
 		{
-			PushBack(Array1[i]);
+			PushBack(Array1[I]);
 		}
 	}
+
+	void FillRandSquare(T& Filler)
+	{
+		srand(time(0));
+		float NewSideLenght;
+		NewSideLenght = rand();
+		T* Array = new FSquare(NewSideLenght);
+	}
+	bool ItIsFull() 
+	{
+		if (Size = Capacity) 
+		{
+			return true;
+		}
+		return false;
+	}
+	void SwapArraysSameSize(TDinamicArray<T>& Array1, TDinamicArray<T>& Array2)
+	{
+		if (Array1.Size = Array2.Size)
+		{
+			T* TempArray = new T[Array1.Capacity];
+			for (int CurrentIndex = 0; CurrentIndex < Array1.Size; CurrentIndex++)
+			{
+				TempArray[CurrentIndex] = Array1[CurrentIndex];
+				Array1[CurrentIndex] = Array2[CurrentIndex];
+				Array2[CurrentIndex] = TempArray[CurrentIndex];
+			}
+			delete[] TempArray;
+		}
+		
+	}
+
+	
 };
 

@@ -48,7 +48,7 @@ public:
 		return SizeArray == 0 ;
 	}
 
-	void Fill(T Filler)
+	void Fill(T& Filler)
 	{
 		for (int FillIndex = 0; FillIndex < SizeArray; FillIndex++)
 		{

@@ -2,6 +2,10 @@
 #include "TStaticArray.h"
 #include "Circle.h"
 #include "Square.h"
+#include "TDinamicArray.h"
+
+
+
 FShape::FShape()
 {
 
@@ -11,6 +15,10 @@ FCircle::FCircle(float& NewRadius)
 {
 	Radius = NewRadius;
 
+}
+FSquare::FSquare(float& NewSideLenght) 
+{
+	SideLenght = NewSideLenght;
 }
 
 
@@ -62,7 +70,7 @@ float ValidateFloatInput()
 
 float FCircle::GetPerimeter() const
 {
-	return M_PI * pow(Radius, 2);
+	return (float)M_PI * (float)pow(Radius, 2);
 }
 
 float FCircle::GetArea() const
@@ -76,7 +84,7 @@ float FCircle::GetArea() const
 
 float FSquare::GetArea() const
 {
-	return pow(SideLenght, 2);
+	return (float)pow(SideLenght, 2);
 }
 float FSquare::GetPerimeter() const
 {
@@ -122,7 +130,7 @@ void BuiltInArray()
 		{
 			std::cout << "you select square, now please enter side lenght" << std::endl;
 			SideLeght = ValidateFloatInput();
-			ArrShapes[CurrentIndex] = new FCircle(SideLeght);
+			ArrShapes[CurrentIndex] = new FSquare(SideLeght);
 		}
 
 	}
@@ -134,7 +142,58 @@ void BuiltInArray()
 		std::cout << std::endl;
 	}
 	
-	delete ArrShapes;
+	delete[] ArrShapes;
+}
+
+
+void DinamicArray() 
+{
+	TDinamicArray <FShape*> ArrShapes(1);
+	std::cout << "What do you want to do" << std::endl;
+	std::cout << "1. Add a Shape" << std::endl;
+	std::cout << "2. You want to print the shapes you already have?" << std::endl;
+	int Choice = ValidateIntInput();
+	while (Choice > 2 || Choice < 1) 
+	{
+		std::cin.clear();
+		std::cin.ignore(100, '\n');
+		std::cout << "invalid Input, you only can choice 1 or 2 option, Try Again" << std::endl;
+		Choice = ValidateIntInput();
+	}
+	float Radius;
+	float SideLeght;
+	if (Choice == 1)
+	{
+		std::cout << "you select circle, now please enter a radius for the circle" << std::endl;
+		Radius = ValidateFloatInput();
+		ArrShapes.PushBack(new FCircle(Radius));
+	}
+
+	if (Choice == 2)
+	{
+		std::cout << "you select square, now please enter side lenght" << std::endl;
+		SideLeght = ValidateFloatInput();
+		ArrShapes.PushBack(new FSquare(SideLeght));
+	}
+	
+	std::cout << "You want to print the shapes you already have?" << std::endl;
+	std::cout << "1.Yes" << std::endl;
+	std::cout << "2. Not" << std::endl;
+	int Option = ValidateIntInput();
+	if (Option == 1) 
+	{
+		int Counter	= 1;
+		for (int CurrentIndex = 0; CurrentIndex <= ArrShapes.GetSize(); CurrentIndex++)
+		{
+			std::cout << "the Area of your shape number " << Counter << "is: " << ArrShapes[CurrentIndex]->GetArea() << std::endl;
+			std::cout << "The perimeter of Yout Shape number " << Counter << "is: " << ArrShapes[CurrentIndex]->GetPerimeter() << std::endl;
+			std::cout << std::endl;
+		}
+	}
+	if (Option == 2) 
+	{
+		return;
+	}
 }
 
 
@@ -174,6 +233,7 @@ void StaticArray()
 			std::cout << "the Area of your shape number " << Counter << "is: " << ArrShapes[CurrentIndex]->GetArea() << std::endl;
 			std::cout << "The perimeter of Yout Shape number " << Counter << "is: " << ArrShapes[CurrentIndex]->GetPerimeter() << std::endl;
 			std::cout << std::endl;
+			Counter++;
 		}
 	}
 
@@ -189,7 +249,7 @@ int main()
 	{
 		BuiltInArrays = 1,
 		StaticArrays,
-		DinamycArray
+		DinamycArrays
 	};
 	std::cout << "Hi user" << std::endl;
 	std::cout << "What method do you want to use to create a number of shapesand print their perimeterand area" << std::endl;
@@ -208,7 +268,8 @@ int main()
 		StaticArray();
 		break;
 
-	case DinamycArray:
+	case DinamycArrays:
+		DinamicArray();
 		break;
 
 	default:
