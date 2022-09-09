@@ -3,11 +3,35 @@ template <typename T>
 class TDinamicArray
 {
 private:
-	int ArraySize = 3;
-	T* Array = new T[ArraySize];
+	int Capacity = 3;
+	int Size = 0;
+	T* Array = new T[Capacity];
 public:
 	TDinamicArray();
 	~TDinamicArray();
+
+
+	int ValidateIntInput()
+	{
+		int Input;
+		std::cin.ignore(100, '\n');
+		while (std::cin.peek() == '\n')
+		{
+			std::cin.ignore(100, '\n');
+			std::cout << "Invalid input, try again" << std::endl;
+		}
+
+		std::cin >> Input;
+		while (!std::cin.good() || Input <= 0)
+		{
+			std::cin.clear();
+			std::cin.ignore(100, '\n');
+			std::cout << "Invalid input,try again" << std::endl;
+			std::cin >> Input;
+		}
+		return Input;
+	}
+
 
 	T& operator[](int Index)
 	{
@@ -68,13 +92,13 @@ public:
 	{
 		return Array;
 	}
-	
-	bool Empty() 
+
+	bool Empty()
 	{
 		return ArraySize == 0;
 	}
 
-	void GetSize() 
+	void GetSize()
 	{
 		int Checker;
 		int Counter = 0;
@@ -88,53 +112,177 @@ public:
 		}
 		return Counter;
 	}
-	
-	void getCapacity()
+
+	int GetCapacity()
 	{
-		return ArraySize;
+		return Capacity;
 	}
-	
-	
-	bool Reserve(int NewArraySize) 
+
+
+	void Reserve(int RequieredCapacity)
 	{
-		if (NewArraySize >= ArraySize) 
+		if (RequieredCapacity > Capacity)
 		{
-			return false;
+			T* NewArray = new T[RequieredCapacity];
+			for (int CurrentIndex = 0; CurrentIndex < Capacity; CurrentIndex++)
+			{
+				NewArray[CurrentIndex] = Array[CurrentIndex];
+			}
 		}
-		T* OtherArray = new T[NewArraySize];
-		for (int CurrentIndex = 0; CurrentIndex < ArraySize; CurrentIndex++) 
-		{
-			OtherArray[CurrentIndex] = Array[CurrentIndex];
-		
-		}
-		
+
 		delete Array;
-		ArraySize = NewArraySize;
 
-		Array = OtherArray;
-
-		return true;
+		Capacity = RequieredCapacity;
+		Array = NewArray;
 	}
-	
-	
-	bool ShriktoFit() 
-	{
-		if (ArraySize == 0) 
-		{
-			return false;
-		}
-		T* NewArray = new T[ArraySize];
 
-		for (int CurrentIndex = 0; CurrentIndex < ArraySize; CurrentIndex++) 
+
+	void ShriktoFit()
+	{
+
+		T* NewArray = new T[Size];
+
+		for (int CurrentIndex = 0; CurrentIndex <= Size; CurrentIndex++)
 		{
 			NewArray[CurrentIndex] = Array[CurrentIndex];
 		}
 		delete Array;
-		
-		Array = NewArray;
-		return true;
-	
+
+		Capacity = Size
+			Array = NewArray;
 	}
 
+	void Clear()
+	{
+		if (Size > 0)
+		{
+			Size = 0;
+		}
+	}
+
+
+	void PushBack(const T& NewShape)
+	{
+		if (Capacity == 0)
+		{
+			Reserve(1);
+			Size++;
+			Array[Size] = NewShape;
+		}
+		if (Size == Capacity)
+		{
+			int NewCapacity = Capacity * 2;
+			T* NewArray = new T[NewCapacity];
+			for (int CurrentIndex = 0; CurrentIndex <= Capacity; CurrentIndex++)
+			{
+				NewArray[CurrentIndex] = Array[CurrentIndex];
+			}
+			Capacity = NewCapacity;
+			delete Array;
+			Array = NewArray;
+			Size += 1;
+			Array[Size] = NewShape;
+		}
+	}
+
+
+	void PopBack()
+	{
+		Size -= 1;
+	}
+
+	void Insert(const int Index, const& Shape)
+	{
+		std::cout << "In which position do you want to add your Shape?" << std::endl;
+		Index = ValidateIntInput();
+		if (Capacity == Index)
+		{
+			int NewCapacity = Capacity * 2;
+			T* NewArray = new T[NewArray];
+			for (int CurrentIndex = 0; CurrentIndex <= Capacity; CurrentIndex++)
+			{
+				NewArray[CurrentIndex] = Array[CurrentIndex];
+			}
+			delete Array;
+
+			Capacity = NewCapacity;
+			Array = NewArray;
+			if (Size == Index)
+			{
+				Array[Size + 1] = Array[Size];
+				Array[Index] = Shape;
+			}
+			Size += 1;
+
+		}
+		if (Capacity == Size)
+		{
+			int NewCapacity = Capacity * 2;
+			T* NewArray = new T[NewArray];
+			for (int CurrentIndex = 0; CurrentIndex <= Capacity; CurrentIndex++)
+			{
+				NewArray[CurrentIndex] = Array[CurrentIndex];
+			}
+			delete Array;
+
+			Capacity = NewCapacity;
+			Array = NewArray;
+			for (int Currenindex == Size; CurrentIndex >= Index; Currenindex--)
+			{
+				Array[Currenindex + 1] = Array[Currenindex];
+			}
+			Size++;
+			Array[Index] = Shape;
+		}
+
+	}
+
+	void Erase(const int Index)
+	{
+		std::cout << "In which position do you want to delete the Shape?" << std::endl;
+		Index = ValidateIntInput();
+		if (Index < Size && Size > 1)
+		{
+			for (int CurrentIndex = Index; CurrentIndex < Size - 1; CurrentIndex++)
+			{
+				Array[CurrentIndex] = Array[CurrentIndex + 1];
+
+			}
+		}
+		if (Size == Capacity && Size == 1)
+		{
+			Size = 0;
+		}
+		if (Index == Size)
+		{
+			Size -= 1;
+		}
+	}
+
+
+	void Resize(const int NewCapacity)
+	{
+		std::cout << "What size do you want your arrangement to be now?" << std::endl;
+		NewCapacity = ValidateIntInput();
+		T* NewArray = new T[NewCapacity];
+
+		for (int CurrentIndex = 0; CurrentIndex <= NewCapacity)
+		{
+			NewArray[CurrentIndex] = Array[CurrentIndex];
+		}
+		delete Array;
+
+		Capacity = NewCapacity;
+		Array = NewArray;
+	}
+
+	void Append(const TDinamicArray<T>Array1) 
+	{
+		Reserve(Array1.Size);
+		for (int I = 0; I < Array1.Size; i++) 
+		{
+			PushBack(Array1[i]);
+		}
+	}
 };
 
