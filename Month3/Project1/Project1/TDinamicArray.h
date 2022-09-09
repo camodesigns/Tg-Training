@@ -241,7 +241,6 @@ public:
 			NewArray[CurrentIndex] = Array[CurrentIndex];
 		}
 		delete Array;
-
 		Capacity = NewCapacity;
 		Array = NewArray;
 	}
