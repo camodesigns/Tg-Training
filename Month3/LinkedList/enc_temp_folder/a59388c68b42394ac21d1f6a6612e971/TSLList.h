@@ -20,7 +20,7 @@ public:
 	
 	}
 	//Access
-	
+
 
 	T& operator[](const int Index) 
 	{
@@ -81,7 +81,7 @@ public:
 	}
 
 
-	// Modificators
+	// Modifiers
 
 	void AddHead(T& NewElement) 
 	{
