@@ -17,8 +17,26 @@ private:
 public:
 	TSSList() 
 	{
+
 	
 	}
+	~TSSList()
+	{
+		Clear();
+	}
+
+	TSSList(const TSSList& OtherList) 
+	{
+			FNode* Current =  OtherList.Head;
+
+			AddHead(Current->Element);
+			for (int CurrentIndex = 1; CurrentIndex < OtherList.Size; CurrentIndex++)
+			{
+				AddTail(Current->Element);
+				Current = Current->Next;
+			}
+	}
+
 	//Access
 	
 
