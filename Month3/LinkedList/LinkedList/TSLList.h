@@ -1,7 +1,6 @@
 #pragma once
 # include <iostream>
-#include <string>
-#include <functional>
+
 template <typename T>
 class TSLList
 {
@@ -186,6 +185,22 @@ public:
 		}
 		
 		
+	}
+
+	void RemoveHead()
+	{
+		if(Size == 0)
+		{
+			return;
+		}
+		else if (Size == 1)
+		{
+			Clear();
+		}
+		FNode Current = Head;
+		Head = Head->Next;
+		delete Current;
+		Size--;
 	}
 
 	void Remove(const int Index) 

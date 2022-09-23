@@ -127,6 +127,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="TQueue.h" />
+    <ClInclude Include="TStack.h" />
+    <ClInclude Include="TDLList.h" />
     <ClInclude Include="TSLList.h" />
   </ItemGroup>
   <ItemGroup>

@@ -18,6 +18,15 @@
     <ClInclude Include="TSLList.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="TDLList.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TStack.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TQueue.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="TSLList.cpp">
