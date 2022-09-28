@@ -9,29 +9,26 @@ private:
 public:
 	TStack()
 	{
-	
 	}
 
-	int GetSize()
+	int GetSize() const
 	{
 		return List.GetSize;
 	}
-	bool IsEmpty()
+	bool IsEmpty() const
 	{
 		return List.IsEmpty();
 	}
 
-	void Push( T& NewElement)
+	void Push(const T& NewElement)
 	{
 		List.AddHead(NewElement);
 	}
-
 
 	T& Top()
 	{
 		return List.GetHead();
 	}
-
 	const T& Top() const
 	{
 		return List.GetHead();

@@ -17,7 +17,7 @@ public:
 		List.Clear();
 	}
 
-	bool IsEmpty()
+	bool IsEmpty() const
 	{
 		return List.IsEmpty();
 	}
@@ -34,7 +34,7 @@ public:
 
 	void Enqueue()
 	{
-		List.AddTail();
+		List.AddTail(const T& NewElement);
 	}
 
 	void Dequeue()

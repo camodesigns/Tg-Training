@@ -19,7 +19,6 @@ private:
 public:
 	TSLList()
 	{
-
 	}
 	TSLList(const T& NewElement)
 	{
@@ -106,7 +105,7 @@ public:
 
 	//Size-------------------------------------
 
-	bool IsEmpty()
+	bool IsEmpty() const
 	{
 		return Size == 0;
 	}
@@ -323,12 +322,12 @@ public:
 			return Current->Element;
 		}
 
-		bool operator!=(FIterator CurrentOther)
+		bool operator!=(const FIterator CurrentOther) const
 		{
 			return Current != CurrentOther.Current;
 		}
 
-		const bool operator!=(FIterator& CurrentOther) const
+		const bool operator!=(const FIterator& CurrentOther) const
 		{
 			return Current != CurrentOther.Current;
 		}
