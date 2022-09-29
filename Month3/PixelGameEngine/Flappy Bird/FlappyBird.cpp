@@ -2,15 +2,15 @@
 #include "olcPixelGameEngine.h"
 
 
-class FlappyBird: public olc::PixelGameEngine
+class FlappyBird : public olc::PixelGameEngine
 {
 public:
-	FlappyBird() 
+	FlappyBird()
 	{
 		sAppName = "FlappyBird";
 	}
 private:
-	
+
 	float BirdPosition = 0.0f;
 	float BirdVelocity = 0.0f;
 	float BirdAceleration = 0.0f;
@@ -20,90 +20,134 @@ private:
 	std::list <int> ListSection;
 	float LevelPosition = 0.0f;
 
+	int AttempCount = 0;
+	int FlapCount = 0;
+	int MaxFlapCount = 0;
+
+	bool HasCollided = false;
+	bool ResetGame = true;
+
 protected:
-	virtual bool OnUserCreate() 
+	virtual bool OnUserCreate()
 	{
 
 		ListSection = { 0,0,0,0 };
 		SectionWidth = (float)ScreenWidth() / (float)(ListSection.size() - 1);
+		ResetGame = true;
 		return true;
 	}
-	
-	virtual bool OnUserUpdate(float FElapsedTime) 
+
+	virtual bool OnUserUpdate(float FElapsedTime)
 	{
-		if ( GetKey(olc::Key::SPACE).bPressed)
+
+		if (ResetGame)
 		{
+			HasCollided = false;
+			ResetGame = false;
+			ListSection = { 0,0,0,0 };
 			BirdAceleration = 0.0f;
-			BirdVelocity = -Gravity / 4.0f;
-		}
-		else
-		{
-			BirdAceleration += Gravity * FElapsedTime;
+			BirdVelocity = 0.0f;
+			BirdPosition = ScreenHeight() / 2.0f;
+			FlapCount = 0;
+			AttempCount++;
 		}
 		
-		if (BirdAceleration >= Gravity) 
+		if (HasCollided)
 		{
-			BirdAceleration = Gravity;
-		}
-
-		BirdVelocity += BirdAceleration * FElapsedTime;
-		BirdPosition += BirdVelocity * FElapsedTime;
-
-		LevelPosition += 50.0f * FElapsedTime;
-
-		if (LevelPosition > SectionWidth)
-		{
-			LevelPosition -= SectionWidth;
-			ListSection.pop_front();
-			int i = rand() % (int)(ScreenHeight() * 0.75);
-			if (i <= 10) i = 0;
-			ListSection.push_back(i);
-		}
-
-		FillRect(0,0,ScreenWidth(),ScreenHeight(), olc::BLACK);
-
-		int Section = 0;
-		for (auto S : ListSection) 
-		{
-			if(S != 0)
+			if (GetKey(olc::Key::SPACE).bReleased)
 			{
-				FillRect(Section * SectionWidth + 10 - LevelPosition,
-					ScreenHeight() - S,
-					SectionWidth / 4,
-					ScreenHeight(),
-					olc::GREEN);
-				FillRect(Section * SectionWidth + 10 - LevelPosition,
-					0,
-					SectionWidth / 4 ,
-					ScreenHeight() - S - (ScreenHeight() / 3), olc::GREEN);
+				ResetGame = true;
 			}
-			Section++;
 		}
+		else {
 
-		int BirdX = (int)(ScreenWidth() / 6.0);
-		
-		if (BirdVelocity > 0) 
-		{
-			DrawString(BirdX, BirdPosition - 8, "  /");
-			DrawString(BirdX, BirdPosition + 0, "  //"); 
-			DrawString(BirdX, BirdPosition + 8, "<///=Q>");
-		}
-		else
-		{
-			DrawString(BirdX, BirdPosition + 0, "<///=Q>");
-			DrawString(BirdX, BirdPosition + 8, "  //");
-			DrawString(BirdX, BirdPosition + 12, "  /");
-			
+			if (GetKey(olc::Key::SPACE).bPressed)
+			{
+				BirdAceleration = 0.0f;
+				BirdVelocity = -Gravity / 4.0f;
+				FlapCount++;
+				if (FlapCount > MaxFlapCount)
+				{
+					MaxFlapCount = FlapCount;
+				}
+			}
+			else
+			{
+				BirdAceleration += Gravity * FElapsedTime;
+			}
+
+
+			if (BirdAceleration >= Gravity)
+			{
+				BirdAceleration = Gravity;
+			}
+
+			BirdVelocity += BirdAceleration * FElapsedTime;
+			BirdPosition += BirdVelocity * FElapsedTime;
+
+			LevelPosition += 110.0f * FElapsedTime;
+
+			if (LevelPosition > SectionWidth)
+			{
+				LevelPosition -= SectionWidth;
+				ListSection.pop_front();
+				int i = rand() % (int)(ScreenHeight() * 0.75);
+				if (i <= 10) i = 0;
+				ListSection.push_back(i);
+			}
+
+			FillRect(0, 0, ScreenWidth(), ScreenHeight(), olc::DARK_CYAN);
+
+			int Section = 0;
+			for (auto S : ListSection)
+			{
+				if (S != 0)
+				{
+					FillRect(Section * SectionWidth + 10 - LevelPosition,
+						ScreenHeight() - S,
+						SectionWidth / 4,
+						ScreenHeight(),
+						olc::GREEN);
+					FillRect(Section * SectionWidth + 10 - LevelPosition,
+						0,
+						SectionWidth / 4,
+						ScreenHeight() - S - (ScreenHeight() / 3), olc::GREEN);
+				}
+				Section++;
+			}
+
+			int BirdX = (int)(ScreenWidth() / 6.0);
+
+			HasCollided = BirdPosition < 2 || BirdPosition > ScreenHeight() - 2 ||
+				GetDrawTarget()->GetPixel(BirdX, BirdPosition) == olc::GREEN ||
+				GetDrawTarget()->GetPixel(BirdX, BirdPosition + 24) == olc::GREEN ||
+				GetDrawTarget()->GetPixel(BirdX + 56, BirdPosition) == olc::GREEN ||
+				GetDrawTarget()->GetPixel(BirdX + 56, BirdPosition + 24) == olc::GREEN;
+
+			if (BirdVelocity > 0)
+			{
+				DrawString(BirdX, BirdPosition - 8, "  /",olc::YELLOW);
+				DrawString(BirdX, BirdPosition + 0, "  //",olc::BLUE);
+				DrawString(BirdX, BirdPosition + 8, "<///=Q>",olc::RED);
+			}
+			else
+			{
+				DrawString(BirdX, BirdPosition + 0, "<///=Q>", olc::RED);
+				DrawString(BirdX, BirdPosition + 8, "  //",olc::BLUE);
+				DrawString(BirdX, BirdPosition + 12, "  /",olc::YELLOW);
+			}
+
+			DrawString(1, 1, "Attemp: " + std::to_string(AttempCount) + " Score: " + std::to_string(FlapCount) + "High Score: " + std::to_string(MaxFlapCount));
 		}
 		return true;
 	}
 };
 
 
-int main() 
+int main()
 {
 	FlappyBird Game;
-	Game.Construct(720,350,2,2);
+	Game.Construct(720, 350, 2, 2);
 	Game.Start();
 
 	return 0;
