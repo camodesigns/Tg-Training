@@ -28,6 +28,63 @@ private:
 	bool ResetGame = true;
 
 protected:
+
+	//Displays
+	void DisplayBird(int BirdX)
+	{
+		if (BirdVelocity > 0)
+		{
+			DrawString(BirdX, BirdPosition - 8, "  /", olc::YELLOW);
+			DrawString(BirdX, BirdPosition + 0, "  //", olc::BLUE);
+			DrawString(BirdX, BirdPosition + 8, "<///=Q>", olc::RED);
+		}
+		else
+		{
+			DrawString(BirdX, BirdPosition + 0, "<///=Q>", olc::RED);
+			DrawString(BirdX, BirdPosition + 8, "  //", olc::BLUE);
+			DrawString(BirdX, BirdPosition + 12, "  /", olc::YELLOW);
+		}
+	}
+
+	void HudDisplay()
+	{
+		DrawString(1, 1, "Attemp: " + std::to_string(AttempCount) + " Score: " + std::to_string(FlapCount) + " High Score: " + std::to_string(MaxFlapCount));
+	}
+
+	//Speed
+	float LevelSpeed(const float FElapsedTime) 
+	{
+		LevelPosition += 100.0f * FElapsedTime;
+		return LevelPosition;
+	}
+	
+
+	//Checks
+	void CheckColition(int BirdX)
+	{
+		HasCollided = BirdPosition < 2 || BirdPosition > ScreenHeight() - 2 ||
+			GetDrawTarget()->GetPixel(BirdX, BirdPosition) == olc::GREEN ||
+			GetDrawTarget()->GetPixel(BirdX, BirdPosition + 24) == olc::GREEN ||
+			GetDrawTarget()->GetPixel(BirdX + 56, BirdPosition) == olc::GREEN ||
+			GetDrawTarget()->GetPixel(BirdX + 56, BirdPosition + 24) == olc::GREEN;
+	}
+
+
+	//Reset Game
+	void Reset()
+	{
+		HasCollided = false;
+		ResetGame = false;
+		ListSection = { 0,0,0,0 };
+		BirdAceleration = 0.0f;
+		BirdVelocity = 0.0f;
+		BirdPosition = ScreenHeight() / 2.0f;
+		FlapCount = 0;
+		AttempCount++;
+	}
+
+	//OnUser
+
 	virtual bool OnUserCreate()
 	{
 
@@ -37,21 +94,15 @@ protected:
 		return true;
 	}
 
+
 	virtual bool OnUserUpdate(float FElapsedTime)
 	{
 
 		if (ResetGame)
 		{
-			HasCollided = false;
-			ResetGame = false;
-			ListSection = { 0,0,0,0 };
-			BirdAceleration = 0.0f;
-			BirdVelocity = 0.0f;
-			BirdPosition = ScreenHeight() / 2.0f;
-			FlapCount = 0;
-			AttempCount++;
+			Reset();
 		}
-		
+
 		if (HasCollided)
 		{
 			if (GetKey(olc::Key::SPACE).bReleased)
@@ -85,7 +136,7 @@ protected:
 			BirdVelocity += BirdAceleration * FElapsedTime;
 			BirdPosition += BirdVelocity * FElapsedTime;
 
-			LevelPosition += 110.0f * FElapsedTime;
+			LevelSpeed(FElapsedTime);
 
 			if (LevelPosition > SectionWidth)
 			{
@@ -115,29 +166,14 @@ protected:
 				}
 				Section++;
 			}
-
 			int BirdX = (int)(ScreenWidth() / 6.0);
 
-			HasCollided = BirdPosition < 2 || BirdPosition > ScreenHeight() - 2 ||
-				GetDrawTarget()->GetPixel(BirdX, BirdPosition) == olc::GREEN ||
-				GetDrawTarget()->GetPixel(BirdX, BirdPosition + 24) == olc::GREEN ||
-				GetDrawTarget()->GetPixel(BirdX + 56, BirdPosition) == olc::GREEN ||
-				GetDrawTarget()->GetPixel(BirdX + 56, BirdPosition + 24) == olc::GREEN;
+			CheckColition(BirdX);
 
-			if (BirdVelocity > 0)
-			{
-				DrawString(BirdX, BirdPosition - 8, "  /",olc::YELLOW);
-				DrawString(BirdX, BirdPosition + 0, "  //",olc::BLUE);
-				DrawString(BirdX, BirdPosition + 8, "<///=Q>",olc::RED);
-			}
-			else
-			{
-				DrawString(BirdX, BirdPosition + 0, "<///=Q>", olc::RED);
-				DrawString(BirdX, BirdPosition + 8, "  //",olc::BLUE);
-				DrawString(BirdX, BirdPosition + 12, "  /",olc::YELLOW);
-			}
+			DisplayBird(BirdX);
 
-			DrawString(1, 1, "Attemp: " + std::to_string(AttempCount) + " Score: " + std::to_string(FlapCount) + "High Score: " + std::to_string(MaxFlapCount));
+			HudDisplay();
+
 		}
 		return true;
 	}
