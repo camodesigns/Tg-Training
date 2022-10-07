@@ -92,7 +92,7 @@ protected:
 	}
 
 
-	virtual bool Draw(int PosX, int PosY,olc::Pixel P = olc::RED)override
+	virtual bool Draw(int PosX, int PosY, olc::Pixel P = olc::RED)override
 	{
 		float TempX, TempY;
 		WrapCoordinates((float)PosX, (float)PosY, TempX, TempY);
@@ -107,6 +107,14 @@ protected:
 		{
 			Player.DisplacementX += sin(Player.Angle) * 50.0f * ElapsedTime;
 			Player.DisplacementY += -cos(Player.Angle) * 50.0f * ElapsedTime;
+		}
+	}
+	void Reverse(float ElapsedTime)
+	{
+		if (GetKey(olc::Key::DOWN).bHeld)
+		{
+			Player.DisplacementX += sin(Player.Angle) * -50.0f * ElapsedTime;
+			Player.DisplacementY += -cos(Player.Angle) * -50.0f * ElapsedTime;
 		}
 	}
 
@@ -178,7 +186,7 @@ protected:
 
 	void HudDisplay()
 	{
-		DrawString(8, 8, "Score: " + std::to_string(Score) +"\t" + "Level: " + std::to_string(Level), olc::YELLOW);
+		DrawString(8, 8, "Score: " + std::to_string(Score) + "\t" + "Level: " + std::to_string(Level), olc::YELLOW);
 	}
 
 	bool WinGame()
@@ -190,14 +198,14 @@ protected:
 			ModelAsteroids.clear();
 			Bullets.clear();
 
-			DrawString(60, 100, "You Win", olc::GREEN,10);
+			DrawString(60, 100, "You Win", olc::GREEN, 10);
 			return true;
 		}
-		else 
+		else
 		{
 			return false;
 		}
-		
+
 	}
 	void LevelUp()
 	{
@@ -208,7 +216,7 @@ protected:
 			Score += 1000; // Large score for level progression
 			VecAsteroid.clear();
 			Bullets.clear();
-			if (Level == 2) 
+			if (Level == 2)
 			{
 				VecAsteroid.push_back({ 30.0f * sinf(Player.Angle - 3.14159f / 2.0f) + Player.PosX,
 												  30.0f * cosf(Player.Angle - 3.14159f / 2.0f) + Player.PosY,
@@ -216,23 +224,23 @@ protected:
 
 
 				VecAsteroid.push_back({ 30.0f * sinf(Player.Angle - 3.14159f / 2.0f) + Player.PosX,
-												  30.0f * cosf(Player.Angle - 3.14159f / 2.0f) + Player.PosY,
-												  10.0f * sinf(Player.Angle), 10.0f * cosf(Player.Angle),(int)15, 0.0f,false });
+												  40.0f * cosf(Player.Angle - 3.14159f / 2.0f) + Player.PosY,
+												  40.0f * sinf(Player.Angle), 10.0f * cosf(Player.Angle),(int)15, 0.0f,false });
 			}
-			else if (Level ==3) 
+			else if (Level == 3)
 			{
 				VecAsteroid.push_back({ 30.0f * sinf(Player.Angle - 3.14159f / 2.0f) + Player.PosX,
-												  30.0f * cosf(Player.Angle - 3.14159f / 2.0f) + Player.PosY,
+												  40.0f * cosf(Player.Angle - 3.14159f / 2.0f) + Player.PosY,
 												  10.0f * sinf(Player.Angle), 10.0f * cosf(Player.Angle),(int)15, 0.0f,false });
 
 
 				VecAsteroid.push_back({ 30.0f * sinf(Player.Angle - 3.14159f / 2.0f) + Player.PosX,
-												  30.0f * cosf(Player.Angle - 3.14159f / 2.0f) + Player.PosY,
+												  40.0f * cosf(Player.Angle - 3.14159f / 2.0f) + Player.PosY,
 												  10.0f * sinf(Player.Angle), 10.0f * cosf(Player.Angle),(int)15, 0.0f,false });
 				VecAsteroid.push_back({ 100.0f * sinf(Player.Angle - 3.14159f / 2.0f) + Player.PosX,
-												  100.0f * cosf(Player.Angle - 3.14159f / 2.0f) + Player.PosY,
+												  40.0f * cosf(Player.Angle - 3.14159f / 2.0f) + Player.PosY,
 												  10.0f * sinf(Player.Angle), 10.0f * cosf(Player.Angle),(int)15, 0.0f,false });
-			
+
 			}
 			else if (Level == 4)
 			{
@@ -246,16 +254,16 @@ protected:
 												  10.0f * sinf(Player.Angle), 10.0f * cosf(Player.Angle),(int)15, 0.0f,false });
 
 				VecAsteroid.push_back({ 100.0f * sinf(Player.Angle - 3.14159f / 2.0f) + Player.PosX,
-												  100.0f * cosf(Player.Angle - 3.14159f / 2.0f) + Player.PosY,
+												  40.0f * cosf(Player.Angle - 3.14159f / 2.0f) + Player.PosY,
 												  10.0f * sinf(Player.Angle), 10.0f * cosf(Player.Angle),(int)15, 0.0f,false });
 
 				VecAsteroid.push_back({ 70.0f * sinf(Player.Angle - 3.14159f / 2.0f) + Player.PosX,
-												  70.0f * cosf(Player.Angle - 3.14159f / 2.0f) + Player.PosY,
+												  40.0f * cosf(Player.Angle - 3.14159f / 2.0f) + Player.PosY,
 												  10.0f * sinf(Player.Angle), 10.0f * cosf(Player.Angle),(int)15, 0.0f,false });
 
 
 			}
-			
+
 		}
 	}
 
@@ -406,23 +414,24 @@ protected:
 	{
 
 		BackgroundColor();
-		if (WinGame()) 
+		if (WinGame())
 		{
 			if (GetKey(olc::Key::SPACE).bReleased)
 			{
 				return false;
-			}				
-			
+			}
+
 		}
-		else 
+		else
 		{
-			
+
 			UpdateAndDrawAsteroids(ElapsedTime);
 			//DrawAsteroids(ElapsedTime);
 
 			TurnLeft(ElapsedTime);
 			TurnRight(ElapsedTime);
 			Aceleration(ElapsedTime);
+			Reverse(ElapsedTime);
 			Velocity(ElapsedTime);
 			DrawShip();
 			ShotBullet(ElapsedTime);
@@ -434,8 +443,8 @@ protected:
 			BeDead();
 			AppendNewAsteroids();
 			LevelUp();
-			
-			
+
+
 		}
 		return true;
 	}
@@ -447,7 +456,7 @@ protected:
 int main()
 {
 	AsteroidGame Game;
-	Game.Construct(320, 200, 2, 2);
+	Game.Construct(420, 320, 2, 2);
 	Game.Start();
 
 	return 0;
