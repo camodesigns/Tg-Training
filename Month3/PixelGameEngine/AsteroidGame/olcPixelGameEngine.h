@@ -4121,7 +4121,7 @@ namespace olc
 	typedef void CALLSTYLE locGenVertexArrays_t(GLsizei n, GLuint* arrays);
 	typedef void CALLSTYLE locGetShaderInfoLog_t(GLuint shader, GLsizei bufSize, GLsizei* length, GLchar* infoLog);
 
-	constexpr size_t OLC_MAX_VERTS = 128;
+	constexpr size_t OLC_MAX_Vertices = 128;
 
 	class Renderer_OGL33 : public olc::Renderer
 	{
@@ -4182,7 +4182,7 @@ namespace olc
 			olc::Pixel col;
 		};
 
-		locVertex pVertexMem[OLC_MAX_VERTS];
+		locVertex pVertexMem[OLC_MAX_Vertices];
 
 		olc::Renderable rendBlankQuad;
 
@@ -4356,8 +4356,8 @@ namespace olc
 			locBindVertexArray(m_vaQuad);
 			locBindBuffer(0x8892, m_vbQuad);
 
-			locVertex verts[OLC_MAX_VERTS];
-			locBufferData(0x8892, sizeof(locVertex) * OLC_MAX_VERTS, verts, 0x88E0);
+			locVertex Vertices[OLC_MAX_Vertices];
+			locBufferData(0x8892, sizeof(locVertex) * OLC_MAX_Vertices, Vertices, 0x88E0);
 			locVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(locVertex), 0); locEnableVertexAttribArray(0);
 			locVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(locVertex), (void*)(3 * sizeof(float))); locEnableVertexAttribArray(1);
 			locVertexAttribPointer(2, 4, GL_UNSIGNED_BYTE, GL_TRUE, sizeof(locVertex), (void*)(5 * sizeof(float)));	locEnableVertexAttribArray(2);
@@ -4454,14 +4454,14 @@ namespace olc
 		void DrawLayerQuad(const olc::vf2d& offset, const olc::vf2d& scale, const olc::Pixel tint) override
 		{
 			locBindBuffer(0x8892, m_vbQuad);
-			locVertex verts[4] = {
+			locVertex Vertices[4] = {
 				{{-1.0f, -1.0f, 1.0}, {0.0f * scale.x + offset.x, 1.0f * scale.y + offset.y}, tint},
 				{{+1.0f, -1.0f, 1.0}, {1.0f * scale.x + offset.x, 1.0f * scale.y + offset.y}, tint},
 				{{-1.0f, +1.0f, 1.0}, {0.0f * scale.x + offset.x, 0.0f * scale.y + offset.y}, tint},
 				{{+1.0f, +1.0f, 1.0}, {1.0f * scale.x + offset.x, 0.0f * scale.y + offset.y}, tint},
 			};
 
-			locBufferData(0x8892, sizeof(locVertex) * 4, verts, 0x88E0);
+			locBufferData(0x8892, sizeof(locVertex) * 4, Vertices, 0x88E0);
 			glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
 		}
 
@@ -4615,7 +4615,7 @@ namespace olc
 	class ImageLoader_GDIPlus : public olc::ImageLoader
 	{
 	private:
-		std::wstring ConvertS2W(std::string s)
+		std::wstring ConVertices2W(std::string s)
 		{
 #ifdef __MINGW32__
 			wchar_t* buffer = new wchar_t[s.length() + 1];
@@ -4655,7 +4655,7 @@ namespace olc
 				if (!_gfs::exists(sImageFile)) return olc::rcode::NO_FILE;
 
 				// Load sprite from file
-				bmp = Gdiplus::Bitmap::FromFile(ConvertS2W(sImageFile).c_str());
+				bmp = Gdiplus::Bitmap::FromFile(ConVertices2W(sImageFile).c_str());
 			}
 
 			if (bmp->GetLastStatus() != Gdiplus::Ok) return olc::rcode::FAIL;
@@ -4898,7 +4898,7 @@ namespace olc
 		HWND olc_hWnd = nullptr;
 		std::wstring wsAppName;
 
-		std::wstring ConvertS2W(std::string s)
+		std::wstring ConVertices2W(std::string s)
 		{
 #ifdef __MINGW32__
 			wchar_t* buffer = new wchar_t[s.length() + 1];
@@ -5029,7 +5029,7 @@ namespace olc
 		virtual olc::rcode SetWindowTitle(const std::string& s) override
 		{
 #ifdef UNICODE
-			SetWindowText(olc_hWnd, ConvertS2W(s).c_str());
+			SetWindowText(olc_hWnd, ConVertices2W(s).c_str());
 #else
 			SetWindowText(olc_hWnd, s.c_str());
 #endif

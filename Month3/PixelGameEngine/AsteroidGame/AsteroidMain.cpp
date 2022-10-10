@@ -24,7 +24,7 @@ private:
 	};
 	std::vector <FSpaceObject> VecAsteroid;
 
-	
+
 
 	FSpaceObject VectorPlayer;
 
@@ -35,26 +35,26 @@ private:
 
 protected:
 
-	void WrapCoordinates(float CoordinatesX, float CoordinatesY, float& WrapedX, float& WrapedY)
+	void WrapCoordinates(const float CoordinatesX, const float CoordinatesY, float& WrappedX, float& WrappedY)
 	{
-		WrapedX = CoordinatesX;
-		WrapedY = CoordinatesY;
+		WrappedX = CoordinatesX;
+		WrappedY = CoordinatesY;
 		if (CoordinatesX < 0.0f)
 		{
-			WrapedX = CoordinatesX + (float)ScreenWidth();
+			WrappedX = CoordinatesX + (float)ScreenWidth();
 		}
 		if (CoordinatesX > ScreenWidth())
 		{
-			WrapedX = CoordinatesX - (float)ScreenWidth();
+			WrappedX = CoordinatesX - (float)ScreenWidth();
 		}
 
 		if (CoordinatesY < 0.0f)
 		{
-			WrapedY = CoordinatesY + (float)ScreenHeight();
+			WrappedY = CoordinatesY + (float)ScreenHeight();
 		}
 		if (CoordinatesY > ScreenHeight())
 		{
-			WrapedY = CoordinatesY - (float)ScreenHeight();
+			WrappedY = CoordinatesY - (float)ScreenHeight();
 		}
 	}
 
@@ -81,12 +81,12 @@ protected:
 	}
 	void InitializeCharacteristicsVectorAsteroid()
 	{
-		int Verts = 20;
-		for (int i = 0; i < Verts; i++)
+		int Vertices = 20;
+		for (int i = 0; i < Vertices; i++)
 		{
 			float RandomValue = ((float)rand() / (float)RAND_MAX) * 0.3f;
 			float AsteroidRadius = 1.0f + RandomValue;
-			float Angle = ((float)i / float(Verts) * 6.28318f);
+			float Angle = ((float)i / float(Vertices) * 6.28318f);
 			AsteroidModel.push_back(std::make_pair(AsteroidRadius * sinf(Angle), AsteroidRadius * cosf(Angle)));
 		}
 	}
@@ -149,46 +149,46 @@ protected:
 	{
 
 		std::vector<std::pair<float, float>> TransformedCoordinates;
-		int Verts = vecModelCoordinates.size();
-		TransformedCoordinates.resize(Verts);
+		int Vertices = vecModelCoordinates.size();
+		TransformedCoordinates.resize(Vertices);
 
 		// Rotate
-		for (int i = 0; i < Verts; i++)
+		for (int i = 0; i < Vertices; i++)
 		{
 			TransformedCoordinates[i].first = vecModelCoordinates[i].first * cosf(TurningRadius) - vecModelCoordinates[i].second * sinf(TurningRadius);
 			TransformedCoordinates[i].second = vecModelCoordinates[i].first * sinf(TurningRadius) + vecModelCoordinates[i].second * cosf(TurningRadius);
 		}
 
 		// Scale
-		for (int i = 0; i < Verts; i++)
+		for (int i = 0; i < Vertices; i++)
 		{
 			TransformedCoordinates[i].first = TransformedCoordinates[i].first * Scale;
 			TransformedCoordinates[i].second = TransformedCoordinates[i].second * Scale;
 		}
 
 		// Translate
-		for (int i = 0; i < Verts; i++)
+		for (int i = 0; i < Vertices; i++)
 		{
 			TransformedCoordinates[i].first = TransformedCoordinates[i].first + PositionX;
 			TransformedCoordinates[i].second = TransformedCoordinates[i].second + PositionY;
 		}
 
 		// Draw Closed Polygon
-		for (int i = 0; i < Verts + 1; i++)
+		for (int i = 0; i < Vertices + 1; i++)
 		{
 			int j = (i + 1);
-			DrawLine(TransformedCoordinates[i % Verts].first, TransformedCoordinates[i % Verts].second,
-				TransformedCoordinates[j % Verts].first, TransformedCoordinates[j % Verts].second, P);
+			DrawLine(TransformedCoordinates[i % Vertices].first, TransformedCoordinates[i % Vertices].second,
+				TransformedCoordinates[j % Vertices].first, TransformedCoordinates[j % Vertices].second, P);
 		}
 	}
-	
-	
+
+
 	void HudDisplay()
 	{
 		DrawString(8, 8, "Score: " + std::to_string(Score) + "\t" + "Level: " + std::to_string(Level), olc::YELLOW);
 	}
 
-	bool WinGame()
+	bool HasWon()
 	{
 		int MaxLevel = 4;
 		if (Level >= MaxLevel)
@@ -206,7 +206,7 @@ protected:
 		}
 
 	}
-	void LevelUp()
+	void IncreaseLevel()
 	{
 		if (VecAsteroid.empty())
 		{
@@ -283,20 +283,20 @@ protected:
 			AsteroidObject.PositionY += AsteroidObject.DeltaY * ElapsedTime;
 			WrapCoordinates(AsteroidObject.PositionX, AsteroidObject.PositionY, AsteroidObject.PositionX, AsteroidObject.PositionY);
 			DrawWireFrameModel(AsteroidModel, AsteroidObject.PositionX, AsteroidObject.PositionY, AsteroidObject.Angle, AsteroidObject.Size);
-
 		}
 	}
 
 	std::vector<FSpaceObject> VectorBullets;
 
 	//VectorBullets
-	void ShotBullet(float ElapsedTime)
+	void ShootBullet(float ElapsedTime)
 	{
 		if (GetKey(olc::Key::SPACE).bReleased)
 		{
 			VectorBullets.push_back({ VectorPlayer.PositionX,VectorPlayer.PositionY,50.0f * sinf(VectorPlayer.Angle),-50.0f * cosf(VectorPlayer.Angle),0,0 });
 		}
 	}
+
 	std::vector<FSpaceObject> VectorNewAsteroids;
 
 	void UpdateAndDrawVectorBullets(float ElapsedTime)
@@ -328,8 +328,6 @@ protected:
 			}
 		}
 	}
-
-
 
 	void DestroyVectorBullets()
 	{
@@ -415,9 +413,9 @@ protected:
 	virtual bool UpdatingGame(float ElapsedTime)
 	{
 		GiveColorToTheBackGround();
-		if (WinGame())
+		if (HasWon())
 		{
-			std::cout<<"Press Enter for End the Game"<<std::endl;
+			std::cout << "Press Enter for End the Game" << std::endl;
 			if (GetKey(olc::Key::ENTER).bReleased)
 			{
 				return false;
@@ -433,7 +431,7 @@ protected:
 			ReverseShip(ElapsedTime);
 			ChangeVelocity(ElapsedTime);
 			DrawShip();
-			ShotBullet(ElapsedTime);
+			ShootBullet(ElapsedTime);
 			UpdateAndDrawVectorBullets(ElapsedTime);
 			DestroyVectorBullets();
 			DestroyAsteroids();
@@ -441,7 +439,7 @@ protected:
 			DetectShipCollisionWithAsteroid();
 			bDead();
 			AppendVectorNewAsteroids();
-			LevelUp();
+			IncreaseLevel();
 		}
 		return true;
 	}
