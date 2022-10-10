@@ -3,33 +3,33 @@
 #include "olcPixelGameEngine.h"
 
 
-class AsteroidGame : public olc::PixelGameEngine
+class FAsteroidGame : public olc::PixelGameEngine
 {
 public:
-	AsteroidGame()
+	FAsteroidGame()
 	{
 		sAppName = "Asteroids";
 	}
 private:
 
-	struct SpaceObject
+	struct FSpaceObject
 	{
-		float PosX;
-		float PosY;
-		float DisplacementX;
-		float DisplacementY;
+		float PositionX;
+		float PositionY;
+		float DeltaX;
+		float DeltaY;
 		int Size;
 		float Angle;
-		bool BeDead;
+		bool bDead;
 	};
-	std::vector <SpaceObject> VecAsteroid;
-	std::vector<SpaceObject> Bullets;
-	std::vector<SpaceObject> NewAsteroids;
+	std::vector <FSpaceObject> VecAsteroid;
 
-	SpaceObject Player;
+	
 
-	std::vector<std::pair<float, float>> ModelShip;
-	std::vector<std::pair<float, float>> ModelAsteroids;
+	FSpaceObject VectorPlayer;
+
+	std::vector<std::pair<float, float>> ShipModel;
+	std::vector<std::pair<float, float>> AsteroidModel;
 	int Level = 1;
 	int Score = 0;
 
@@ -58,28 +58,28 @@ protected:
 		}
 	}
 
-	void BackgroundColor()
+	void GiveColorToTheBackGround()
 	{
 		FillRect(0, 0, ScreenWidth(), ScreenHeight(), olc::BLACK);
 	}
 
-	virtual void InitialCharacteristicsPlayer()
+	virtual void InitializeCharacteristicsVectorPlayer()
 	{
-		//Inicialise player position
-		Player.PosX = ScreenWidth() / 2.0f;
-		Player.PosY = ScreenHeight() / 2.0f;
-		Player.DisplacementX = 0.0f;
-		Player.DisplacementY = 0.0f;
-		Player.Angle = 0.0f;
-		Player.BeDead = false;
-		ModelShip =
+		//Inicialise VectorPlayer position
+		VectorPlayer.PositionX = ScreenWidth() / 2.0f;
+		VectorPlayer.PositionY = ScreenHeight() / 2.0f;
+		VectorPlayer.DeltaX = 0.0f;
+		VectorPlayer.DeltaY = 0.0f;
+		VectorPlayer.Angle = 0.0f;
+		VectorPlayer.bDead = false;
+		ShipModel =
 		{
 			{0.0f,-15.0f},
 			{-5.0f , +5.0f},
 			{+5.0f,+5.0f}
 		};
 	}
-	void InitialCharateriticsAsteroid()
+	void InitializeCharacteristicsVectorAsteroid()
 	{
 		int Verts = 20;
 		for (int i = 0; i < Verts; i++)
@@ -87,67 +87,65 @@ protected:
 			float RandomValue = ((float)rand() / (float)RAND_MAX) * 0.3f;
 			float AsteroidRadius = 1.0f + RandomValue;
 			float Angle = ((float)i / float(Verts) * 6.28318f);
-			ModelAsteroids.push_back(std::make_pair(AsteroidRadius * sinf(Angle), AsteroidRadius * cosf(Angle)));
+			AsteroidModel.push_back(std::make_pair(AsteroidRadius * sinf(Angle), AsteroidRadius * cosf(Angle)));
 		}
 	}
 
 
-	virtual bool Draw(int PosX, int PosY, olc::Pixel P = olc::RED)override
+	virtual bool Draw(int PositionX, int PositionY, olc::Pixel P = olc::RED)override
 	{
 		float TempX, TempY;
-		WrapCoordinates((float)PosX, (float)PosY, TempX, TempY);
+		WrapCoordinates((float)PositionX, (float)PositionY, TempX, TempY);
 
 		return PixelGameEngine::Draw(TempX, TempY, P);
 
 	}
 
-	void Aceleration(float ElapsedTime)
+	void AccelerateShip(float ElapsedTime)
 	{
 		if (GetKey(olc::Key::UP).bHeld)
 		{
-			Player.DisplacementX += sin(Player.Angle) * 50.0f * ElapsedTime;
-			Player.DisplacementY += -cos(Player.Angle) * 50.0f * ElapsedTime;
+			VectorPlayer.DeltaX += sin(VectorPlayer.Angle) * 50.0f * ElapsedTime;
+			VectorPlayer.DeltaY += -cos(VectorPlayer.Angle) * 50.0f * ElapsedTime;
 		}
 	}
-	void Reverse(float ElapsedTime)
+	void ReverseShip(float ElapsedTime)
 	{
 		if (GetKey(olc::Key::DOWN).bHeld)
 		{
-			Player.DisplacementX += sin(Player.Angle) * -50.0f * ElapsedTime;
-			Player.DisplacementY += -cos(Player.Angle) * -50.0f * ElapsedTime;
+			VectorPlayer.DeltaX += sin(VectorPlayer.Angle) * -50.0f * ElapsedTime;
+			VectorPlayer.DeltaY += -cos(VectorPlayer.Angle) * -50.0f * ElapsedTime;
 		}
 	}
 
-	void Velocity(float ElapsedTime)
+	void ChangeVelocity(float ElapsedTime)
 	{
-		Player.PosX += Player.DisplacementX * ElapsedTime;
-		Player.PosY += Player.DisplacementY * ElapsedTime;
+		VectorPlayer.PositionX += VectorPlayer.DeltaX * ElapsedTime;
+		VectorPlayer.PositionY += VectorPlayer.DeltaY * ElapsedTime;
 	}
 
-	void TurnRight(float ElapsedTime)
+	void TurningShip(float ElapsedTime)
 	{
 		if (GetKey(olc::Key::RIGHT).bHeld)
 		{
-			Player.Angle += 5.0f * ElapsedTime;
+			VectorPlayer.Angle += 5.0f * ElapsedTime;
+		}
+
+		else if (GetKey(olc::Key::LEFT).bHeld)
+		{
+			VectorPlayer.Angle -= 5.0f * ElapsedTime;
 		}
 	}
 
-	void TurnLeft(float ElapsedTime)
-	{
-		if (GetKey(olc::Key::LEFT).bHeld)
-		{
-			Player.Angle -= 5.0f * ElapsedTime;
-		}
-	}
 
 
 	void DrawShip()
 	{
-		WrapCoordinates(Player.PosX, Player.PosY, Player.PosX, Player.PosY);
-		DrawWireFrameModel(ModelShip, Player.PosX, Player.PosY, Player.Angle);
+		WrapCoordinates(VectorPlayer.PositionX, VectorPlayer.PositionY, VectorPlayer.PositionX, VectorPlayer.PositionY);
+		DrawWireFrameModel(ShipModel, VectorPlayer.PositionX, VectorPlayer.PositionY, VectorPlayer.Angle);
 	}
 
-	void DrawWireFrameModel(const std::vector<std::pair<float, float>>& vecModelCoordinates, float PosX, float PosY, float TurningRadius = 0.0f, float Scale = 1.0f, olc::Pixel P = olc::WHITE)
+	void DrawWireFrameModel(const std::vector<std::pair<float, float>>& vecModelCoordinates, float PositionX, float PositionY, float TurningRadius = 0.0f, float Scale = 1.0f, olc::Pixel P = olc::WHITE)
 	{
 
 		std::vector<std::pair<float, float>> TransformedCoordinates;
@@ -171,8 +169,8 @@ protected:
 		// Translate
 		for (int i = 0; i < Verts; i++)
 		{
-			TransformedCoordinates[i].first = TransformedCoordinates[i].first + PosX;
-			TransformedCoordinates[i].second = TransformedCoordinates[i].second + PosY;
+			TransformedCoordinates[i].first = TransformedCoordinates[i].first + PositionX;
+			TransformedCoordinates[i].second = TransformedCoordinates[i].second + PositionY;
 		}
 
 		// Draw Closed Polygon
@@ -183,7 +181,8 @@ protected:
 				TransformedCoordinates[j % Verts].first, TransformedCoordinates[j % Verts].second, P);
 		}
 	}
-
+	
+	
 	void HudDisplay()
 	{
 		DrawString(8, 8, "Score: " + std::to_string(Score) + "\t" + "Level: " + std::to_string(Level), olc::YELLOW);
@@ -194,9 +193,9 @@ protected:
 		int MaxLevel = 4;
 		if (Level >= MaxLevel)
 		{
-			ModelShip.clear();
-			ModelAsteroids.clear();
-			Bullets.clear();
+			ShipModel.clear();
+			AsteroidModel.clear();
+			VectorBullets.clear();
 
 			DrawString(60, 100, "You Win", olc::GREEN, 10);
 			return true;
@@ -215,51 +214,51 @@ protected:
 			// Level Clear
 			Score += 1000; // Large score for level progression
 			VecAsteroid.clear();
-			Bullets.clear();
+			VectorBullets.clear();
 			if (Level == 2)
 			{
-				VecAsteroid.push_back({ 30.0f * sinf(Player.Angle - 3.14159f / 2.0f) + Player.PosX,
-												  30.0f * cosf(Player.Angle - 3.14159f / 2.0f) + Player.PosY,
-												  10.0f * sinf(Player.Angle), 10.0f * cosf(Player.Angle),(int)15, 0.0f,false });
+				VecAsteroid.push_back({ 30.0f * sinf(VectorPlayer.Angle - 3.14159f / 2.0f) + VectorPlayer.PositionX,
+												  30.0f * cosf(VectorPlayer.Angle - 3.14159f / 2.0f) + VectorPlayer.PositionY,
+												  10.0f * sinf(VectorPlayer.Angle), 10.0f * cosf(VectorPlayer.Angle),(int)15, 0.0f,false });
 
 
-				VecAsteroid.push_back({ 30.0f * sinf(Player.Angle - 3.14159f / 2.0f) + Player.PosX,
-												  40.0f * cosf(Player.Angle - 3.14159f / 2.0f) + Player.PosY,
-												  40.0f * sinf(Player.Angle), 10.0f * cosf(Player.Angle),(int)15, 0.0f,false });
+				VecAsteroid.push_back({ 30.0f * sinf(VectorPlayer.Angle - 3.14159f / 2.0f) + VectorPlayer.PositionX,
+												  40.0f * cosf(VectorPlayer.Angle - 3.14159f / 2.0f) + VectorPlayer.PositionY,
+												  40.0f * sinf(VectorPlayer.Angle), 10.0f * cosf(VectorPlayer.Angle),(int)15, 0.0f,false });
 			}
 			else if (Level == 3)
 			{
-				VecAsteroid.push_back({ 30.0f * sinf(Player.Angle - 3.14159f / 2.0f) + Player.PosX,
-												  40.0f * cosf(Player.Angle - 3.14159f / 2.0f) + Player.PosY,
-												  10.0f * sinf(Player.Angle), 10.0f * cosf(Player.Angle),(int)15, 0.0f,false });
+				VecAsteroid.push_back({ 30.0f * sinf(VectorPlayer.Angle - 3.14159f / 2.0f) + VectorPlayer.PositionX,
+												  40.0f * cosf(VectorPlayer.Angle - 3.14159f / 2.0f) + VectorPlayer.PositionY,
+												  10.0f * sinf(VectorPlayer.Angle), 10.0f * cosf(VectorPlayer.Angle),(int)15, 0.0f,false });
 
 
-				VecAsteroid.push_back({ 30.0f * sinf(Player.Angle - 3.14159f / 2.0f) + Player.PosX,
-												  40.0f * cosf(Player.Angle - 3.14159f / 2.0f) + Player.PosY,
-												  10.0f * sinf(Player.Angle), 10.0f * cosf(Player.Angle),(int)15, 0.0f,false });
-				VecAsteroid.push_back({ 100.0f * sinf(Player.Angle - 3.14159f / 2.0f) + Player.PosX,
-												  40.0f * cosf(Player.Angle - 3.14159f / 2.0f) + Player.PosY,
-												  10.0f * sinf(Player.Angle), 10.0f * cosf(Player.Angle),(int)15, 0.0f,false });
+				VecAsteroid.push_back({ 30.0f * sinf(VectorPlayer.Angle - 3.14159f / 2.0f) + VectorPlayer.PositionX,
+												  40.0f * cosf(VectorPlayer.Angle - 3.14159f / 2.0f) + VectorPlayer.PositionY,
+												  10.0f * sinf(VectorPlayer.Angle), 10.0f * cosf(VectorPlayer.Angle),(int)15, 0.0f,false });
+				VecAsteroid.push_back({ 100.0f * sinf(VectorPlayer.Angle - 3.14159f / 2.0f) + VectorPlayer.PositionX,
+												  40.0f * cosf(VectorPlayer.Angle - 3.14159f / 2.0f) + VectorPlayer.PositionY,
+												  10.0f * sinf(VectorPlayer.Angle), 10.0f * cosf(VectorPlayer.Angle),(int)15, 0.0f,false });
 
 			}
 			else if (Level == 4)
 			{
-				VecAsteroid.push_back({ 30.0f * sinf(Player.Angle - 3.14159f / 2.0f) + Player.PosX,
-												  30.0f * cosf(Player.Angle - 3.14159f / 2.0f) + Player.PosY,
-												  10.0f * sinf(Player.Angle), 10.0f * cosf(Player.Angle),(int)15, 0.0f,false });
+				VecAsteroid.push_back({ 30.0f * sinf(VectorPlayer.Angle - 3.14159f / 2.0f) + VectorPlayer.PositionX,
+												  30.0f * cosf(VectorPlayer.Angle - 3.14159f / 2.0f) + VectorPlayer.PositionY,
+												  10.0f * sinf(VectorPlayer.Angle), 10.0f * cosf(VectorPlayer.Angle),(int)15, 0.0f,false });
 
 
-				VecAsteroid.push_back({ 30.0f * sinf(Player.Angle - 3.14159f / 2.0f) + Player.PosX,
-												  30.0f * cosf(Player.Angle - 3.14159f / 2.0f) + Player.PosY,
-												  10.0f * sinf(Player.Angle), 10.0f * cosf(Player.Angle),(int)15, 0.0f,false });
+				VecAsteroid.push_back({ 30.0f * sinf(VectorPlayer.Angle - 3.14159f / 2.0f) + VectorPlayer.PositionX,
+												  30.0f * cosf(VectorPlayer.Angle - 3.14159f / 2.0f) + VectorPlayer.PositionY,
+												  10.0f * sinf(VectorPlayer.Angle), 10.0f * cosf(VectorPlayer.Angle),(int)15, 0.0f,false });
 
-				VecAsteroid.push_back({ 100.0f * sinf(Player.Angle - 3.14159f / 2.0f) + Player.PosX,
-												  40.0f * cosf(Player.Angle - 3.14159f / 2.0f) + Player.PosY,
-												  10.0f * sinf(Player.Angle), 10.0f * cosf(Player.Angle),(int)15, 0.0f,false });
+				VecAsteroid.push_back({ 100.0f * sinf(VectorPlayer.Angle - 3.14159f / 2.0f) + VectorPlayer.PositionX,
+												  40.0f * cosf(VectorPlayer.Angle - 3.14159f / 2.0f) + VectorPlayer.PositionY,
+												  10.0f * sinf(VectorPlayer.Angle), 10.0f * cosf(VectorPlayer.Angle),(int)15, 0.0f,false });
 
-				VecAsteroid.push_back({ 70.0f * sinf(Player.Angle - 3.14159f / 2.0f) + Player.PosX,
-												  40.0f * cosf(Player.Angle - 3.14159f / 2.0f) + Player.PosY,
-												  10.0f * sinf(Player.Angle), 10.0f * cosf(Player.Angle),(int)15, 0.0f,false });
+				VecAsteroid.push_back({ 70.0f * sinf(VectorPlayer.Angle - 3.14159f / 2.0f) + VectorPlayer.PositionX,
+												  40.0f * cosf(VectorPlayer.Angle - 3.14159f / 2.0f) + VectorPlayer.PositionY,
+												  10.0f * sinf(VectorPlayer.Angle), 10.0f * cosf(VectorPlayer.Angle),(int)15, 0.0f,false });
 
 
 			}
@@ -267,60 +266,63 @@ protected:
 		}
 	}
 
-	void AppendNewAsteroids()
+	void AppendVectorNewAsteroids()
 	{
-		for (const auto& NewAsteroid : NewAsteroids)
+		for (const auto& NewAsteroid : VectorNewAsteroids)
 		{
 			VecAsteroid.push_back(NewAsteroid);
 		}
-		NewAsteroids.clear();
+		VectorNewAsteroids.clear();
 	}
 
 	void UpdateAndDrawAsteroids(float ElapsedTime)
 	{
 		for (auto& AsteroidObject : VecAsteroid)
 		{
-			AsteroidObject.PosX += AsteroidObject.DisplacementX * ElapsedTime;
-			AsteroidObject.PosY += AsteroidObject.DisplacementY * ElapsedTime;
-			WrapCoordinates(AsteroidObject.PosX, AsteroidObject.PosY, AsteroidObject.PosX, AsteroidObject.PosY);
-			DrawWireFrameModel(ModelAsteroids, AsteroidObject.PosX, AsteroidObject.PosY, AsteroidObject.Angle, AsteroidObject.Size);
+			AsteroidObject.PositionX += AsteroidObject.DeltaX * ElapsedTime;
+			AsteroidObject.PositionY += AsteroidObject.DeltaY * ElapsedTime;
+			WrapCoordinates(AsteroidObject.PositionX, AsteroidObject.PositionY, AsteroidObject.PositionX, AsteroidObject.PositionY);
+			DrawWireFrameModel(AsteroidModel, AsteroidObject.PositionX, AsteroidObject.PositionY, AsteroidObject.Angle, AsteroidObject.Size);
 
 		}
 	}
 
-	//Bullets
+	std::vector<FSpaceObject> VectorBullets;
+
+	//VectorBullets
 	void ShotBullet(float ElapsedTime)
 	{
 		if (GetKey(olc::Key::SPACE).bReleased)
 		{
-			Bullets.push_back({ Player.PosX,Player.PosY,50.0f * sinf(Player.Angle),-50.0f * cosf(Player.Angle),0,0 });
+			VectorBullets.push_back({ VectorPlayer.PositionX,VectorPlayer.PositionY,50.0f * sinf(VectorPlayer.Angle),-50.0f * cosf(VectorPlayer.Angle),0,0 });
 		}
 	}
+	std::vector<FSpaceObject> VectorNewAsteroids;
 
-	void UpdateAndDrawBullets(float ElapsedTime)
+	void UpdateAndDrawVectorBullets(float ElapsedTime)
 	{
-		for (auto& Bullet : Bullets)
+		for (auto& Bullet : VectorBullets)
 		{
-			Bullet.PosX += Bullet.DisplacementX * ElapsedTime;
-			Bullet.PosY += Bullet.DisplacementY * ElapsedTime;
-			WrapCoordinates(Bullet.PosX, Bullet.PosY, Bullet.PosX, Bullet.PosY);
-			Draw(Bullet.PosX, Bullet.PosY);
+			Bullet.PositionX += Bullet.DeltaX * ElapsedTime;
+			Bullet.PositionY += Bullet.DeltaY * ElapsedTime;
+			WrapCoordinates(Bullet.PositionX, Bullet.PositionY, Bullet.PositionX, Bullet.PositionY);
+			Draw(Bullet.PositionX, Bullet.PositionY);
 
 
 			for (auto& Asteroid : VecAsteroid)
 			{
-				if (Collition(Asteroid.PosX, Asteroid.PosY, Asteroid.Size, Bullet.PosX, Bullet.PosY))
+				if (Collision(Asteroid.PositionX, Asteroid.PositionY, Asteroid.Size, Bullet.PositionX, Bullet.PositionY))
 				{
 					//Asteroid hit
-					Bullet.PosX = -200;
+					Bullet.PositionX = -200;
 					if (Asteroid.Size > 4)
 					{
 						float Angle1 = ((float)rand() / (float)RAND_MAX) * 6.283185f;
 						float Angle2 = ((float)rand() / (float)RAND_MAX) * 6.283185f;
-						NewAsteroids.push_back({ Asteroid.PosX, Asteroid.PosY,10.0f * sinf(Angle1),10.0f * cosf(Angle1),(int)Asteroid.Size >> 1, 0.0f });
-						NewAsteroids.push_back({ Asteroid.PosX, Asteroid.PosY,10.0f * sinf(Angle2),10.0f * cosf(Angle2),(int)Asteroid.Size >> 1, 0.0f });
+						VectorNewAsteroids.push_back({ Asteroid.PositionX, Asteroid.PositionY,10.0f * sinf(Angle1),10.0f * cosf(Angle1),(int)Asteroid.Size >> 1, 0.0f });
+						VectorNewAsteroids.push_back({ Asteroid.PositionX, Asteroid.PositionY,10.0f * sinf(Angle2),10.0f * cosf(Angle2),(int)Asteroid.Size >> 1, 0.0f });
 					}
-					Asteroid.PosX = -100;
+					Asteroid.PositionX = -100;
 					Score += 100;
 				}
 			}
@@ -329,18 +331,18 @@ protected:
 
 
 
-	void DestroyBullets()
+	void DestroyVectorBullets()
 	{
-		if (Bullets.size() > 0)
+		if (VectorBullets.size() > 0)
 		{
 			auto Destroy =
-				remove_if(Bullets.begin(), Bullets.end(), [&](SpaceObject BulletDestroy)
+				remove_if(VectorBullets.begin(), VectorBullets.end(), [&](FSpaceObject BulletDestroy)
 					{
-						return (BulletDestroy.PosX < 1 || BulletDestroy.PosY < 1 || BulletDestroy.PosX >= ScreenWidth() || BulletDestroy.PosY >= ScreenHeight());
+						return (BulletDestroy.PositionX < 1 || BulletDestroy.PositionY < 1 || BulletDestroy.PositionX >= ScreenWidth() || BulletDestroy.PositionY >= ScreenHeight());
 					});
-			if (Destroy != Bullets.end())
+			if (Destroy != VectorBullets.end())
 			{
-				Bullets.erase(Destroy);
+				VectorBullets.erase(Destroy);
 			}
 		}
 	}
@@ -350,9 +352,9 @@ protected:
 		if (VecAsteroid.size() > 0)
 		{
 			auto Destroy =
-				remove_if(VecAsteroid.begin(), VecAsteroid.end(), [&](SpaceObject AsteroidDestroy)
+				remove_if(VecAsteroid.begin(), VecAsteroid.end(), [&](FSpaceObject AsteroidDestroy)
 					{
-						return (AsteroidDestroy.PosX < 0);
+						return (AsteroidDestroy.PositionX < 0);
 					});
 			if (Destroy != VecAsteroid.end())
 			{
@@ -361,37 +363,37 @@ protected:
 		}
 	}
 
-	bool Collition(float AsteroidCenterX, float AsteroidCenterY, float Radius, float PosX, float PosY)
+	bool Collision(float AsteroidCenterX, float AsteroidCenterY, float Radius, float PositionX, float PositionY)
 	{
-		return sqrt(((PosX - AsteroidCenterX) * (PosX - AsteroidCenterX)) + ((PosY - AsteroidCenterY) * (PosY - AsteroidCenterY))) < Radius;
+		return sqrt(((PositionX - AsteroidCenterX) * (PositionX - AsteroidCenterX)) + ((PositionY - AsteroidCenterY) * (PositionY - AsteroidCenterY))) < Radius;
 	}
 
-	void ShipCollition()
+	void DetectShipCollisionWithAsteroid()
 	{
 		for (auto& Asteroid : VecAsteroid)
 		{
-			if (Collition(Asteroid.PosX, Asteroid.PosY, Asteroid.Size, Player.PosX, Player.PosY))
+			if (Collision(Asteroid.PositionX, Asteroid.PositionY, Asteroid.Size, VectorPlayer.PositionX, VectorPlayer.PositionY))
 			{
-				Player.BeDead = true;
+				VectorPlayer.bDead = true;
 			}
 		}
 	}
 
-	void BeDead()
+	void bDead()
 	{
-		if (Player.BeDead == true)
+		if (VectorPlayer.bDead == true)
 		{
 			VecAsteroid.clear();
-			Bullets.clear();
+			VectorBullets.clear();
 			Level = 1;
 
-			Player.PosX = ScreenWidth() / 2.0f;
-			Player.PosY = ScreenHeight() / 2.0f;
-			Player.DisplacementX = 0.0f;
-			Player.DisplacementY = 0.0f;
-			Player.Angle = 0.0f;
-			Player.BeDead = false;
-			ModelShip =
+			VectorPlayer.PositionX = ScreenWidth() / 2.0f;
+			VectorPlayer.PositionY = ScreenHeight() / 2.0f;
+			VectorPlayer.DeltaX = 0.0f;
+			VectorPlayer.DeltaY = 0.0f;
+			VectorPlayer.Angle = 0.0f;
+			VectorPlayer.bDead = false;
+			ShipModel =
 			{
 				{0.0f,-15.0f},
 				{-5.0f , +5.0f},
@@ -402,21 +404,21 @@ protected:
 	}
 
 
-	virtual bool OnUserCreate()
+	virtual bool InitialConditions()
 	{
 		VecAsteroid.push_back({ 50.0f,50.0f,10.0f,-15.0f,(int)20,0.0f,false });
-		InitialCharacteristicsPlayer();
-		InitialCharateriticsAsteroid();
+		InitializeCharacteristicsVectorPlayer();
+		InitializeCharacteristicsVectorAsteroid();
 		return true;
 	}
 
-	virtual bool OnUserUpdate(float ElapsedTime)
+	virtual bool UpdatingGame(float ElapsedTime)
 	{
-
-		BackgroundColor();
+		GiveColorToTheBackGround();
 		if (WinGame())
 		{
-			if (GetKey(olc::Key::SPACE).bReleased)
+			std::cout<<"Press Enter for End the Game"<<std::endl;
+			if (GetKey(olc::Key::ENTER).bReleased)
 			{
 				return false;
 			}
@@ -424,27 +426,22 @@ protected:
 		}
 		else
 		{
-
 			UpdateAndDrawAsteroids(ElapsedTime);
-			//DrawAsteroids(ElapsedTime);
+			TurningShip(ElapsedTime);
 
-			TurnLeft(ElapsedTime);
-			TurnRight(ElapsedTime);
-			Aceleration(ElapsedTime);
-			Reverse(ElapsedTime);
-			Velocity(ElapsedTime);
+			AccelerateShip(ElapsedTime);
+			ReverseShip(ElapsedTime);
+			ChangeVelocity(ElapsedTime);
 			DrawShip();
 			ShotBullet(ElapsedTime);
-			UpdateAndDrawBullets(ElapsedTime);
-			DestroyBullets();
+			UpdateAndDrawVectorBullets(ElapsedTime);
+			DestroyVectorBullets();
 			DestroyAsteroids();
 			HudDisplay();
-			ShipCollition();
-			BeDead();
-			AppendNewAsteroids();
+			DetectShipCollisionWithAsteroid();
+			bDead();
+			AppendVectorNewAsteroids();
 			LevelUp();
-
-
 		}
 		return true;
 	}
@@ -455,7 +452,7 @@ protected:
 };
 int main()
 {
-	AsteroidGame Game;
+	FAsteroidGame Game;
 	Game.Construct(420, 320, 2, 2);
 	Game.Start();
 

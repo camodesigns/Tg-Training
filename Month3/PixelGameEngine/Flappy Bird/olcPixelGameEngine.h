@@ -325,13 +325,13 @@ public:
 	}
 
 public:
-	bool OnUserCreate() override
+	bool InitialConditions() override
 	{
 		// Called once at the start, so create things here
 		return true;
 	}
 
-	bool OnUserUpdate(float fElapsedTime) override
+	bool UpdatingGame(float fElapsedTime) override
 	{
 		// Called once per frame, draws random coloured pixels
 		for (int x = 0; x < ScreenWidth(); x++)
@@ -923,9 +923,9 @@ namespace olc
 
 	public: // User Override Interfaces
 		// Called once on application startup, use to load your resources
-		virtual bool OnUserCreate();
+		virtual bool InitialConditions();
 		// Called every frame, and provides you with a time per frame value
-		virtual bool OnUserUpdate(float fElapsedTime);
+		virtual bool UpdatingGame(float fElapsedTime);
 		// Called once on application termination, so you can be one clean coder
 		virtual bool OnUserDestroy();
 
@@ -3281,10 +3281,10 @@ namespace olc
 	// them abstract because I do need a default behaviour to occur if
 	// they are not overwritten
 
-	bool PixelGameEngine::OnUserCreate()
+	bool PixelGameEngine::InitialConditions()
 	{ return false;	}
 
-	bool PixelGameEngine::OnUserUpdate(float fElapsedTime)
+	bool PixelGameEngine::UpdatingGame(float fElapsedTime)
 	{ UNUSED(fElapsedTime);  return false; }
 
 	bool PixelGameEngine::OnUserDestroy()
@@ -3379,7 +3379,7 @@ namespace olc
 
 		// Create user resources as part of this thread
 		for (auto& ext : vExtensions) ext->OnBeforeUserCreate();
-		if (!OnUserCreate()) bAtomActive = false;
+		if (!InitialConditions()) bAtomActive = false;
 		for (auto& ext : vExtensions) ext->OnAfterUserCreate();
 
 		while (bAtomActive)
@@ -3476,7 +3476,7 @@ namespace olc
 		for (auto& ext : vExtensions) bExtensionBlockFrame |= ext->OnBeforeUserUpdate(fElapsedTime);
 		if (!bExtensionBlockFrame)
 		{
-			if (!OnUserUpdate(fElapsedTime)) bAtomActive = false;
+			if (!UpdatingGame(fElapsedTime)) bAtomActive = false;
 		}
 		for (auto& ext : vExtensions) ext->OnAfterUserUpdate(fElapsedTime);
 
@@ -5626,7 +5626,7 @@ namespace olc {
 
 		if (platform->ThreadStartUp() == olc::FAIL)  return olc::FAIL;
 		olc_PrepareEngine();
-		if (!OnUserCreate()) return olc::FAIL;
+		if (!InitialConditions()) return olc::FAIL;
 		Platform_GLUT::bActiveRef = &bAtomActive;
 		glutWMCloseFunc(Platform_GLUT::ExitMainLoop);
 		bAtomActive = true;
@@ -6060,7 +6060,7 @@ namespace olc
 
 		// Create user resources as part of this thread
 		for (auto& ext : vExtensions) ext->OnBeforeUserCreate();
-		if (!OnUserCreate()) bAtomActive = false;
+		if (!InitialConditions()) bAtomActive = false;
 		for (auto& ext : vExtensions) ext->OnAfterUserCreate();
 
 		platform->StartSystemEventLoop();

@@ -12,8 +12,8 @@ public:
 private:
 
 	float BirdPosition = 0.0f;
-	float BirdVelocity = 0.0f;
-	float BirdAceleration = 0.0f;
+	float BirdChangeVelocity = 0.0f;
+	float BirdAccelerateShip = 0.0f;
 	float Gravity = 300.0f;
 
 	float SectionWidth;
@@ -32,7 +32,7 @@ protected:
 	//Displays
 	void DisplayBird(int BirdX)
 	{
-		if (BirdVelocity > 0)
+		if (BirdChangeVelocity > 0)
 		{
 			DrawString(BirdX, BirdPosition - 8, "  /", olc::YELLOW);
 			DrawString(BirdX, BirdPosition + 0, "  //", olc::BLUE);
@@ -76,8 +76,8 @@ protected:
 		HasCollided = false;
 		ResetGame = false;
 		ListSection = { 0,0,0,0 };
-		BirdAceleration = 0.0f;
-		BirdVelocity = 0.0f;
+		BirdAccelerateShip = 0.0f;
+		BirdChangeVelocity = 0.0f;
 		BirdPosition = ScreenHeight() / 2.0f;
 		FlapCount = 0;
 		AttempCount++;
@@ -85,7 +85,7 @@ protected:
 
 	//OnUser
 
-	virtual bool OnUserCreate()
+	virtual bool InitialConditions()
 	{
 
 		ListSection = { 0,0,0,0 };
@@ -95,7 +95,7 @@ protected:
 	}
 
 
-	virtual bool OnUserUpdate(float FElapsedTime)
+	virtual bool UpdatingGame(float FElapsedTime)
 	{
 
 		if (ResetGame)
@@ -114,8 +114,8 @@ protected:
 
 			if (GetKey(olc::Key::SPACE).bPressed)
 			{
-				BirdAceleration = 0.0f;
-				BirdVelocity = -Gravity / 4.0f;
+				BirdAccelerateShip = 0.0f;
+				BirdChangeVelocity = -Gravity / 4.0f;
 				FlapCount++;
 				if (FlapCount > MaxFlapCount)
 				{
@@ -124,17 +124,17 @@ protected:
 			}
 			else
 			{
-				BirdAceleration += Gravity * FElapsedTime;
+				BirdAccelerateShip += Gravity * FElapsedTime;
 			}
 
 
-			if (BirdAceleration >= Gravity)
+			if (BirdAccelerateShip >= Gravity)
 			{
-				BirdAceleration = Gravity;
+				BirdAccelerateShip = Gravity;
 			}
 
-			BirdVelocity += BirdAceleration * FElapsedTime;
-			BirdPosition += BirdVelocity * FElapsedTime;
+			BirdChangeVelocity += BirdAccelerateShip * FElapsedTime;
+			BirdPosition += BirdChangeVelocity * FElapsedTime;
 
 			LevelSpeed(FElapsedTime);
 
