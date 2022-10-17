@@ -15,7 +15,7 @@ private:
 		olc::vf2d Velocity;
 		int Size;
 		float Angle;
-		bool bDead;
+		bool bIsDead;
 		float Speed;
 	};
 	FSpaceObject Player;
@@ -34,7 +34,7 @@ protected:
 	void DestroyVectorBullets();
 	void ShootBullet(float ElapsedTime);
 	bool Collision(float AsteroidCenterX, float AsteroidCenterY, float Radius, float PositionX, float PositionY);
-	void bDead();
+	void bIsDead();
 	virtual bool InitialConditions();
 	virtual bool UpdatingGame(float ElapsedTime);
 

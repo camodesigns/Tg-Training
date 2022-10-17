@@ -19,7 +19,8 @@ void FTron::InitializePlayer()
 	Player.Velocity.x = 0.0f;
 	Player.Velocity.y = 0.0f;
 	Player.Angle = 0.0f;
-	Player.bDead = false;
+	Player.bIsDead = false;
+	Player.Speed = 50.0f;
 	PlayerModel =
 	{
 		{0.0f,-15.0f},
@@ -34,8 +35,8 @@ void FTron::MovePlayer(float ElapsedTime)
 {
 	if (GetKey(olc::Key::UP).bHeld)
 	{
-		Player.Position.x += sin(Player.Angle) * 50.0f * ElapsedTime;
-		Player.Position.y += -cos(Player.Angle) * 50.0f * ElapsedTime;
+		Player.Position.x += sin(Player.Angle) * Player.Speed * ElapsedTime;
+		Player.Position.y += -cos(Player.Angle) * Player.Speed * ElapsedTime;
 	}
 	if (GetKey(olc::Key::RIGHT).bHeld)
 	{
@@ -94,10 +95,8 @@ bool FTron::HasWon()
 		DrawString(60, 100, "You Win", olc::GREEN, 10);
 		return true;
 	}
-	else
-	{
 		return false;
-	}
+	
 
 }
 
@@ -117,14 +116,14 @@ void FTron::DestroyVectorBullets()
 	}
 }
 
-bool FTron::Collision(float AsteroidCenterX, float AsteroidCenterY, float Radius, float PositionX, float PositionY)
+bool FTron::Collision(float CenterX, float CenterY, float Radius, float PositionX, float PositionY)
 {
-	return sqrt(((PositionX - AsteroidCenterX) * (PositionX - AsteroidCenterX)) + ((PositionY - AsteroidCenterY) * (PositionY - AsteroidCenterY))) < Radius;
+	return sqrt(((PositionX - CenterX) * (PositionX - CenterX)) + ((PositionY - CenterY) * (PositionY - CenterY))) < Radius;
 }
 
-void FTron::bDead()
+void FTron::bIsDead()
 {
-	if (Player.bDead == true)
+	if (Player.bIsDead == true)
 	{
 
 		VectorBullets.clear();
@@ -135,7 +134,7 @@ void FTron::bDead()
 		Player.Velocity.x = 0.0f;
 		Player.Velocity.y = 0.0f;
 		Player.Angle = 0.0f;
-		Player.bDead = false;
+		Player.bIsDead = false;
 		PlayerModel =
 		{
 			{0.0f,-15.0f},
@@ -195,9 +194,9 @@ void FTron::DrawWireFrameModel(const std::vector<std::pair<float, float>>& vecMo
 	// Draw Closed Polygon
 	for (int i = 0; i < Vertices + 1; i++)
 	{
-		int j = (i + 1);
+		int NextPos = (i + 1);
 		DrawLine(TransformedCoordinates[i % Vertices].first, TransformedCoordinates[i % Vertices].second,
-			TransformedCoordinates[j % Vertices].first, TransformedCoordinates[j % Vertices].second, P);
+			TransformedCoordinates[NextPos % Vertices].first, TransformedCoordinates[NextPos % Vertices].second, P);
 	}
 }
 
@@ -246,7 +245,7 @@ bool FTron::InitialConditions()
 bool FTron::UpdatingGame(float ElapsedTime)
 {
 	//TODO: ERASE THAT SHITE
-	//GiveColorToTheBackGround();
+	//ClearScreen();
 	if (HasWon())
 	{
 		std::cout << "Press Enter for End the Game" << std::endl;
@@ -268,7 +267,7 @@ bool FTron::UpdatingGame(float ElapsedTime)
 		DrawBehindLine();
 		HudDisplay();
 
-		bDead();
+		bIsDead();
 
 
 	}

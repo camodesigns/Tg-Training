@@ -169,7 +169,7 @@
 	Thanks
 	~~~~~~
 	I'd like to extend thanks to Ian McKay, Bispoo, Eremiell, slavka, Kwizatz77, gurkanctn, Phantim,
-	IProgramInCPP, JackOJC, KrossX, Huhlig, Dragoneye, Appa, JustinRichardsMusic, SliceNDice, 
+	IProgramInCPP, jackOjC, KrossX, Huhlig, Dragoneye, Appa, justinRichardsMusic, SliceNDice, 
 	dandistine,	Ralakus, Gorbit99, raoul, joshinils, benedani, Moros1138, Alexio, SaladinAkara 
 	& MagetzUb for advice, ideas and testing, and I'd like to extend my appreciation to the
 	250K YouTube followers,	80+ Patreons, 4.8K Twitch followers and 10K Discord server members 
@@ -269,7 +269,7 @@
 		  -Deprecating LoadFromPGESprFile()
 		  -Deprecating SaveToPGESprFile()
 		  Fix Pixel -= operator (thanks Au Lit)
-	2.16: FIX Emscripten JS formatting in VS IDE (thanks Moros)
+	2.16: FIX Emscripten jS formatting in VS IDE (thanks Moros)
 		  +"Headless" Mode
 		  +DrawLineDecal()
 		  +Mouse Button Constants
@@ -588,7 +588,7 @@ namespace olc
 	enum Key
 	{
 		NONE,
-		A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P, Q, R, S, T, U, V, W, X, Y, Z,
+		A, B, C, D, E, F, G, H, I, j, K, L, M, N, O, P, Q, R, S, T, U, V, W, X, Y, Z,
 		K0, K1, K2, K3, K4, K5, K6, K7, K8, K9,
 		F1, F2, F3, F4, F5, F6, F7, F8, F9, F10, F11, F12,
 		UP, DOWN, LEFT, RIGHT,
@@ -3598,7 +3598,7 @@ namespace olc
 		vKeyboardMap =
 		{
 			{olc::Key::A, "a", "A"}, {olc::Key::B, "b", "B"}, {olc::Key::C, "c", "C"}, {olc::Key::D, "d", "D"}, {olc::Key::E, "e", "E"},
-			{olc::Key::F, "f", "F"}, {olc::Key::G, "g", "G"}, {olc::Key::H, "h", "H"}, {olc::Key::I, "i", "I"}, {olc::Key::J, "j", "J"},
+			{olc::Key::F, "f", "F"}, {olc::Key::G, "g", "G"}, {olc::Key::H, "h", "H"}, {olc::Key::I, "i", "I"}, {olc::Key::j, "j", "j"},
 			{olc::Key::K, "k", "K"}, {olc::Key::L, "l", "L"}, {olc::Key::M, "m", "M"}, {olc::Key::N, "n", "N"}, {olc::Key::O, "o", "O"},
 			{olc::Key::P, "p", "P"}, {olc::Key::Q, "q", "Q"}, {olc::Key::R, "r", "R"}, {olc::Key::S, "s", "S"}, {olc::Key::T, "t", "T"},
 			{olc::Key::U, "u", "U"}, {olc::Key::V, "v", "V"}, {olc::Key::W, "w", "W"}, {olc::Key::X, "x", "X"}, {olc::Key::Y, "y", "Y"},
@@ -3902,11 +3902,11 @@ namespace olc
 			if (nDecalMode == DecalMode::MODEL3D)
 			{
 #ifdef OLC_ENABLE_EXPERIMENTAL
-				glMatrixMode(GL_PROJECTION); glPushMatrix();
+				glMatrixMode(GL_PROjECTION); glPushMatrix();
 				glMatrixMode(GL_MODELVIEW);  glPushMatrix();
 
 				glEnable(GL_DEPTH_TEST);
-				glMatrixMode(GL_PROJECTION);
+				glMatrixMode(GL_PROjECTION);
 				glLoadIdentity();
 				glFrustum(-1.0f, 1.0f, -1.0f, 1.0f, 1, 1000);
 
@@ -3933,7 +3933,7 @@ namespace olc
 
 				glEnd();
 
-				glMatrixMode(GL_PROJECTION); glPopMatrix();
+				glMatrixMode(GL_PROjECTION); glPopMatrix();
 				glMatrixMode(GL_MODELVIEW);  glPopMatrix();
 				glDisable(GL_DEPTH_TEST);
 #endif
@@ -4983,7 +4983,7 @@ namespace olc
 			// Create Keyboard Mapping
 			mapKeys[0x00] = Key::NONE;
 			mapKeys[0x41] = Key::A; mapKeys[0x42] = Key::B; mapKeys[0x43] = Key::C; mapKeys[0x44] = Key::D; mapKeys[0x45] = Key::E;
-			mapKeys[0x46] = Key::F; mapKeys[0x47] = Key::G; mapKeys[0x48] = Key::H; mapKeys[0x49] = Key::I; mapKeys[0x4A] = Key::J;
+			mapKeys[0x46] = Key::F; mapKeys[0x47] = Key::G; mapKeys[0x48] = Key::H; mapKeys[0x49] = Key::I; mapKeys[0x4A] = Key::j;
 			mapKeys[0x4B] = Key::K; mapKeys[0x4C] = Key::L; mapKeys[0x4D] = Key::M; mapKeys[0x4E] = Key::N; mapKeys[0x4F] = Key::O;
 			mapKeys[0x50] = Key::P; mapKeys[0x51] = Key::Q; mapKeys[0x52] = Key::R; mapKeys[0x53] = Key::S; mapKeys[0x54] = Key::T;
 			mapKeys[0x55] = Key::U; mapKeys[0x56] = Key::V; mapKeys[0x57] = Key::W; mapKeys[0x58] = Key::X; mapKeys[0x59] = Key::Y;
@@ -5200,7 +5200,7 @@ namespace olc
 			// Create Keyboard Mapping
 			mapKeys[0x00] = Key::NONE;
 			mapKeys[0x61] = Key::A; mapKeys[0x62] = Key::B; mapKeys[0x63] = Key::C; mapKeys[0x64] = Key::D; mapKeys[0x65] = Key::E;
-			mapKeys[0x66] = Key::F; mapKeys[0x67] = Key::G; mapKeys[0x68] = Key::H; mapKeys[0x69] = Key::I; mapKeys[0x6A] = Key::J;
+			mapKeys[0x66] = Key::F; mapKeys[0x67] = Key::G; mapKeys[0x68] = Key::H; mapKeys[0x69] = Key::I; mapKeys[0x6A] = Key::j;
 			mapKeys[0x6B] = Key::K; mapKeys[0x6C] = Key::L; mapKeys[0x6D] = Key::M; mapKeys[0x6E] = Key::N; mapKeys[0x6F] = Key::O;
 			mapKeys[0x70] = Key::P; mapKeys[0x71] = Key::Q; mapKeys[0x72] = Key::R; mapKeys[0x73] = Key::S; mapKeys[0x74] = Key::T;
 			mapKeys[0x75] = Key::U; mapKeys[0x76] = Key::V; mapKeys[0x77] = Key::W; mapKeys[0x78] = Key::X; mapKeys[0x79] = Key::Y;
@@ -5351,7 +5351,7 @@ namespace olc
 // https://github.com/MumflrFumperdink/olcPGEMac which contains maccy goodness
 // and support on how to setup your build environment.
 //
-// "MASSIVE MASSIVE THANKS TO MUMFLR" - Javidx9
+// "MASSIVE MASSIVE THANKS TO MUMFLR" - javidx9
 #if defined(OLC_PLATFORM_GLUT)
 namespace olc {
 
@@ -5484,7 +5484,7 @@ namespace olc {
 			// Create Keyboard Mapping
 			mapKeys[0x00] = Key::NONE;
 			mapKeys['A'] = Key::A; mapKeys['B'] = Key::B; mapKeys['C'] = Key::C; mapKeys['D'] = Key::D; mapKeys['E'] = Key::E;
-			mapKeys['F'] = Key::F; mapKeys['G'] = Key::G; mapKeys['H'] = Key::H; mapKeys['I'] = Key::I; mapKeys['J'] = Key::J;
+			mapKeys['F'] = Key::F; mapKeys['G'] = Key::G; mapKeys['H'] = Key::H; mapKeys['I'] = Key::I; mapKeys['j'] = Key::j;
 			mapKeys['K'] = Key::K; mapKeys['L'] = Key::L; mapKeys['M'] = Key::M; mapKeys['N'] = Key::N; mapKeys['O'] = Key::O;
 			mapKeys['P'] = Key::P; mapKeys['Q'] = Key::Q; mapKeys['R'] = Key::R; mapKeys['S'] = Key::S; mapKeys['T'] = Key::T;
 			mapKeys['U'] = Key::U; mapKeys['V'] = Key::V; mapKeys['W'] = Key::W; mapKeys['X'] = Key::X; mapKeys['Y'] = Key::Y;
@@ -5657,7 +5657,7 @@ namespace olc {
 //	time, but I lacked the expertise to do it. This awesome feature is possible
 //	because a group of former strangers got together and formed friendPlayers over
 //	their shared passion for code. If anything demonstrates how powerful helping
-//	each other can be, it's this. - Javidx9
+//	each other can be, it's this. - javidx9
 
 //	Emscripten Platform: MaGetzUb, Moros1138, Slavka, Dandistine, Gorbit99, Bispoo
 //				   also: Ishidex, Gusgo99, SlicEnDicE, Alexio
@@ -5710,7 +5710,7 @@ namespace olc
 			mapKeys[DOM_PK_UNKNOWN] = Key::NONE;
 			mapKeys[DOM_PK_A] = Key::A; mapKeys[DOM_PK_B] = Key::B; mapKeys[DOM_PK_C] = Key::C; mapKeys[DOM_PK_D] = Key::D;
 			mapKeys[DOM_PK_E] = Key::E; mapKeys[DOM_PK_F] = Key::F; mapKeys[DOM_PK_G] = Key::G; mapKeys[DOM_PK_H] = Key::H;
-			mapKeys[DOM_PK_I] = Key::I; mapKeys[DOM_PK_J] = Key::J; mapKeys[DOM_PK_K] = Key::K; mapKeys[DOM_PK_L] = Key::L;
+			mapKeys[DOM_PK_I] = Key::I; mapKeys[DOM_PK_j] = Key::j; mapKeys[DOM_PK_K] = Key::K; mapKeys[DOM_PK_L] = Key::L;
 			mapKeys[DOM_PK_M] = Key::M; mapKeys[DOM_PK_N] = Key::N; mapKeys[DOM_PK_O] = Key::O; mapKeys[DOM_PK_P] = Key::P;
 			mapKeys[DOM_PK_Q] = Key::Q; mapKeys[DOM_PK_R] = Key::R; mapKeys[DOM_PK_S] = Key::S; mapKeys[DOM_PK_T] = Key::T;
 			mapKeys[DOM_PK_U] = Key::U; mapKeys[DOM_PK_V] = Key::V; mapKeys[DOM_PK_W] = Key::W; mapKeys[DOM_PK_X] = Key::X;
@@ -5900,7 +5900,7 @@ namespace olc
 			return olc::rcode::OK;
 		}
 
-		// Interface PGE's UpdateWindowSize, for use in Javascript
+		// Interface PGE's UpdateWindowSize, for use in javascript
 		void UpdateWindowSize(int width, int height)
 		{
 			ptrPGE->olc_UpdateWindowSize(width, height);
