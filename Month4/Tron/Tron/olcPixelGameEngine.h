@@ -5655,7 +5655,7 @@ namespace olc {
 //	Firstly a big mega thank you to members of the OLC Community for sorting this 
 //	out. Making a browser compatible version has been a priority for quite some
 //	time, but I lacked the expertise to do it. This awesome feature is possible
-//	because a group of former strangers got together and formed friendPlayers over
+//	because a group of former strangers got together and formed friendPlayer1s over
 //	their shared passion for code. If anything demonstrates how powerful helping
 //	each other can be, it's this. - javidx9
 
