@@ -128,10 +128,12 @@ void FPlayer::DestroyVectorBullets()
 	}
 }
 
-bool FPlayer::Collision(float CenterX, float CenterY, float Radius, float PositionX, float PositionY)
+/*bool FPlayer::Collision(float CenterX, float CenterY, float Radius, float PositionX, float PositionY)
 {
 	return sqrt(((PositionX - CenterX) * (PositionX - CenterX)) + ((PositionY - CenterY) * (PositionY - CenterY))) < Radius;
-}
+}*/
+
+
 
 void FPlayer::IsDead()
 {
@@ -160,48 +162,6 @@ bool FPlayer::Draw(int PositionX, int PositionY, olc::Pixel P = olc::RED)
 
 
 
-void FPlayer::DrawPlayer1()
-{
-	OutCoordinates(Player1.Position.x, Player1.Position.y, Player1.Position.x, Player1.Position.y);
-	DrawWireFrameModel(PlayerModel, Player1.Position.x, Player1.Position.y, Player1.Angle, 1.0,olc::WHITE);
-}
-
-void FPlayer::DrawWireFrameModel(const std::vector<std::pair<float, float>>& vecModelCoordinates, float PositionX, float PositionY, float TurningRadius = 0.0f, float Scale = 1.0f, olc::Pixel P = olc::WHITE)
-{
-
-	std::vector<std::pair<float, float>> TransformedCoordinates;
-	int Vertices = vecModelCoordinates.size();
-	TransformedCoordinates.resize(Vertices);
-
-	// Rotate
-	/*for (int i = 0; i < Vertices; i++)
-	{
-		TransformedCoordinates[i].first = vecModelCoordinates[i].first * cosf(TurningRadius) - vecModelCoordinates[i].second * sinf(TurningRadius);
-		TransformedCoordinates[i].second = vecModelCoordinates[i].first * sinf(TurningRadius) + vecModelCoordinates[i].second * cosf(TurningRadius);
-	}*/
-
-	// Scale
-	for (int i = 0; i < Vertices; i++)
-	{
-		TransformedCoordinates[i].first = TransformedCoordinates[i].first * Scale;
-		TransformedCoordinates[i].second = TransformedCoordinates[i].second * Scale;
-	}
-
-	// Translate
-	for (int i = 0; i < Vertices; i++)
-	{
-		TransformedCoordinates[i].first = TransformedCoordinates[i].first + PositionX;
-		TransformedCoordinates[i].second = TransformedCoordinates[i].second + PositionY;
-	}
-
-	// Draw Closed Polygon
-	for (int i = 0; i < Vertices + 1; i++)
-	{
-		int NextPos = (i + 1);
-		DrawLine(TransformedCoordinates[i % Vertices].first, TransformedCoordinates[i % Vertices].second,
-			TransformedCoordinates[NextPos % Vertices].first, TransformedCoordinates[NextPos % Vertices].second, P);
-	}
-}
 
 void FPlayer::LoadSprites() 
 {
@@ -221,11 +181,22 @@ void FPlayer::DrawBehindLine()
 	BackDirection.y = cosf(Player1.Angle);
 	olc::vf2d ShipTail = 6.f * BackDirection + Player1.Position;
 	
-	DrawLine(Player1.Position, (Player1.Position + BackDirection.perp()*2.0f), olc::MAGENTA);
+	DrawLine(Player1.Position, (Player1.Position + BackDirection.perp()*1.70f), olc::MAGENTA);
 	std::cout << ShipTail << "  " << Player1.Position << std::endl;
 	//DrawRect()
 }
-
+void FPlayer::Collision()
+{
+	olc::vf2d  FrontDirection;
+	FrontDirection.x = sinf(Player1.Angle);
+	FrontDirection.y = -cosf(Player1.Angle);
+	olc::vf2d ShipTip = 6.f * FrontDirection + Player1.Position;
+	if (GetDrawTarget()->GetPixel(ShipTip.x, ShipTip.y) == olc::MAGENTA) 
+	{
+		Player1.Score -= 10;
+		InitializePlayers();
+	}
+}
 void FPlayer::HudDisplay()
 {
 	DrawString(8, 8, "Score Player 1: " + std::to_string(Player1.Score) + "\t" +"Score Player 2: "+std::to_string(Player2.Score)+"\t" + "Round: " + std::to_string(Round), olc::YELLOW);
@@ -270,7 +241,7 @@ bool FPlayer::UpdatingGame(float ElapsedTime)
 	else
 	{
 		
-		
+		void Collision();
 		MovePlayer1(ElapsedTime);
 		//DrawPlayer1();
 		ShootBullet(ElapsedTime);

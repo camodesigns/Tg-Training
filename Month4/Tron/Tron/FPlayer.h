@@ -42,16 +42,17 @@ protected:
 	void DestroyVectorBullets();
 	void ShootBullet(float ElapsedTime);
 	bool Collision(float AsteroidCenterX, float AsteroidCenterY, float Radius, float PositionX, float PositionY);
+	void Collision();
 	void IsDead();
 	virtual bool InitialConditions() override;
 	virtual bool UpdatingGame(float ElapsedTime) override;
 
 	//Render+
 	void LoadSprites();
-	
+
 	void ClearScreen();
 	virtual bool Draw(int PositionX, int PositionY, olc::Pixel P )override;
-	void DrawPlayer1();
+	
 	void DrawWireFrameModel(const std::vector<std::pair<float, float>>& vecModelCoordinates, float PositionX, float PositionY, float TurningRadius , float Scale , olc::Pixel P );
 	void HudDisplay();
 	std::vector<FSpaceObject> VectorBullets;
