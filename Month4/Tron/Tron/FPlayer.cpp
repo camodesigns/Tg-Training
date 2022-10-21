@@ -6,66 +6,92 @@
 
 
 //UpdateGameLogic();
-void FPlayer::ClearScreen()
+void FTron::ClearScreen()
 {
 	FillRect(0, 0, ScreenWidth(), ScreenHeight(), olc::BLACK);
 }
 
-void FPlayer::InitializePlayers()
+void FTron::InitializePlayers()
 {
-	//Inicialise Player position
-	Player1.Position.x = ScreenWidth() / 16.0f;
-	Player1.Position.y = ScreenHeight() / 1.2f;
+	//Inicialise Player 1 characteristics
+	Player1.Position.x = ScreenWidth() ;
+	Player1.Position.y = ScreenHeight() + 1.f;
 	Player1.Velocity.x = 0.0f;
 	Player1.Velocity.y = 0.0f;
-	Player1.Angle = 0.0f;
-	Player1.bIsDead = false;
-	Player1.Speed = 50.0f;
-	Player1.Score = 0;
+	Player1.Angle = 70.0f;
+	Player1.WinRounds = 0;
 	PlayerModel =
 	{
 		{0.0f,-15.0f},
 		{-5.0f , +5.0f},
 		{+5.0f,+5.0f}
 	};
-	Player2.Score = 0;
 	
-	
+	Player2.Position.x = ScreenWidth()-1.0f ;
+	Player2.Position.y = ScreenHeight() /200.f;
+	Player2.Velocity.x = 0.0f;
+	Player2.Velocity.y = 0.0f;
+	Player2.Angle = 10.0f;
+	Player2.WinRounds = 0;
+	PlayerModel =
+	{
+		{0.0f,-15.0f},
+		{-5.0f , +5.0f},
+		{+5.0f,+5.0f}
+	};
+
+
 }
 
 
-
-void FPlayer::MovePlayer1(float ElapsedTime)
+void FTron::MovePlayers(float ElapsedTime)
 {
-	if (GetKey(olc::Key::UP).bHeld)
-	{
-		Player1.Position.x += sin(Player1.Angle) * Player1.Speed * ElapsedTime;
-		Player1.Position.y += -cos(Player1.Angle) * Player1.Speed * ElapsedTime;
-	}
-	if (GetKey(olc::Key::RIGHT).bHeld)
+	//Constant move of player in front
+
+		Player1.Velocity.x = 120.0f;
+		Player1.Velocity.y = 120.0f;
+		Player1.Position.x += sin(Player1.Angle) * Player1.Velocity.x * ElapsedTime;
+		Player1.Position.y += -cos(Player1.Angle) * Player1.Velocity.y * ElapsedTime;
+
+	if (GetKey(olc::Key::D).bHeld)
 	{
 		Player1.Angle += 5.0f * ElapsedTime;
 	}
 
-	else if (GetKey(olc::Key::LEFT).bHeld)
+	else if (GetKey(olc::Key::A).bHeld)
 	{
 		Player1.Angle -= 5.0f * ElapsedTime;
 	}
+
+
+	Player2.Velocity.x = 120.0f;
+	Player2.Velocity.y = 120.0f;
+	Player2.Position.x += sin(Player2.Angle) * Player2.Velocity.x * ElapsedTime;
+	Player2.Position.y += -cos(Player2.Angle) * Player2.Velocity.y * ElapsedTime;
 	
+	if (GetKey(olc::Key::RIGHT).bHeld)
+	{
+		Player2.Angle += 5.0f * ElapsedTime;
+	}
+
+	else if (GetKey(olc::Key::LEFT).bHeld)
+	{
+		Player2.Angle -= 5.0f * ElapsedTime;
+	}
 }
 
 
 
-void FPlayer::ShootBullet(float ElapsedTime)
+/*void FTron::ShootBullet(float ElapsedTime)
 {
 	if (GetKey(olc::Key::SPACE).bReleased)
 	{
 		VectorBullets.push_back({ {Player1.Position.x,Player1.Position.y},{50.0f * sinf(Player1.Angle),-50.0f * cosf(Player1.Angle)},0,0 });
 	}
-}
+}*/
 
 //UpdatePhysics;
-void FPlayer::OutCoordinates(const float CoordinatesX, const float CoordinatesY, float& WrappedX, float& WrappedY)
+void FTron::OutCoordinates(const float CoordinatesX, const float CoordinatesY, float& WrappedX, float& WrappedY)
 {
 	WrappedX = CoordinatesX;
 	WrappedY = CoordinatesY;
@@ -88,31 +114,29 @@ void FPlayer::OutCoordinates(const float CoordinatesX, const float CoordinatesY,
 	}
 }
 
-bool FPlayer::HasWon()
+bool FTron::HasWon()
 {
-	
-	if (Player1.Score == 4)
+
+	if (Player1.WinRounds == 3)
 	{
 		PlayerModel.clear();
-		VectorBullets.clear();
-
-		DrawString(60, 100, "Player 1 Win", olc::GREEN, 10);
+		//VectorBullets.clear();
+		DrawString(60, 100, "Player 1 Win", olc::GREEN, 4);
 		return true;
 	}
-	else if(Player2.Score == 4) 
+	else if (Player2.WinRounds == 3)
 	{
 		PlayerModel.clear();
-		VectorBullets.clear();
-
-		DrawString(60, 100, "Player 2 Win", olc::GREEN, 10);
+		//VectorBullets.clear();
+		DrawString(100, 200, "Player 2 Win", olc::GREEN, 4);
 		return true;
 	}
-		return false;
-	
+	return false;
+
 
 }
 
-void FPlayer::DestroyVectorBullets()
+/*void FTron::DestroyVectorBullets()
 {
 	if (VectorBullets.size() > 0)
 	{
@@ -126,31 +150,15 @@ void FPlayer::DestroyVectorBullets()
 			VectorBullets.erase(Destroy);
 		}
 	}
-}
-
-/*bool FPlayer::Collision(float CenterX, float CenterY, float Radius, float PositionX, float PositionY)
-{
-	return sqrt(((PositionX - CenterX) * (PositionX - CenterX)) + ((PositionY - CenterY) * (PositionY - CenterY))) < Radius;
 }*/
 
 
 
-void FPlayer::IsDead()
-{
-	if (Player1.bIsDead == true)
-	{
 
-		VectorBullets.clear();
-		Round+=  1;
-
-		InitializePlayers();
-
-	}
-}
 
 //Render()
 
-bool FPlayer::Draw(int PositionX, int PositionY, olc::Pixel P = olc::RED)
+bool FTron::Draw(int PositionX, int PositionY, olc::Pixel P = olc::RED)
 {
 	float TempX, TempY;
 	OutCoordinates((float)PositionX, (float)PositionY, TempX, TempY);
@@ -159,76 +167,137 @@ bool FPlayer::Draw(int PositionX, int PositionY, olc::Pixel P = olc::RED)
 
 }
 
-
-
-
-
-void FPlayer::LoadSprites() 
+void FTron::LoadSprites()
 {
-
 	Ship1 = new olc::Sprite("./Sprites/ShipSprite.png");
 	Player1.DecalShip = new olc::Decal(Ship1);
 	//DrawDecal(Player1.Position, Player1.DecalShip, {10.0f,10.0f},olc::WHITE);
-	DrawRotatedDecal(Player1.Position, Player1.DecalShip, Player1.Angle, { 400.0f,300.0f }, { 0.03f,0.03f }, olc::WHITE);
-	OutCoordinates(Player1.Position.x, Player1.Position.y, Player1.Position.x, Player1.Position.y);
+	
+	Ship2 = new olc::Sprite("./Sprites/ShipSprite.png");
+	Player2.DecalShip = new olc::Decal(Ship2);
+	//DrawDecal(Player1.Position, Player1.DecalShip, {10.0f,10.0f},olc::WHITE);
+
 }
 
+void FTron::DrawRotatedDecals(FPlayer Player, olc::Pixel P) 
+{
+	DrawRotatedDecal(Player.Position, Player.DecalShip, Player.Angle, { 350.0f,400.0f }, { 0.02f,0.02f }, P);
+}
 
-void FPlayer::DrawBehindLine()
+void FTron::DeactivateLine(float ElapsedTime)
+{
+	if (GetKey(olc::Key::F).bHeld)
+	{
+
+	}
+	else 
+	{
+		DrawBehindLine(ElapsedTime, Player1, olc::MAGENTA);
+	}
+	if (GetKey(olc::Key::M).bHeld) 
+	{
+	
+	}
+	else 
+	{
+		DrawBehindLine(ElapsedTime, Player2, olc::GREEN);
+	}
+
+}
+void FTron:: DrawBehindLine(float ElapsedTime, FPlayer Player,olc::Pixel P)
 {
 	olc::vf2d BackDirection;
-	BackDirection.x = -sinf(Player1.Angle);
-	BackDirection.y = cosf(Player1.Angle);
-	olc::vf2d ShipTail = 6.f * BackDirection + Player1.Position;
-	
-	DrawLine(Player1.Position, (Player1.Position + BackDirection.perp()*1.70f), olc::MAGENTA);
-	std::cout << ShipTail << "  " << Player1.Position << std::endl;
-	//DrawRect()
+	BackDirection.x = -sinf(Player.Angle);
+	BackDirection.y = cosf(Player.Angle);
+	olc::vf2d ShipTail = 6.f * BackDirection + Player.Position;
+
+	olc::vf2d  FrontDirection = -BackDirection;
+	olc::vf2d ShipTip = 8.0f * FrontDirection + Player.Position;
+
+	olc::vf2d VelocityDirection = 50.f * FrontDirection * ElapsedTime;
+	float Magnitude = VelocityDirection.mag();
+	std::cout << "  " << Magnitude << std::endl;
+
+	for (int i = 0; i <= (int)Magnitude; i++) 
+	{
+		 DrawLine((Player.Position - BackDirection.perp() * 1.70f) - (float)i * VelocityDirection.norm(), (Player.Position + BackDirection.perp() * 1.70f) - (float)i * VelocityDirection.norm(), P);
+	}
 }
-void FPlayer::Collision()
+olc::vf2d FTron::FPlayer::GetShipTip()const 
 {
 	olc::vf2d  FrontDirection;
-	FrontDirection.x = sinf(Player1.Angle);
-	FrontDirection.y = -cosf(Player1.Angle);
-	olc::vf2d ShipTip = 6.f * FrontDirection + Player1.Position;
-	if (GetDrawTarget()->GetPixel(ShipTip.x, ShipTip.y) == olc::MAGENTA) 
+	FrontDirection.x = sinf(Angle);
+	FrontDirection.y = -cosf(Angle);
+	olc::vf2d ShipTip = 8.0f * FrontDirection + Position;
+	return ShipTip;
+}
+
+
+
+bool FTron::Collision(const FPlayer& Player)const
+{
+	olc::vf2d ShipTip = Player.GetShipTip();
+	return GetDrawTarget()->GetPixel(ShipTip.x, ShipTip.y) == olc::MAGENTA || GetDrawTarget()->GetPixel(ShipTip.x, ShipTip.y) == olc::GREEN;
+}
+
+
+
+void FTron::ResetPlayers()
+{
+	Player1.Position.x = ScreenWidth() / 16.0f;
+	Player1.Position.y = ScreenHeight() / 1.2f;
+	Player1.Velocity.x = 0.0f;
+	Player1.Velocity.y = 0.0f;
+	Player1.Angle = 0.0f;
+
+	PlayerModel =
 	{
-		Player1.Score -= 10;
-		InitializePlayers();
-	}
-}
-void FPlayer::HudDisplay()
-{
-	DrawString(8, 8, "Score Player 1: " + std::to_string(Player1.Score) + "\t" +"Score Player 2: "+std::to_string(Player2.Score)+"\t" + "Round: " + std::to_string(Round), olc::YELLOW);
-}
-
-
-
-void FPlayer::UpdateAndDrawVectorBullets(float ElapsedTime)
-{
-	for (auto& Bullet : VectorBullets)
+		{0.0f,-15.0f},
+		{-5.0f , +5.0f},
+		{+5.0f,+5.0f}
+	};
+	ClearScreen();
+	Player2.Position.x = ScreenWidth() / 2.0f;
+	Player2.Position.y = ScreenHeight() / 1.2f;
+	Player2.Velocity.x = 0.0f;
+	Player2.Velocity.y = 0.0f;
+	Player2.Angle = 0.0f;
+	PlayerModel =
 	{
-		Bullet.Position.x += Bullet.Velocity.x * ElapsedTime;
-		Bullet.Position.y += Bullet.Velocity.y * ElapsedTime;
-		OutCoordinates(Bullet.Position.x, Bullet.Position.y, Bullet.Position.x, Bullet.Position.y);
-		Draw(Bullet.Position.x, Bullet.Position.y);
-
-
-	}
+		{0.0f,-15.0f},
+		{-5.0f , +5.0f},
+		{+5.0f,+5.0f}
+	};
 }
 
-bool FPlayer::InitialConditions()
-{
 
+void FTron::HudDisplay()
+{
+	DrawString(8, 8, "Win Rounds Player 1: " + std::to_string(Player1.WinRounds) + "\t" + "Win Rounds Player 2: " + std::to_string(Player2.WinRounds) + "\t" + "Round: " + std::to_string(Round), olc::YELLOW, 1);
+}
+
+//void FTron::UpdateAndDrawVectorBullets(float ElapsedTime)
+//{
+//	for (auto& Bullet : VectorBullets)
+//	{
+//		Bullet.Position.x += Bullet.Velocity.x * ElapsedTime;
+//		Bullet.Position.y += Bullet.Velocity.y * ElapsedTime;
+//		OutCoordinates(Bullet.Position.x, Bullet.Position.y, Bullet.Position.x, Bullet.Position.y);
+//		Draw(Bullet.Position.x, Bullet.Position.y);
+//	}
+//}
+
+bool FTron::InitialConditions()
+{
+	
+	
 	InitializePlayers();
-
+	LoadSprites();
 	return true;
 }
 
-bool FPlayer::UpdatingGame(float ElapsedTime)
+bool FTron::UpdatingGame(float ElapsedTime)
 {
-	//TODO: ERASE THAT SHITE
-	//ClearScreen();
 	if (HasWon())
 	{
 		std::cout << "Press Enter for End the Game" << std::endl;
@@ -240,18 +309,29 @@ bool FPlayer::UpdatingGame(float ElapsedTime)
 	}
 	else
 	{
-		
-		void Collision();
-		MovePlayer1(ElapsedTime);
-		//DrawPlayer1();
-		ShootBullet(ElapsedTime);
+		MovePlayers(ElapsedTime);
+		/*ShootBullet(ElapsedTime);
 		UpdateAndDrawVectorBullets(ElapsedTime);
-		DestroyVectorBullets();
-		DrawBehindLine();
-		LoadSprites();
-		HudDisplay();
-		IsDead();
+		DestroyVectorBullets();*/
+		DrawRotatedDecals(Player1,olc::WHITE);
+		DrawRotatedDecals(Player2,olc::RED);
+		DeactivateLine(ElapsedTime);
+		OutCoordinates(Player1.Position.x, Player1.Position.y, Player1.Position.x, Player1.Position.y);
+		OutCoordinates(Player2.Position.x, Player2.Position.y, Player2.Position.x, Player2.Position.y);
+		if (Collision(Player1)) 
+		{
+			Player2.WinRounds += 1;
+			ResetPlayers();
+			Round += 1;
+		}
 
+		else if (Collision(Player2))
+		{
+			Player1.WinRounds += 1;
+			ResetPlayers();
+			Round += 1;
+		}
+		HudDisplay();
 
 	}
 	return true;

@@ -1,63 +1,68 @@
 #include "olcPixelGameEngine.h"
 #pragma once
-class FPlayer : public olc::PixelGameEngine
+class FTron : public olc::PixelGameEngine
 {
 public:
-	FPlayer()
+	FTron()
 	{
 		sAppName = "Tron";
 	}
 private:
 
 	
-
-	struct FSpaceObject
+	class FLine
 	{
-		olc::vf2d Position;
-		olc::vf2d Velocity;
-		int Size;
-		float Angle;
-		bool bIsDead;
-		float Speed;
-		int Score;
-		olc::Decal* DecalShip = nullptr;
+	public:
+		olc::vf2d Start;
+		olc::vf2d End;
 	};
 
+	class FPlayer
+	{
+	public:
+		olc::vf2d Position;
+		olc::vf2d Velocity;
+		FLine LastLine;
+		int Size;
+		float Angle;
+		int WinRounds;
+
+		olc::Decal* DecalShip = nullptr;
+		olc::vf2d GetShipTip()const;
+	};
 	
-	FSpaceObject Player1;
-	FSpaceObject Player2;
-	FSpaceObject Line;
+	FPlayer Player1;
+	FPlayer Player2;
+	
 	std::vector<std::pair<float, float>> PlayerModel;
 	int Round = 1;
-	int ScorePlayer1 = 0;
-	int ScorePlayer2 = 0;
 protected:
 	//Update Logic
 	virtual void InitializePlayers();
-	void MovePlayer1(float ElapsedTime);
+	void MovePlayers(float ElapsedTime);
 
 	//UpdatePhysics
 	void OutCoordinates(const float CoordinatesX, const float CoordinatesY, float& WrappedX, float& WrappedY);
 	bool HasWon();
-	void DestroyVectorBullets();
-	void ShootBullet(float ElapsedTime);
-	bool Collision(float AsteroidCenterX, float AsteroidCenterY, float Radius, float PositionX, float PositionY);
-	void Collision();
-	void IsDead();
+	//void DestroyVectorBullets();
+	//void ShootBullet(float ElapsedTime);
+	void DeactivateLine(float ElapsedTime);
+	bool Collision(const FPlayer& Player)const;
+	void ResetPlayers();
 	virtual bool InitialConditions() override;
 	virtual bool UpdatingGame(float ElapsedTime) override;
-
+	
 	//Render+
 	void LoadSprites();
 
 	void ClearScreen();
 	virtual bool Draw(int PositionX, int PositionY, olc::Pixel P )override;
 	
-	void DrawWireFrameModel(const std::vector<std::pair<float, float>>& vecModelCoordinates, float PositionX, float PositionY, float TurningRadius , float Scale , olc::Pixel P );
 	void HudDisplay();
-	std::vector<FSpaceObject> VectorBullets;
-	void UpdateAndDrawVectorBullets(float ElapsedTime);
-	void DrawBehindLine();
+	//std::vector<FPlayer> VectorBullets;
+	//void UpdateAndDrawVectorBullets(float ElapsedTime);
+	void DrawBehindLine(float ElapsedTime,FPlayer Player, olc::Pixel P);
+	void DrawRotatedDecals(FPlayer Player, olc::Pixel P);
 
 public:
 	olc::Sprite* Ship1 = nullptr;
