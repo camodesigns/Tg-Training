@@ -46,7 +46,7 @@ protected:
 	bool HasWon();
 	//void DestroyVectorBullets();
 	//void ShootBullet(float ElapsedTime);
-	void DeactivateLine(float ElapsedTime);
+	void ActivateLine(float ElapsedTime);
 	bool Collision(const FPlayer& Player)const;
 	void ResetPlayers();
 	virtual bool InitialConditions() override;
@@ -54,10 +54,8 @@ protected:
 	
 	//Render+
 	void LoadSprites();
-
 	void ClearScreen();
 	virtual bool Draw(int PositionX, int PositionY, olc::Pixel P )override;
-	
 	void HudDisplay();
 	//std::vector<FPlayer> VectorBullets;
 	//void UpdateAndDrawVectorBullets(float ElapsedTime);

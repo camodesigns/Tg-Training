@@ -4,7 +4,6 @@
 #include "FPlayer.h"
 
 
-
 //UpdateGameLogic();
 void FTron::ClearScreen()
 {
@@ -152,78 +151,34 @@ bool FTron::HasWon()
 	}
 }*/
 
-
-
-
-
-//Render()
-
-bool FTron::Draw(int PositionX, int PositionY, olc::Pixel P = olc::RED)
+bool FTron::Collision(const FPlayer& Player)const
 {
-	float TempX, TempY;
-	OutCoordinates((float)PositionX, (float)PositionY, TempX, TempY);
-
-	return PixelGameEngine::Draw(TempX, TempY, P);
-
+	olc::vf2d ShipTip = Player.GetShipTip();
+	return GetDrawTarget()->GetPixel(ShipTip.x, ShipTip.y) == olc::MAGENTA || GetDrawTarget()->GetPixel(ShipTip.x, ShipTip.y) == olc::GREEN;
 }
 
-void FTron::LoadSprites()
-{
-	Ship1 = new olc::Sprite("./Sprites/ShipSprite.png");
-	Player1.DecalShip = new olc::Decal(Ship1);
-	//DrawDecal(Player1.Position, Player1.DecalShip, {10.0f,10.0f},olc::WHITE);
-	
-	Ship2 = new olc::Sprite("./Sprites/ShipSprite.png");
-	Player2.DecalShip = new olc::Decal(Ship2);
-	//DrawDecal(Player1.Position, Player1.DecalShip, {10.0f,10.0f},olc::WHITE);
-
-}
-
-void FTron::DrawRotatedDecals(FPlayer Player, olc::Pixel P) 
-{
-	DrawRotatedDecal(Player.Position, Player.DecalShip, Player.Angle, { 350.0f,400.0f }, { 0.02f,0.02f }, P);
-}
-
-void FTron::DeactivateLine(float ElapsedTime)
+void FTron::ActivateLine(float ElapsedTime)
 {
 	if (GetKey(olc::Key::F).bHeld)
 	{
 
 	}
-	else 
+	else
 	{
 		DrawBehindLine(ElapsedTime, Player1, olc::MAGENTA);
 	}
-	if (GetKey(olc::Key::M).bHeld) 
+	if (GetKey(olc::Key::M).bHeld)
 	{
-	
+
 	}
-	else 
+	else
 	{
 		DrawBehindLine(ElapsedTime, Player2, olc::GREEN);
 	}
 
 }
-void FTron:: DrawBehindLine(float ElapsedTime, FPlayer Player,olc::Pixel P)
-{
-	olc::vf2d BackDirection;
-	BackDirection.x = -sinf(Player.Angle);
-	BackDirection.y = cosf(Player.Angle);
-	olc::vf2d ShipTail = 6.f * BackDirection + Player.Position;
 
-	olc::vf2d  FrontDirection = -BackDirection;
-	olc::vf2d ShipTip = 8.0f * FrontDirection + Player.Position;
-
-	olc::vf2d VelocityDirection = 50.f * FrontDirection * ElapsedTime;
-	float Magnitude = VelocityDirection.mag();
-	std::cout << "  " << Magnitude << std::endl;
-
-	for (int i = 0; i <= (int)Magnitude; i++) 
-	{
-		 DrawLine((Player.Position - BackDirection.perp() * 1.70f) - (float)i * VelocityDirection.norm(), (Player.Position + BackDirection.perp() * 1.70f) - (float)i * VelocityDirection.norm(), P);
-	}
-}
-olc::vf2d FTron::FPlayer::GetShipTip()const 
+olc::vf2d FTron::FPlayer::GetShipTip()const
 {
 	olc::vf2d  FrontDirection;
 	FrontDirection.x = sinf(Angle);
@@ -231,15 +186,6 @@ olc::vf2d FTron::FPlayer::GetShipTip()const
 	olc::vf2d ShipTip = 8.0f * FrontDirection + Position;
 	return ShipTip;
 }
-
-
-
-bool FTron::Collision(const FPlayer& Player)const
-{
-	olc::vf2d ShipTip = Player.GetShipTip();
-	return GetDrawTarget()->GetPixel(ShipTip.x, ShipTip.y) == olc::MAGENTA || GetDrawTarget()->GetPixel(ShipTip.x, ShipTip.y) == olc::GREEN;
-}
-
 
 
 void FTron::ResetPlayers()
@@ -269,7 +215,54 @@ void FTron::ResetPlayers()
 		{+5.0f,+5.0f}
 	};
 }
+//Render()
 
+bool FTron::Draw(int PositionX, int PositionY, olc::Pixel P = olc::RED)
+{
+	float TempX, TempY;
+	OutCoordinates((float)PositionX, (float)PositionY, TempX, TempY);
+
+	return PixelGameEngine::Draw(TempX, TempY, P);
+
+}
+
+void FTron::LoadSprites()
+{
+	Ship1 = new olc::Sprite("./Sprites/ShipSprite.png");
+	Player1.DecalShip = new olc::Decal(Ship1);
+	//DrawDecal(Player1.Position, Player1.DecalShip, {10.0f,10.0f},olc::WHITE);
+	
+	Ship2 = new olc::Sprite("./Sprites/ShipSprite.png");
+	Player2.DecalShip = new olc::Decal(Ship2);
+	//DrawDecal(Player1.Position, Player1.DecalShip, {10.0f,10.0f},olc::WHITE);
+
+}
+
+void FTron::DrawRotatedDecals(FPlayer Player, olc::Pixel P) 
+{
+	DrawRotatedDecal(Player.Position, Player.DecalShip, Player.Angle, { 350.0f,400.0f }, { 0.02f,0.02f }, P);
+}
+
+
+void FTron:: DrawBehindLine(float ElapsedTime, FPlayer Player,olc::Pixel P)
+{
+	olc::vf2d BackDirection;
+	BackDirection.x = -sinf(Player.Angle);
+	BackDirection.y = cosf(Player.Angle);
+	olc::vf2d ShipTail = 6.f * BackDirection + Player.Position;
+
+	olc::vf2d  FrontDirection = -BackDirection;
+	olc::vf2d ShipTip = 8.0f * FrontDirection + Player.Position;
+
+	olc::vf2d VelocityDirection = 50.f * FrontDirection * ElapsedTime;
+	float Magnitude = VelocityDirection.mag();
+	std::cout << "  " << Magnitude << std::endl;
+
+	for (int i = 0; i <= (int)Magnitude; i++) 
+	{
+		 DrawLine((Player.Position - BackDirection.perp() * 1.70f) - (float)i * VelocityDirection.norm(), (Player.Position + BackDirection.perp() * 1.70f) - (float)i * VelocityDirection.norm(), P);
+	}
+}
 
 void FTron::HudDisplay()
 {
@@ -315,7 +308,7 @@ bool FTron::UpdatingGame(float ElapsedTime)
 		DestroyVectorBullets();*/
 		DrawRotatedDecals(Player1,olc::WHITE);
 		DrawRotatedDecals(Player2,olc::RED);
-		DeactivateLine(ElapsedTime);
+		ActivateLine(ElapsedTime);
 		OutCoordinates(Player1.Position.x, Player1.Position.y, Player1.Position.x, Player1.Position.y);
 		OutCoordinates(Player2.Position.x, Player2.Position.y, Player2.Position.x, Player2.Position.y);
 		if (Collision(Player1)) 
