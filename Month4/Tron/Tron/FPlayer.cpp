@@ -307,7 +307,7 @@ bool FTron::UpdatingGame(float ElapsedTime)
 		UpdateAndDrawVectorBullets(ElapsedTime);
 		DestroyVectorBullets();*/
 		DrawRotatedDecals(Player1,olc::WHITE);
-		DrawRotatedDecals(Player2,olc::RED);
+		DrawRotatedDecals(Player2,olc::YELLOW);
 		ActivateLine(ElapsedTime);
 		OutCoordinates(Player1.Position.x, Player1.Position.y, Player1.Position.x, Player1.Position.y);
 		OutCoordinates(Player2.Position.x, Player2.Position.y, Player2.Position.x, Player2.Position.y);
