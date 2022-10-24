@@ -9,26 +9,20 @@ public:
 	}
 private:
 
-	
-	class FLine
-	{
-	public:
-		olc::vf2d Start;
-		olc::vf2d End;
-	};
-
 	class FPlayer
 	{
 	public:
 		olc::vf2d Position;
 		olc::vf2d Velocity;
-		FLine LastLine;
 		int Size;
 		float Angle;
 		int WinRounds;
-
 		olc::Decal* DecalShip = nullptr;
 		olc::vf2d GetShipTip()const;
+		olc::vf2d GetShipTail()const;
+		olc::vf2d GetRightWing()const;
+		olc::vf2d GetLefttWing()const;
+		olc::vf2d GetBackDirection()const;
 	};
 	
 	FPlayer Player1;
