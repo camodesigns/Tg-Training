@@ -44,21 +44,20 @@ void FTron::InitializePlayers()
 void FTron::MovePlayers(float ElapsedTime)
 {
 	//Constant move of player in front
+	Player1.Velocity.x = 120.0f;
+	Player1.Velocity.y = 120.0f;
+	Player1.Position.x += sin(Player1.Angle) * Player1.Velocity.x * ElapsedTime;
+	Player1.Position.y += -cos(Player1.Angle) * Player1.Velocity.y * ElapsedTime;
 
-	//Player1.Velocity.x = 120.0f;
-	//Player1.Velocity.y = 120.0f;
-	//Player1.Position.x += sin(Player1.Angle) * Player1.Velocity.x * ElapsedTime;
-	//Player1.Position.y += -cos(Player1.Angle) * Player1.Velocity.y * ElapsedTime;
+	if (GetKey(olc::Key::D).bHeld)
+	{
+		Player1.Angle += 5.0f * ElapsedTime;
+	}
 
-	//if (GetKey(olc::Key::D).bHeld)
-	//{
-	//	Player1.Angle += 5.0f * ElapsedTime;
-	//}
-
-	//else if (GetKey(olc::Key::A).bHeld)
-	//{
-	//	Player1.Angle -= 5.0f * ElapsedTime;
-	//}
+	else if (GetKey(olc::Key::A).bHeld)
+	{
+		Player1.Angle -= 5.0f * ElapsedTime;
+	}
 
 	Player2.Velocity.x = 120.0f;
 	Player2.Velocity.y = 120.0f;
@@ -75,6 +74,47 @@ void FTron::MovePlayers(float ElapsedTime)
 		Player2.Angle -= 5.0f * ElapsedTime;
 	}
 }
+
+olc::vf2d FTron::FPlayer::GetBackDirection()const
+{
+	olc::vf2d BackDirection;
+	BackDirection.x = -sinf(Angle);
+	BackDirection.y = cosf(Angle);
+	return BackDirection;
+}
+
+olc::vf2d FTron::FPlayer::GetShipTip()const
+{
+	olc::vf2d FrontDirection;
+	FrontDirection.x = sinf(Angle);
+	FrontDirection.y = -cosf(Angle);
+	olc::vf2d ShipTip = 6.0f * FrontDirection + Position;
+	return ShipTip;
+}
+
+olc::vf2d FTron::FPlayer::GetShipTail()const
+{
+	olc::vf2d BackDirection;
+	BackDirection.x = -sinf(Angle);
+	BackDirection.y = cosf(Angle);
+	olc::vf2d ShipTail = 6.f * BackDirection + Position;
+	return ShipTail;
+}
+
+olc::vf2d FTron::FPlayer::GetLefttWing()const
+{
+	olc::vf2d LeftWing = Position - GetBackDirection().perp() * 4.0f;
+	//return de coordinate of one point of the ship left wing
+	return LeftWing;
+}
+
+olc::vf2d FTron::FPlayer::GetRightWing()const
+{
+	olc::vf2d RightWing = Position - GetBackDirection().perp() * 4.0f;
+	//return de coordinate of one point of the ship left wing
+	return RightWing;
+}
+
 
 /*void FTron::ShootBullet(float ElapsedTime)
 {
@@ -156,6 +196,7 @@ bool FTron::Collision(const FPlayer& Player)const
 
 void FTron::ActivateLine(float ElapsedTime)
 {
+	//Deactive the draw Line when the players press F or M key
 	if (GetKey(olc::Key::F).bHeld)
 	{
 
@@ -175,65 +216,28 @@ void FTron::ActivateLine(float ElapsedTime)
 
 }
 
-olc::vf2d FTron::FPlayer::GetBackDirection()const
-{
-	olc::vf2d BackDirection;
-	BackDirection.x = -sinf(Angle);
-	BackDirection.y = cosf(Angle);
-	return BackDirection;
-}
 
-olc::vf2d FTron::FPlayer::GetShipTip()const
-{
-	olc::vf2d  FrontDirection;
-	FrontDirection.x = sinf(Angle);
-	FrontDirection.y = -cosf(Angle);
-	olc::vf2d ShipTip = 6.0f * FrontDirection + Position;
-	return ShipTip;
-}
-olc::vf2d FTron::FPlayer::GetShipTail()const
-{
-	olc::vf2d BackDirection;
-	BackDirection.x = -sinf(Angle);
-	BackDirection.y = cosf(Angle);
-	olc::vf2d ShipTail = 6.f * BackDirection + Position;
-	return ShipTail;
-}
-
-olc::vf2d FTron::FPlayer::GetLefttWing()const
-{
-	olc::vf2d LeftWing = Position - GetBackDirection().perp() * 4.0f;
-	
-	return LeftWing;
-
-}
-
-olc::vf2d FTron::FPlayer::GetRightWing()const
-{
-	olc::vf2d RightWing = Position - GetBackDirection().perp() * 4.0f;
-	return RightWing;
-}
 
 void FTron::ResetPlayers()
 {
-	Player1.Position.x = ScreenWidth() / 16.0f;
-	Player1.Position.y = ScreenHeight() / 1.2f;
+	ClearScreen();
+	Player1.Position.x = ScreenWidth();
+	Player1.Position.y = ScreenHeight() + 1.f;
 	Player1.Velocity.x = 0.0f;
 	Player1.Velocity.y = 0.0f;
-	Player1.Angle = 0.0f;
-
+	Player1.Angle = 70.0f;
 	PlayerModel =
 	{
 		{0.0f,-15.0f},
 		{-5.0f , +5.0f},
 		{+5.0f,+5.0f}
 	};
-	ClearScreen();
-	Player2.Position.x = ScreenWidth() / 2.0f;
-	Player2.Position.y = ScreenHeight() / 1.2f;
+
+	Player2.Position.x = ScreenWidth() - 1.0f;
+	Player2.Position.y = ScreenHeight() / 200.f;
 	Player2.Velocity.x = 0.0f;
 	Player2.Velocity.y = 0.0f;
-	Player2.Angle = 0.0f;
+	Player2.Angle = 10.0f;
 	PlayerModel =
 	{
 		{0.0f,-15.0f},
@@ -260,7 +264,6 @@ void FTron::LoadSprites()
 
 	Ship2 = new olc::Sprite("./Sprites/ShipSprite.png");
 	Player2.DecalShip = new olc::Decal(Ship2);
-
 }
 
 void FTron::DrawRotatedDecals(FPlayer Player, olc::Pixel P)
@@ -281,7 +284,7 @@ void FTron::DrawBehindLine(float ElapsedTime, FPlayer Player, olc::Pixel P)
 
 	for (int i = 0; i <= (int)Magnitude; i++)
 	{
-		DrawLine((Player.Position - Player.GetBackDirection().perp() * 1.70f) - (float)i * VelocityDirection.norm(), (Player.Position +Player.GetBackDirection().perp() * 1.70f) - (float)i * VelocityDirection.norm(), P);
+		DrawLine((Player.Position - Player.GetBackDirection().perp() * 1.70f) - (float)i * VelocityDirection.norm(), (Player.Position + Player.GetBackDirection().perp() * 1.70f) - (float)i * VelocityDirection.norm(), P);
 	}
 }
 
@@ -303,8 +306,6 @@ void FTron::HudDisplay()
 
 bool FTron::InitialConditions()
 {
-
-
 	InitializePlayers();
 	LoadSprites();
 	return true;
@@ -319,7 +320,6 @@ bool FTron::UpdatingGame(float ElapsedTime)
 		{
 			return false;
 		}
-
 	}
 	else
 	{
